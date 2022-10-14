@@ -23,6 +23,14 @@
     height:345px;
     width: 345px;
 }
+.carousel:hover .thumbs-wrapper{
+    left:0;
+    width: 350px;
+}
+.carousel:hover{
+    width: 800px;
+    z-index: 1;
+}
 .image{
     overflow: scroll;
     height: 350px;

@@ -426,11 +426,9 @@ function ProductView({ appRefresher, setAppRefresher }) {
                           </div>
                         </div>
                       ))} */}
-                    <Carousel style={{overflow:"visible"}} showThumbs={media.length === 0 ? false : true} infiniteLoop>
+                    <Carousel className='carousel' showThumbs={media.length === 0 ? false : true} infiniteLoop>
                     {media.map((d, index) => (
-                        // d-flex justify-content-center
-                        <div className=' justify-content-center' key={index} style={{overflow:"visible"}}>
-                          <div style={{width:"370px",height:"500px",overflow:"visible"}}>
+                        <div style={{width:"370px",height:"500px"}} key={index}>
                           <ReactImageMagnify {...{
                                 smallImage: {
                                     alt: "Product Image " + d.arrangementNo,
@@ -443,7 +441,6 @@ function ProductView({ appRefresher, setAppRefresher }) {
                                     height: 1800
                                 }
                           }} />
-                          </div>
                           <img src={d.imgUrl} alt="product" style={{height:"100%",width:"100%",display:"hidden"}}/>
                         </div>
                       ))}
