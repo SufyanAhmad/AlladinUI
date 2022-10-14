@@ -1,0 +1,99 @@
+.writeReviewContent {
+  font-family: "Roboto";
+  font-style: normal;
+  display:flex;
+}
+.writeReviewflexes{
+  flex: 0;
+}
+.accountHeading {
+  text-align: center;
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 28px;
+}
+.manageAccount {
+  margin-top: 100px;
+  padding-left: 3%;
+  padding-right: 3%;
+  overflow-x: scroll;
+}
+
+.writeReviewBody{
+  margin-left: 40px;
+  margin-right: 40px;
+  margin-bottom: 35px;
+}
+.writeReviewSection{
+  min-width: fit-content;
+  padding: 10px;
+  border: 1px solid #E5E5E5;
+  border-radius: 3px;
+  position: relative;
+}
+.writeReviewImage{
+  width: 100px;
+  height: 100px;
+}
+.detailsProduct{
+  margin-top: 25px;
+  display: flex;
+}
+.textDetail{
+  margin-left: 10px;
+}
+.writeReviewRating{
+  margin-top: 10px;
+}
+.textArea{
+  border: 1px solid #DFDFDF;
+  border-radius: 3px;
+}
+.uploadWriteReviewImg{
+  width: 80px;
+  height: 80px;
+  border: 1px solid #DFDFDF;
+}
+.image-label-holder {
+  height: 50px;
+  display: grid;
+  place-items: center;
+}
+.review-label-upload-image{
+  width: 60px;
+  height: 20px;
+  cursor: pointer;
+  font-weight: 400;
+  font-size: 9px;
+  letter-spacing: 0em;
+  text-align: center;
+  background-color: #EAEAEA;
+}
+.review-image-text{
+  margin-top: 3px;
+}
+.preview-upload-image-section{
+  width: 40px;
+  height: 40px;
+  margin-left: 8px;
+  margin-top: 5px;
+  display: flex;
+}
+.write-review-submit-button{
+  float: right;
+  margin-top: -20px;
+  width: 50px;
+  height: 20px;
+  border: 1px solid #23334C;
+  border-radius: 2px;
+  font-weight: 500;
+  font-size: 12px;
+  background: none;
+}
+.write-review-submit-button:hover{
+    background-color: #23334C;
+    color: #FFFFFF;
+    transition: ease-in;
+    transition: 0.3s;
+    transform: scale(1.2);
+    }

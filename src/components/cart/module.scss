@@ -1,0 +1,211 @@
+.cart-name{
+    font-family: Roboto;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 28px;
+    letter-spacing: 0em;
+    text-align: left;
+}
+.backgrounds{
+    height: 100%;
+    background-color: #FAFAFA;
+}
+.cart-card{
+    background-color: #FFFFFF !important;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    border-radius: 6px;
+}
+.cart-title{
+    font-family: Roboto;
+    font-size: 19px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 22px;
+    letter-spacing: 0em;
+    text-align: left;
+}
+.cart-sale-end{
+    font-family: Roboto;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 16px;
+    letter-spacing: 0em;
+    text-align: left;
+
+}
+.cart-checkbox{
+     font-family: Roboto;
+font-size: 16px;
+font-style: normal;
+font-weight: 500;
+line-height: 19px;
+letter-spacing: 0em;
+text-align: left;
+
+}
+.dlt-product{
+    float: right;
+    margin-right: 8px;
+}
+.dlt-product-icon{
+    float: right;
+}
+.cart-product-img{
+    width: 197px;
+    height: 185px;
+}
+.cart-product-name{
+    font-family: Roboto;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 19px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: #000000;
+}
+.cart-product-price{
+    font-family: Roboto;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 16px;
+    letter-spacing: 0em;
+    text-align: left;
+
+}
+.card-background{
+    height:100vh !important;
+    background-color: #FAFAFA;
+}
+.cart-product-desc{
+    font-family: Roboto;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 14px;
+    letter-spacing: 0em;
+    text-align: left;
+    color:#606060;
+    cursor: pointer;
+}
+.cart-product-detail{
+    font-family: Roboto;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 14px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: #000000;
+}
+.cart-product-qty{
+    font-family: Roboto;
+font-size: 12px;
+font-style: normal;
+font-weight: 500;
+line-height: 14px;
+letter-spacing: 0em;
+text-align: left;
+
+}
+.total-price{
+    text-align: center;
+    margin-top: 35%;
+    font-family: Roboto;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 16px;
+    letter-spacing: 0em;
+    text-align: left;
+}
+.price-count{
+    font-family: Roboto;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 14px;
+    letter-spacing: 0em;
+    text-align: left;
+
+}
+.cart-summary{
+    font-family: Roboto;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 19px;
+    letter-spacing: 0em;
+    text-align: left;
+}
+.cart-subtotal{
+    font-family: Roboto;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 19px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: #595959;
+}
+.cart-total{
+    font-family: Roboto;
+font-size: 16px;
+font-style: normal;
+font-weight: 500;
+line-height: 19px;
+letter-spacing: 0em;
+text-align: left;
+color: #000000;
+}
+.disabled-btn{
+    height: 40px;
+    width: 267px;
+    background-color: #666666;
+    color: #ffffff;
+    border-radius: 6px;
+    font-family: Roboto;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 19px;
+    letter-spacing: 0em;
+    border: none;
+    cursor: not-allowed;
+}
+.button-cart-checkout{
+    height: 40px;
+    width: 267px;
+    background-color: #23334C;
+    color: #FFFFFF;
+    border-radius: 6px;
+    font-family: Roboto;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 19px;
+    letter-spacing: 0em;
+    border: none;
+}
+.conti-shop-btn{
+    color: white;
+    background-color: #23334C;
+    border: none;
+    border-radius: 6px;
+    height: 60px;
+    width: 200px;
+}
+.conti-shop-btn:hover {opacity: 0.6}
+@media (max-width:991px) {
+    .total-price{
+        margin-top: 15%;
+    }
+}
+@media (max-width:950px) and (min-width:768px) {
+    .button-cart-checkout{
+        width: 167px;
+    }
+}

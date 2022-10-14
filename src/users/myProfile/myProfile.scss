@@ -1,0 +1,147 @@
+.manage-Account{
+    margin-top: 50px;
+    padding-left: 3%;
+    background-color: rgb(255, 255, 255);
+    // height: 100vh;
+}
+.accountHeading{
+    text-align: center;
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 28px;
+}
+.errorMessage{
+    color: red;
+}
+.profileContent{
+    display: flex;
+    font-family: 'Roboto';
+    font-style: normal;
+    // margin-bottom: 1px;
+    overflow: scroll;
+    margin-bottom: 25px;
+}
+.profilePicture{
+    border-radius: 50%;
+    width: 70px;
+    height: 70px;
+}
+.profileBody{
+    margin-top: 40px;
+    // margin-left: 20px;
+    margin-bottom: 30px;
+    min-width: fit-content;
+    width: 800px;
+    overflow: scroll;
+}
+.inputFields{
+    height: 40px;
+    background: #FFFFFF;
+    border: 1px solid #C4C4C4;
+    border-radius: 5px;
+    overflow: auto;
+    width: 75%;
+}
+.changeButton{
+    margin-left: 6%;
+    background-color: #23334C;
+    color: #FFFFFF;
+    border: 1px solid #23334C;
+    border-radius: 4px;
+    width: 70px;
+    height: 25px;
+    text-align: center;
+    height: 30px;
+    font-size: 14px;
+    line-height: 16px;
+    display:inline ;
+}
+// .changeButton:hover{
+//     background-color: #23334C;
+//     color: #FFFFFF;
+//     transition: ease-in;
+//     transition: 0.3s;
+//     transform: scale(1.2);
+// }
+.labels{
+    display: flex;
+}
+.labelInput{
+    margin-top:26px;
+    margin-bottom:7px;
+    font-weight: 500;
+    font-size: 16px;
+}
+.formclass form{
+    width: 50%;
+}
+.forgotPassword{
+    border-style: none;
+    font-weight: 400;
+    font-size: 12px;
+    background: none;
+}
+.saveChanges{
+    width: 65%;
+    min-width: fit-content;
+    height: 40px;
+    background: #23334C;
+    border-radius: 5px;
+    color: #FFFFFF;
+    font-weight: 500;
+    font-size: 16px;
+    margin-top: 50px;
+    border:#23334C;
+}
+.usersInputFields{
+    margin-top: 5px;
+    height: 40px;
+    border: 1px solid black;
+    padding: 5px;
+    width: 275px;
+    display: flex;
+    justify-content: center;
+    background: rgba(249, 247, 247, 0.868);
+    box-shadow: 0 6px 10px 0 rgba(77, 69, 69, 0.2);
+    border: 0;
+    outline: 0;
+    border-radius: 5px;
+}
+.usersInputFields input{
+    border-style: none;
+    width: 100%;
+    background: transparent;
+}
+.passwordFields input:focus{
+    text-align: center;
+    border-bottom: 1px solid rgba(205, 140, 140, 0.824);
+}
+.forgotPassword:hover{
+    color: red;
+    font-size: 16px;
+}
+.inlineDivs{
+    display: flex;
+}
+.updateProfile-popup{
+width: 400px;
+font-family: Roboto;
+font-weight: 900;
+font-size: 18px;
+}
+@media(min-width:1024px) {
+    .marginleft {
+        margin-left: 200px !important;
+    }
+}
+@media(max-width:560px) {
+    .manage-pro-account{
+        float: left !important;
+    }
+    .saveChanges{
+        width: 185px;
+    }
+    .profileBody{
+        margin-left: 0;
+    }
+}

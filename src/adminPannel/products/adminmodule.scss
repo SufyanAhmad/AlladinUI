@@ -1,0 +1,303 @@
+.add-product-btn{
+    width: 148px;
+    height: 30px;
+    background-color:#23334C;
+    color: #FFFFFF;
+    font-family: Roboto;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 19px;
+    letter-spacing: 0em;
+    text-align: center;
+    border: none;
+    border-radius: 5px;
+
+}
+.Product-popup{
+  font-family: Roboto;
+}
+.required{
+  color: red;
+}
+.deleteIcon:hover{
+color: red;
+}
+.bg-colr{
+    background-color:#E5E5E5;
+    height: 36px;
+}
+.vl {
+    margin-top: 5px;
+    border-left: 1px solid #595959;
+    height: 25px;
+  }
+  .product-list{
+   background-color: #FFFFFF;
+  }
+  .padding{
+      padding-left: 12px;
+  }
+  .pro-list{
+    font-family: Roboto;
+    font-size: 19px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 22px;
+    letter-spacing: 0em;
+    text-align: left;
+  }
+  ::-webkit-file-upload-button {
+    background: #23334C;
+    color: rgb(247, 243, 243);
+    padding: 3px;
+  }
+  .product-search{
+    width: 266px;
+    height: 35px;
+    background: #FFFFFF;
+    border: 1px solid #DFDFDF;
+    box-sizing: border-box;
+    border-radius: 4px;
+    padding-left: 5px;
+  }
+  // .TablePagination {
+  //   color:#23334C;
+  //   background-color: #ffffff;
+  // }
+  .product-nav{
+      background-color:#E5E5E5;
+      height: 36px;
+  }
+  .pro-nav-items{
+    font-family: Roboto;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 19px;
+    letter-spacing: 0em;
+    width: 130px;
+  }
+  .pro-item{
+    font-family: Roboto;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 14px;
+    letter-spacing: 0em;
+    margin: auto;
+    width: 130px;
+  }
+  // section popup
+  @at-root.popup-box {
+  position: fixed;
+  background: #00000050;
+  width: 100%;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+}
+ 
+.box {
+  position: relative;
+  width: 70%;
+  margin: 0 auto;
+  height: 100vh;
+  margin-top: calc(100vh - 85vh - 70px);
+  background: #fff;
+  border-radius: 4px;
+  padding: 20px;
+  border: 1px solid #999;
+  overflow: auto;
+}
+ 
+.close-icon {
+  content: 'x';
+  cursor: pointer;
+  position: fixed;
+  right: calc(15% - 30px);
+  top: calc(100vh - 85vh - 75px);
+  background: #ededed;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  line-height: 20px;
+  text-align: center;
+  border: 1px solid #999;
+  font-size: 20px;
+}
+.product-label{
+    font-family: Roboto;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 19px;
+    letter-spacing: 0em;
+    text-align: left;
+    color:#000000;
+  }
+  .product-textarea{
+    padding: 3px;
+    width: 100%;
+    color: #0d0d0d;
+    text-decoration: none;
+    display: flex;
+    font-size: 16px;
+    border: 1px solid #BABABA;
+    border-radius: 5px;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: .5em;
+    padding-left: 5px;
+  }
+  .add-img-popup{
+    display: inline; //Or display: inline-block; 
+    width: 100%;
+  }
+  .product-input{
+    width: 100%;
+    height: 40px;
+    color: #0d0d0d;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border: 1px solid #BABABA;
+    border-radius: 5px;
+    padding-left: 5px;
+  }
+  .upload-img{
+      background-color: #EAEAEA;
+      height: 25px;
+      width: 90px;
+      border: 1px solid #C4C4C4;
+    box-sizing: border-box;
+    border-radius: 3px;
+    font-family: Roboto;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 14px;
+    letter-spacing: 0em;
+    text-align: center;
+
+  }
+  //image upload
+  #file[type="file"] {
+    display: none;
+  }
+  #fileChange[type="file"] {
+    display: none;
+  }
+  .label-holder {
+      height: 50px;
+      display: grid;
+      place-items: center;
+      float: right;
+      margin-top: -36px;
+    
+  }
+  .label-upload-image{
+    height: 30px !important;
+    width: 85px;
+    color: #000000;
+    cursor: pointer;
+    font-family: Roboto;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 14px;
+    letter-spacing: 0em;
+    text-align: center;
+    background-color: #EAEAEA;
+  }
+  .add-img-btn{
+    height: 35px;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 14px;
+    color: #000000;
+    border-radius: 3px;
+    border: none !important;
+  }
+  .img-text{
+    margin-top: 7px;
+  }
+  .result{
+    min-height: 100%;
+    max-height: auto;
+    width: 100%;
+    margin-top:1rem ;
+     display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: left; 
+    
+  }
+  .product-previow-img{
+    width: 132px;
+    height: 98px;
+    object-fit: cover;
+    padding: 0.75rem;
+    
+  }
+  .save-prodcut-btn{
+    font-family: Roboto;
+    width: 150px;
+    height: 30px;
+    background: #FFFFFF;
+    border: 1px solid #23334C;
+    box-sizing: border-box;
+    border-radius: 5px;
+    font-size: 19px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 22px;
+    letter-spacing: 0em;
+  }
+  .save-prodcut-btn:hover{
+    background:#23334C;
+    color: white;
+  }
+  .product-cancel-btn{
+    font-family: Roboto;
+    width: 100px;
+    height: 30px;
+    background: #FFFFFF;
+    border: 1px solid #23334C;
+    box-sizing: border-box;
+    border-radius: 5px;
+    font-size: 19px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 22px;
+    letter-spacing: 0em;
+  }
+  .tagItem{
+    background-color: rgb(218,216,216);
+    display: inline-block;
+    padding: .3em .5em;
+    border-radius: 20px;
+  }
+  .tagItem .close{
+    height: 20px;
+    width: 20px;
+    background-color: rgba(48,48,48);
+    display: inline-block;
+    color: #fff;
+    border-radius: 50%;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: .5em;
+    font-size: 18px;
+    cursor: pointer;
+  }
+  .tags-input{
+    flex-grow: 1;
+    padding: .5em 0;
+    border: none;
+    outline: none;
+  }

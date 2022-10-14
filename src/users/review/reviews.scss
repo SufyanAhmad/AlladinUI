@@ -1,0 +1,109 @@
+.reviewContent{
+    font-family: 'Roboto';
+    font-style: normal;
+    display: flex;
+    margin-bottom: 25px;
+    overflow: scroll;
+}
+.reviewEditModel{
+    overflow: scroll;
+}
+.noReview{
+    text-align: center;
+    line-height: 28px;
+    font-size: 20px;
+}
+.accountHeading{
+    text-align: center;
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 28px;
+}
+.errorMessage{
+    color: red;
+}
+.manage-review{
+    margin-top: 100px;
+    padding-left: 3%;
+    padding-right: 3%;
+    overflow-x: scroll;
+}
+.reviewflexes{
+    flex: 0;
+  }
+.reviewBody{
+    width: 1000px;
+    margin-left: 40px;
+    margin-right: 40px;
+    padding: 5%;
+    background-color: #FFFFFF;
+}
+.productBox{
+    width: 950px;
+    background: #FFFFFF;
+    border: 1px solid #FAFAFA;
+    border-radius: 3px;
+    padding: 5%;
+}
+.purchasedDate{
+    color: #595959;
+}
+.ratingStar{
+   margin-left: 30px;
+   margin-top: -10px;
+}
+.ratingGrouup{
+    display: flex;
+}
+.reviewProductImage{
+    width: 70px;
+    height: 70px;
+}
+.colorFamily{
+    margin-top: -10px;
+}
+.flexDisplay{
+    display: flex;
+}
+.nameAndColor{
+    margin-top: -15px;
+    color: #595959;
+    font-weight: 400;
+    font-size: 14px;
+}
+.reviewProductName{
+    font-size: 17px; 
+    margin-top: 12px;
+    margin-left: 5px;
+}
+.Buttons{
+    float: left;
+    border-style: none;
+    background: #23334C;
+    border-radius: 5px;
+    color: white;
+}
+.commentSection{
+    position: relative;
+    border: 1px solid #E5E5E5;
+    border-radius: 5px;
+    width: 430px;
+    height: 152px;
+    margin-left: 20px;
+    padding: 5px;
+}
+.thumbSection{
+    position: absolute;
+    bottom: 3px;
+    left: 5px;
+}
+.likeCount{
+    margin-left: 5px;
+}
+.thumbButton{
+    border-style: none;
+    background: none;
+}
+.thumbButton:hover{
+    color: blue;
+}
