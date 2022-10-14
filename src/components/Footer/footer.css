@@ -1,0 +1,132 @@
+.bg-footer{
+    background-color: #23334C !important;
+}
+.footer-heading{
+    font-family: Roboto;
+    font-size: 19px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 22px;
+    letter-spacing: 0em;
+}
+/* .footer-img{
+    margin-bottom: 10px;
+} */
+.top-footer{
+    width: 20% !important;
+    text-align: center;
+    
+}
+.top-footers{
+    text-align: start;
+}
+.top-footers-ui{
+    text-align: center;
+}
+.greate-value{
+    font-family: Roboto;
+    font-size: 19px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 22px;
+    letter-spacing: 0em;
+    color: #FFFFFF;
+    /* margin-bottom: 10px; */
+}
+.text-align{
+    text-align: start !important;
+    padding: 0px 40px 0px 40px
+}
+.text-white{
+    font-family: Roboto;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 25px;
+    letter-spacing: 0em;
+}
+.page-footer{
+    height: 200px !important;
+    bottom:0 !important;
+}
+.sub-footer{
+    height: 260px !important;
+    bottom:0 !important;
+}
+/* .text-md-left{
+    margin-bottom: 100px !important;
+} */
+.margin{
+    text-align: center;
+}
+.socail-margin{
+    margin-left: 10px;
+}
+.socail-margin-link{
+    margin-left: 25px;
+}
+.vr-line{
+    height: 78px;
+    width: 2% !important;
+}
+.icon-margin{
+    margin-top: 10px;
+}
+.hr-line{
+    margin-top: 5px;
+    width: 98% !important;
+    margin-left: 1px;
+}
+@media (max-width:1285px) {
+    .sub-footer{
+        height: 350px !important;
+    }
+    .page-footer{
+        min-height: 290px !important;
+    }
+}
+@media (max-width:1024px ) {
+    .page-footer{
+        min-height: 300px !important;
+    }
+    .sub-footer{
+        height: 350px !important;
+    }
+}
+/* @media (max-width:768px){
+    .sub-footer{
+        min-height:900px !important;
+    }
+    .bg-footer {
+        min-height: 1400px !important;
+    }
+    .top-footer{
+        width: 100% !important; 
+        margin-top: 40px !important;
+    }
+    .vr-line{
+        visibility: hidden;
+    }
+} */
+@media (max-width:768px) {
+    .vr-line{
+        visibility: hidden;
+    }
+    .bg-footer {
+        min-height: 1400px !important;
+    }
+    .top-footer{
+        width: 100% !important; 
+        margin-top: 40px !important;
+    }
+
+    .hr-line{
+        margin-left: -8px;
+    }
+    .page-footer{
+        min-height:900px !important;
+    }
+    .sub-footer{
+        min-height:900px !important;
+    }
+}

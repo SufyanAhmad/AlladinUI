@@ -1,0 +1,125 @@
+.manageAccount{
+    margin-top: 100px;
+    padding-left: 3%;
+    overflow-x: scroll;
+}
+.contentBody{
+    display: flex;
+    width: 950px;
+}
+.usersflexes{
+    flex: 1;
+}
+.accountHeading{
+    text-align: center;
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 28px;
+}
+
+.usersContent {
+    margin-bottom: 25px;
+    font-family: 'Roboto';
+    font-style: normal;
+    overflow: auto;
+    display: flex;
+    overflow: scroll;
+}
+.personalProfile{
+    position: relative;
+    border:  1px solid #C4C4C4;
+    border-radius: 3px;
+    padding-top: 10px;
+    padding-left: 8px;
+    width: 159px;
+    height: 143px;
+    margin-left: 3%;
+    margin-right: 2%;
+}
+.personalProfileHeading{
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 19px;
+}
+.personalProfileDetail{
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 16px;
+    margin-top: 8px;
+}
+.editButton{
+    position: absolute;
+    border-style: none;
+    background: none;
+    bottom: 5px;
+    right: 0;
+    font-weight: 400;
+    font-size: 16px;
+}
+.editButton:hover{
+    color: #23334C;
+    font-size: large;
+    font-weight: 550;
+}
+.address{
+    position: relative;
+    border:  1px solid #C4C4C4;
+    padding-top: 10px;
+    padding-left: 8px;
+    width: 339px;
+    height: 143px; 
+    border-radius: 3px;
+}
+.addressHeading{
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 19px;
+}
+.addressDetail{
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 16px;
+}
+.recentOrder{
+    width: 900px;
+    padding: 6px;
+    border:  1px solid #C4C4C4;
+    border-radius: 3px;
+    margin-top: 20px;
+}
+.orderTable{
+width: 890px;
+height: 225px;
+}
+.placeOrder{
+    font-weight: 400;
+    font-size: 14px;
+    padding: 10px;
+    margin-bottom: -3px;
+}
+.tableHeading{
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 16px;
+
+    color: #595959;
+}
+.headingRow{
+    border-top: 1px solid #E5E5E5;
+    border-bottom: 1px solid #E5E5E5;
+}
+.tableItem{
+    padding-left: 10px;
+}
+.manageButton{
+    margin-left: 80px;
+    width: 44px;
+    height: 14px;
+    border-style: none;
+    background: none;
+}
+.manageButton:hover{
+    color: #23334C;
+    font-size: large;
+    font-weight: 550;
+}

@@ -1,0 +1,191 @@
+.orderAccount{
+    margin-top: 100px;
+    background-color: white;
+    margin-left: 40px;
+}
+.manageOrdersContent{
+  display: flex;
+  overflow: hidden;
+  font-family: 'Roboto';
+  font-style: normal;
+  margin-bottom: 25px;
+  overflow: scroll;
+}
+.manageOrdersflexes{
+  flex: 0;
+}
+.manageOrdersBody{
+    width: 900px;
+    margin-left: 40px;
+    margin-bottom: 100px;
+    overflow: scroll;
+}
+.accountHeading{
+    text-align: center;
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 28px;
+}
+.errorMessage{
+  color: red;
+}
+.content-box{
+    border: 1px solid #FAFAFA;
+    border-radius: 3px;
+    position: relative;
+    margin-right: 36px;
+}
+.cancel-order{
+  margin-left: 10%;
+}
+.order-ID-heading{
+    color: #595959;
+    // margin-right: 10px;
+}
+.totalPrice-group{
+    float: right;
+    display: inline;
+}
+.companyName{
+  display: inline;
+  margin-left: 6%;
+}
+.trackingID{
+  display: inline;
+  margin-left: 6%;
+}
+.order-Total-heading{
+    color: #595959;
+    margin-right: 10px;
+    
+}
+.manage-orders-productInfo{
+    display: flex;
+    margin-top: 10px;
+    height: 80px;
+}
+.manage-orders-image{
+    width: 70px;
+    height: 70px;
+}
+// .manage-orders-productName{
+//     margin-left: 10px;
+//     margin-right: 50px;
+// }
+// .productInfo-price{
+//     margin-left: 10%;
+//     margin-right: 15%;
+// }
+.write-review-button{
+  height: 30px;
+  border-style: none;
+  background: #23334C;
+  padding-left: 5.5px;
+  padding-right: 5.5px;
+  color: white;
+}
+.reviewed{
+height: 30px;
+border-style: none;
+background: #23334C;
+padding-left: 5.5px;
+padding-right: 5.5px;
+color: white;
+cursor: arrow;
+}
+.write-review-button:hover{
+  background: #101928;
+}
+.trackingInfoHeading{
+  width: 100%;
+  text-align: center;
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 28px;
+}
+.transactionTimeColumn{
+  width: 25%;
+}
+.eventColumn{
+  width: 20%;
+}
+.messageColumn{
+  width: 55%;
+}
+
+
+
+
+.stepper-wrapper {
+    margin-top: auto;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    margin-top: 30px;
+  }
+  .stepper-item {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+  
+    @media (max-width: 768px) {
+      font-size: 12px;
+    }
+  }
+  
+  .stepper-item::before {
+    position: absolute;
+    content: "";
+    border-bottom: 2px solid #ccc;
+    width: 100%;
+    top: 20px;
+    left: -50%;
+    z-index: 2;
+  }
+  
+  .stepper-item::after {
+    position: absolute;
+    content: "";
+    border-bottom: 2px solid #ccc;
+    width: 100%;
+    top: 20px;
+    left: 50%;
+    z-index: 2;
+  }
+  
+  .stepper-item .step-counter {
+    position: relative;
+    z-index: 5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 40px;
+    border: 4px solid #23334C;
+    border-radius: 50%;
+    background: white;
+    margin-bottom: 6px;
+  }
+  
+  .stepper-item.completed .step-counter {
+    background-color:  #23334C;
+  }
+  
+  .stepper-item.completed::after {
+    position: absolute;
+    content: "";
+    border-bottom: 2px solid  #23334C;
+    width: 100%;
+    top: 20px;
+    left: 50%;
+    z-index: 3;
+  }
+  
+  .stepper-item:first-child::before {
+    content: none;
+  }
+  .stepper-item:last-child::after {
+    content: none;
+  }

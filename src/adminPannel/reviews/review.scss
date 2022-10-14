@@ -1,0 +1,54 @@
+.review-table tr{
+    border-bottom: 1px solid #CBC8C8 !important;
+    margin:auto;
+}
+.review-head tr{
+    height: 40px !important;
+    background-color: #DDDDDD !important;
+}
+td{
+    margin: auto;
+}
+.review-id{
+    font-family: Roboto;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 16px;
+    letter-spacing: 0em;
+    text-align: left;
+}
+.category-popup-text{
+    width: 300px;
+    font-size: 18px;
+    font-family: Roboto;
+    font-weight: 900;
+}
+.product-textArea{
+    width: 100%;
+    color: #0d0d0d;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border: 1px solid #BABABA;
+    border-radius: 5px;
+  }
+.about-service{
+    font-family: Roboto;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 19px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: #595959;
+}
+.reviewer-name{
+    font-family: Roboto;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 14px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: #595959;
+}

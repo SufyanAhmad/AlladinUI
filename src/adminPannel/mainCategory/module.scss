@@ -1,0 +1,63 @@
+.category-list{
+    font-family: Roboto;
+    font-size: 19px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 22px;
+    letter-spacing: 0em;
+    color: #000000;
+
+}
+.add-category-btn{
+    width: 100px;
+    height: 35px;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 14px;
+    color: #000000;
+    border-radius: 3px;
+    border: none !important;
+}
+//popup sections
+.category-popup{
+width: 78px;
+height: 22px;
+font-family: Roboto;
+font-style: normal;
+font-weight: bold;
+font-size: 19px;
+line-height: 22px;
+color: #000000;
+}
+.add-cate-popup {
+    display: inline-block; //Or display: inline; 
+    width: 100%;
+}
+.btn-save-cat{
+float: right;
+height:30px;
+width: 60px;
+background: #FAFAFA;
+border: 1px solid #C4C4C4;
+box-sizing: border-box;
+border-radius: 5px;
+}
+.btn-save-cat:hover{
+    background:#23334C;
+    color: white;
+  }
+.tb-dt-name{
+    cursor: pointer;
+}
+.product-edit-input {
+    width: 100%;
+    height: 40px;
+    color: #0d0d0d;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border: 1px solid #BABABA;
+    border-radius: 5px;
+}

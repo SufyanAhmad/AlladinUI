@@ -1,0 +1,291 @@
+
+//super deal
+.super-deals{
+    background-color: #FFFFFF;
+    border-radius: 6px;
+    padding: 0px 10px 10px 10px;
+}
+.deal-text{
+    font-family: Roboto;
+    font-size: 24px;
+    font-style: italic;
+    font-weight: 700;
+    line-height: 28px;
+    letter-spacing: 0em;
+    text-align: left;
+}
+.price_line{
+    color: #b71c1c;
+    text-decoration: line-through;
+}
+.price{
+    color: #000000;
+    font-weight: 500px;
+}
+.discount{
+    font-family: Roboto;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 16px;
+    letter-spacing: 0em;
+    text-align: left;
+    margin-left: 30px;
+}
+.discount-time{
+    font-family: Roboto;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 16px;
+    letter-spacing: 0em;
+    margin-left: 30px;
+    width:26px;
+    height: 26px;
+    border-radius: 6px;
+    border: none;
+    color: white;
+    background-color: #000000;
+}
+.discount-time-btn{
+    font-family: Roboto;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 16px;
+    letter-spacing: 0em;
+    margin-left: 2px;
+    width:26px;
+    height: 26px;
+    border-radius: 6px;
+    border: none;
+    color: white;
+    background-color: #000000;
+}
+.view-more{
+    float: right;
+    font-family: Roboto;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 16px;
+    letter-spacing: 0em;
+    height: 26px;
+    border-radius: 6px;
+    border: none;
+    color: white;
+    background-color: #000000;
+    margin-top: 3px;
+}
+.discount-text{
+    font-family: Roboto;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 14px;
+    letter-spacing: 0em;
+    text-align: left;
+    height: 26px;
+    width:40px;
+    border: none;
+    color: white;
+    background-color: #000000;
+    margin: 5px;
+}
+.product-img{
+    height: 180px;
+    width: 180px;
+}
+.product-price{
+    font-family: Roboto;
+    font-size: 19px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 22px;
+    letter-spacing: 0em;
+    text-align: left;
+    color:  #000000;
+
+}
+.product-price-org{
+    text-decoration: line-through;
+    font-family: Roboto;
+    font-size: 12px !important;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 14px;
+    letter-spacing: 0em;
+    text-align: left;
+    float: right;
+    color: #606060;
+    margin-top: 2px;
+}
+.sold-out{
+    font-family: Roboto;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 16px;
+    letter-spacing: 0em;
+    text-align: left;
+    margin-left: 5px;
+}
+.arrival-product-name{
+    font-family: Roboto;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 19px;
+    letter-spacing: 0em;
+    text-align: center;
+    color: #000000;
+    margin-top: 5px;
+}
+.arrival-product-price{
+    font-family: Roboto;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 14px;
+    letter-spacing: 0em;
+    text-align: left;
+    margin-top: 3px;
+    color: #000000;
+}
+.text-line{
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+.rating{
+    font-family: Roboto;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 16px;
+    letter-spacing: 0em;
+    margin-left: 2px;
+    height: 26px;
+    border: none;
+    color: white;
+    background-color: #000000;
+}
+.charges-sold{
+    font-family: Roboto;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 14px;
+    letter-spacing: 0em;
+    text-align: left;
+    color:#000000;
+    margin-left: 5px;
+}
+.line-break{
+    margin-top: 5px !important;
+    width: 95.5% !important; 
+    margin-left: 1px !important;
+}
+.topProduct-card {
+    background-color: white;
+    height: fit-content;
+    // width:fit-content;
+    margin-top: 30px;
+    text-align: center;
+    transition: all 1s ease;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+}
+.top-product-img{
+    height: 180px;
+    width: 100%;
+}
+  .topProduct-card:hover{
+    transform: scale(1.1);
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
+  }
+  .product-price{
+    font-family: Roboto;
+    font-size: 14px !important;
+    font-style: normal;
+    font-weight: 400 !important;
+    line-height: 22px;
+    letter-spacing: 0em;
+    text-align: left;
+    margin-left: 5%;
+    color:  #000000;
+
+}
+.product-price-org{
+    text-decoration: line-through;
+    font-family: Roboto;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 14px;
+    letter-spacing: 0em;
+    text-align: left;
+    float: right;
+    margin-right: 5%;
+    color: #606060;
+    margin-top: 2px;
+}
+  .top-icon   {
+    width: 30px;
+    height: 30px;
+    background-color: #fff;
+    border-radius: 50%;
+    display: none;
+    justify-content: center !important;
+    align-items: center !important;
+    cursor: pointer;
+    color: black; 
+}
+.topProduct-card .icons .top-icon:hover {
+    background-color: #b71c1c;
+    color: #fff;
+}
+
+.topProduct-card:hover .icons .top-icon {
+    transform: translateY(-60px);
+    display: flex;
+}
+.topProduct-card .icons .top-icon:nth-last-of-type(3) {
+    transition-delay: 0.2s
+}
+.topProduct-card .icons .top-icon:nth-last-of-type(2) {
+    transition-delay: 0.15s
+}
+.topProduct-card .icons .top-icon:nth-last-of-type(1) {
+    transition-delay: 0.1s
+}
+.bgBlue{
+    color: red !important;
+}
+@media (max-width:768px) {
+    .sidebar-right{
+        visibility: hidden;
+    }
+    .top-product-img{
+        height: 100%;
+    }
+    .product-img{
+        height: 100%;
+        width: 100%;
+    }
+}
+@media (max-width:520px) {
+    .line-break{
+        width: 91% !important; 
+    }
+    .topProduct-card {
+        text-align: center;
+    }
+    .arrival-product-name{
+        text-align: center;
+    }
+    .arrival-product-price{
+        text-align: center;
+    }
+}
