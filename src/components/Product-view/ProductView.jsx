@@ -56,8 +56,6 @@ function ProductView({ appRefresher, setAppRefresher }) {
   const role = useSelector((state) => state.user.currentUser && state.user.currentUser.role);
   const dispatch = useDispatch();
   const [refresh, setRefresh] = useState(true);
-  const relative = "relative";
-  const absolute = "absolute";
   const onCloseModal = () => {
     setOpen(false);
     setOpenImagePopup(false);
@@ -428,7 +426,7 @@ function ProductView({ appRefresher, setAppRefresher }) {
                           </div>
                         </div>
                       ))} */}
-                    <Carousel showThumbs={media.length === 0 ? false : true} infiniteLoop>
+                    <Carousel style={{overflow:"visible"}} showThumbs={media.length === 0 ? false : true} infiniteLoop>
                     {media.map((d, index) => (
                         // d-flex justify-content-center
                         <div className=' justify-content-center' key={index} style={{overflow:"visible"}}>
@@ -437,14 +435,12 @@ function ProductView({ appRefresher, setAppRefresher }) {
                                 smallImage: {
                                     alt: "Product Image " + d.arrangementNo,
                                     isFluidWidth: true,
-                                    src: d.imgUrl,
-                                    position: relative
+                                    src: d.imgUrl
                                 },
                                 largeImage: {
                                     src: d.imgUrl,
                                     width: 1200,
-                                    height: 1800,
-                                    position: absolute
+                                    height: 1800
                                 }
                           }} />
                           </div>
