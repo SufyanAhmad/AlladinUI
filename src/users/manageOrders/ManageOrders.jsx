@@ -72,7 +72,7 @@ export default function ManageOrders() {
                   <span>Order Detail</span>
                   <div className="content-box">
                     <span className="order-ID-heading">Order# </span>
-                    <span>{orderStatus.orderNo}</span>
+                    <span>{orderStatus.orderNumberWithDate}</span>
                     {orderStatus.shipmentCompany ? (
                       <div className="companyName">
                         <span style={{ marginRight: "10px", color: "#595959" }}>
@@ -204,8 +204,8 @@ export default function ManageOrders() {
                 <div className="mt-4 trackingInfoHeading">
                   <span>Tracking Info</span>
                 </div>
-                {orderDeatils.map((order) => (
-                  <div className="mt-4 tableBox">
+                {orderDeatils.map((order, index) => (
+                  <div key={index} className="mt-4 tableBox">
                     <span style={{fontSize:"19px"}}><b>{order.productName}</b></span>
                     <table className="tableContent">
                       <tbody>
@@ -217,8 +217,8 @@ export default function ManageOrders() {
                           <th className="eventColumn tableItem">Event</th>
                           <th className="messageColumn tableItem">Message</th>
                         </tr>
-                        {orderStatus.orderStatusMappingViewModels.map((statusMessage) => (
-                        <tr className="tableRow">
+                        {orderStatus.orderStatusMappingViewModels.map((statusMessage, index) => (
+                        <tr key={index} className="tableRow">
                           {statusMessage.orderStatus === "Delivered" || "Shipped" || "ReadyToShip" || "Pending" || "Returned" || "Canceled"?<>
                           <td className="tableItem">
                             {moment(statusMessage.createAt).format(
@@ -248,7 +248,7 @@ export default function ManageOrders() {
                           ) : statusMessage.orderStatus === "Pending" ? (
                             <td className="tableItem">
                               Order is recieved, Your order number is:{" "}
-                              {orderStatus.orderNo}
+                              {orderStatus.orderNumberWithDate}
                             </td>
                           ) : statusMessage.orderStatus === "Returned" ? (
                             <td className="tableItem">

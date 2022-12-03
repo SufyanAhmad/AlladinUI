@@ -16,11 +16,12 @@ export const AdminOrderDetail = () => {
   const [status, setStatus] = useState('');
   const [text, setText] = useState('');
   const [noteTypeId, setNoteTypeId] = useState(1);
-   const [reload, setReload]= useState(notes)
-   const [statusErrorMessage, setStatusErrorMessage]= useState(false)
-   const [editValue, setEditValue]= useState(false)
-   const [updatedNote, setUpdatedNote]= useState('')
-   const [editNoteKey, setEditNoteKey]= useState()
+   const [reload, setReload]= useState(notes);
+   const [statusErrorMessage, setStatusErrorMessage]= useState(false);
+   const [editValue, setEditValue]= useState(false);
+   const [updatedNote, setUpdatedNote]= useState('');
+   const [editNoteKey, setEditNoteKey]= useState();
+   const [spinner, setSpinner]= useState(false);
 
   useEffect(()=>{
     const getOrderDetail = async ()=>{
@@ -70,6 +71,7 @@ export const AdminOrderDetail = () => {
     getorderStatus()
   },[])
   function handleSubmit (){
+    setSpinner(true)
     if(status){
    let item={id,status}
           fetch(FetchUrl + `Order/update-order-status/${id}/${status}`,{
@@ -100,6 +102,7 @@ export const AdminOrderDetail = () => {
           }else{
             setStatusErrorMessage(true);
           }
+          setSpinner(false)
     }
   async function AddNotes(credentials) {
       return  fetch(FetchUrl + `Order/add-note/${id}`, {
@@ -132,6 +135,7 @@ export const AdminOrderDetail = () => {
       }
     }
     const DeleteNote = (noteId) =>{
+      setSpinner(true)
     fetch(FetchUrl+`Order/delete-note/${noteId}`, {
       method: "DELETE",
       headers: {
@@ -145,12 +149,14 @@ export const AdminOrderDetail = () => {
         setReload(notes)
       })
     })
+    setSpinner(false)
   }
   const clickEdit = (data) =>{
       setEditValue(!data.editValue)
       setEditNoteKey(data.key)
   }
   const updateNoteValue = (data) =>{
+    setSpinner(true)
     let noteId = data.noteId;
     let noteTypeId = data.noteTypeId;
     let text = updatedNote;
@@ -187,6 +193,7 @@ export const AdminOrderDetail = () => {
                    }
                   })
                 });
+                setSpinner(false)
   }
   return (
     <div className="Section">
@@ -344,7 +351,10 @@ export const AdminOrderDetail = () => {
                             </Form.Select>
                       </div>
                       <hr style={{border: "1px solid #C4C4C4"}}/>
-                      <button className="refund-btn" style={{float:"right", marginRight:"10px",backgroundColor:"blue",color:"white"}} onClick={handleSubmit}>Update</button>
+                      <button className="refund-btn" style={{float:"right", marginRight:"10px",backgroundColor:"blue",color:"white"}} onClick={handleSubmit}>
+                      {spinner?
+                          <i style={{color:"black"}} className="fa fa-spinner ml-4 fa-spin"></i>
+                          :"Update"}</button>
                       <br></br> <br></br>
                   </div>
                   <br></br>
@@ -358,7 +368,11 @@ export const AdminOrderDetail = () => {
                         {(editValue === true && editNoteKey === key) ?
                           <div className="d-flex justify-content-between comment-text ">
                             <textarea onChange={(e) => setUpdatedNote(e.target.value)} defaultValue={note.text} style={{width:"80%"}}></textarea>
-                          <button onClick={() => updateNoteValue(note)} style={{backgroundColor:"blue",color:"white",borderStyle:"none",width:"20%"}}>Edit</button>
+                          <button onClick={() => updateNoteValue(note)} style={{backgroundColor:"blue",color:"white",borderStyle:"none",width:"20%"}}>
+                            {spinner?
+                            <i style={{color:"black"}} className="fa fa-spinner ml-4 fa-spin"></i>
+                            :"Edit"}
+                          </button>
                          </div>
                           :
                           <div className="comment-text p-2">
@@ -367,7 +381,11 @@ export const AdminOrderDetail = () => {
                            
                           }
                           <span className="comment-datetime">{moment(note.createAt).format('MMMM Do YYYY, h:mm:ss a')}, by Alladin </span>
-                          <button className="dlt-notes c-pointer" onClick={()=>DeleteNote(note.noteId)}>Delete Note</button>
+                          <button className="dlt-notes c-pointer" onClick={()=>DeleteNote(note.noteId)}>
+                            {spinner?
+                            <i style={{color:"black"}} className="fa fa-spinner ml-4 fa-spin"></i>
+                            :"Delete Note"}
+                          </button>
                       </div>
                       ))}
                       <hr style={{border: "1px solid #C4C4C4"}}/>

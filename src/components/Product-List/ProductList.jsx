@@ -413,28 +413,31 @@ function ProductList({ appRefresher, setAppRefresher }) {
               <hr style={{ width: '100%' }}></hr>
               <div>
                 <h1 style={{ fontWeight: '500', fontSize: '16px' }}>Brand</h1>
-                {brand.map((Brand) => (
-                  <div key={Brand.brandId} className="form-check">
-                    <>
-                      <input
-                        className="form-check-input"
-                        type="checkbox"
-                        value={Brand.brandId}
-                        id={Brand.brandId}
-                        checked={Brand.isChecked}
-                        onChange={(e) => {
-                          _setBrandId(e, Brand);
-                        }}
-                        name="Anex"
-                      ></input>
-                      <label className="form-check-label">{Brand.brandName}</label>
-                    </>
-                  </div>
-                ))}
+                <div style={window.innerWidth <=768?{display:"flex",overflow:"scroll"}:{}}>
+                  {brand.map((Brand) => (
+                    <div key={Brand.brandId} className="form-check">
+                      <>
+                        <input
+                          className="form-check-input"
+                          type="checkbox"
+                          value={Brand.brandId}
+                          id={Brand.brandId}
+                          checked={Brand.isChecked}
+                          onChange={(e) => {
+                            _setBrandId(e, Brand);
+                          }}
+                          name="Anex"
+                        ></input>
+                        <label className="form-check-label">{Brand.brandName}</label>
+                      </>
+                    </div>
+                  ))}
+                </div>
               </div>
               <hr style={{ width: '100%' }}></hr>
               <div>
                 <h1 style={{ fontWeight: '500', fontSize: '16px' }}>Warenty</h1>
+                <div style={window.innerWidth <=768?{display:"flex",overflow:"scroll"}:{}}>
                 {Warranty.map((warranty) => (
                   <div key={warranty.warrantyId} className="form-check">
                     <input
@@ -452,6 +455,7 @@ function ProductList({ appRefresher, setAppRefresher }) {
                     <br></br>
                   </div>
                 ))}
+                </div>
               </div>
             </div>
           </div>

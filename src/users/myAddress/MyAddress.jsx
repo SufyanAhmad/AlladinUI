@@ -26,6 +26,7 @@ export default function MyAddress() {
   const [getAddressError, setGetAddressError] = useState(null);
   const [addAddressError, setAddAddressError] = useState(null);
   const [fillFields, setFillFields] = useState(false);
+  const [spinner, setSpinner] = useState(false)
   const CloseModal = () =>{ setOpen(false);
     setFillFields(false);
   }
@@ -97,6 +98,7 @@ export default function MyAddress() {
   const DeleteShippingAddress = (data) => {
     const shippingAddressId = data.shippingAddressId
     {
+      setSpinner(true)
       fetch(FetchUrl + `ShippingAddress/update-shipping-Address-status/${shippingAddressId}`, {
         method: 'put',
         headers: {
@@ -106,6 +108,7 @@ export default function MyAddress() {
         },
         body: JSON.stringify(shippingAddressId)
       }).then((resp) => {
+        setSpinner(false)
         if(resp.ok === false)
         {
           throw Error("ShippingAddress is not update !!")
@@ -166,7 +169,6 @@ export default function MyAddress() {
                           <th className="phoneNumberColumn tableItem">Make default </th>
                         </tr>
                           {ShippingAddress.map((row) => (
-
                             <tr className="tableRow" key={row.shippingAddressId}>
                               {row.status === true ?
                                 <>
@@ -177,8 +179,9 @@ export default function MyAddress() {
                                    
                                   </td>
                                   <td className="tableItem">  
-                                  <button className="c-pointer default"
-                                    onClick={() => DeleteShippingAddress(row)}>Default</button></td>
+                                  <button className="c-pointer default">
+                                      Default
+                                    </button></td>
                                 </>
 
                                 :
@@ -187,9 +190,7 @@ export default function MyAddress() {
                                   <td className="tableItem">{row.firstName}</td>
                                   <td className="tableItem">{row.address}</td>
                                   <td className="tableItem">{row.city}</td>
-                                  <td className="tableItem">{row.phoneNo}
-                                   
-                                  </td>
+                                  <td className="tableItem">{row.phoneNo}</td>
                                   <td className="tableItem">
                                     <button className="c-pointer addressdefault"
                                       onClick={() => DeleteShippingAddress(row)}>

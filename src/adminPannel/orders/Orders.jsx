@@ -83,6 +83,7 @@ const Orders = () => {
   const [referenceNo, setReferenceNo] = useState('');
   const [ProductId, setProductId] = useState('');
   const [reload, setReload] = useState([orders]);
+  const [spinner,setSpinner] = useState(false)
   const sorting = (col) => {
     if (sort === 'ASC') {
       const sorted = [...orders].sort((a, b) => (a[col].toString().toLowerCase() > b[col].toString().toLowerCase() ? 1 : -1));
@@ -107,6 +108,7 @@ const Orders = () => {
   };
   useEffect(() => {
     const getOrders = async () => {
+      setSpinner(true)
       try {
         const res = await publicRequest.get('Order/get-all-orders', {
           headers: {
@@ -114,6 +116,7 @@ const Orders = () => {
           },
         });
         setOrders(res.data.data);
+        setSpinner(false)
       } catch {}
     };
     getOrders();
@@ -289,6 +292,9 @@ const Orders = () => {
                 <li className="nav-item" role="presentation">
                   <button className="nav-link active" id="pills-pending-tab" data-bs-toggle="pill" data-bs-target="#pills-pending" type="button" role="tab" aria-controls="pills-pending" aria-selected="false">
                     Pending
+                    {spinner?
+                            <i style={{marginLeft:"3px"}} className="fa fa-spinner ml-4 fa-spin"></i>
+                            :""}
                   </button>
                 </li>
                 <li className="nav-item" role="presentation">
@@ -344,11 +350,8 @@ const Orders = () => {
                 <table aria-label="custom pagination table mt-2" style={{ minWidth: '900px', overFlow: 'scroll' }}>
                   <thead>
                     <tr>
-                      <th>Order ID</th>
+                      <th onClick={() => sorting('orderNo')} style={{ cursor: 'pointer' }}>Order No</th>
                       <th>Customer</th>
-                      <th onClick={() => sorting('orderNo')} style={{ cursor: 'pointer' }}>
-                        Order No
-                      </th>
                       <th> Date</th>
                       <th>Order Price</th>
                       <th>Delivery Status</th>
@@ -367,17 +370,14 @@ const Orders = () => {
                         }
                       })
                       .map((row) => (
-                        <tr key={row.orderId}>
+                        <tr key={row.orderNumberWithDate}>
                           <td style={{ width: 160, borderRight: 'none' }} align="right">
                             <NavLink to={`/admin/orderdetail/${row.orderId}`} style={{ color: 'black' }}>
-                              {row.orderId}
+                              {row.orderNumberWithDate}
                             </NavLink>
                           </td>
                           <td className="order-td" align="right">
                             {row.firstName} {row.lastName}
-                          </td>
-                          <td className="order-td c-pointer" align="right">
-                            {row.orderNo}
                           </td>
                           {row.deliveryDatetime === null ? (
                             <td className="order-td" align="right">
@@ -408,7 +408,7 @@ const Orders = () => {
                                     {row.orderStatusMappingViewModels
                                       .filter((filterData) => filterData.orderStatus === 'Canceled')
                                       .map((statusMessage, index,{length}) => (
-                                        <>{index===length-1?<>
+                                        <Fragment key={index}>{index===length-1?<>
                                           {statusMessage.orderStatus === 'Canceled' ? (
                                             <span style={{ border: '1px solid #23334C', borderRadius: '5px' }} className="p-1">
                                               {statusMessage.createByRole === 'Admin' ? 'Canceled by System' : 'Canceled by Customer'}
@@ -419,7 +419,7 @@ const Orders = () => {
                                             </span>
                                           )}
                                           </>:""}
-                                        </>
+                                        </Fragment>
                                       ))}
                                   </>
                                 ) : (
@@ -474,11 +474,8 @@ const Orders = () => {
                 <table aria-label="custom pagination table mt-2" style={{ minWidth: '900px', overFlow: 'scroll' }}>
                   <thead>
                     <tr>
-                      <th>Order ID</th>
+                      <th onClick={() => sorting('orderNo')} style={{ cursor: 'pointer' }}>Order ID</th>
                       <th>Customer</th>
-                      <th onClick={() => sorting('orderNo')} style={{ cursor: 'pointer' }}>
-                        Order No
-                      </th>
                       <th>Delivery Date</th>
                       <th>Order Price</th>
                       <th>Delivery Status</th>
@@ -499,17 +496,14 @@ const Orders = () => {
                       .map((row, i) => (
                         <Fragment key={i}>
                           {row.orderStatusType === 'Pending' ? (
-                            <tr key={row.orderId}>
+                            <tr key={row.orderNumberWithDate}>
                               <td style={{ width: 160, borderRight: 'none' }} align="right">
                                 <NavLink to={`/admin/orderdetail/${row.orderId}`} style={{ color: 'black' }}>
-                                  {row.orderId}
+                                  {row.orderNumberWithDate}
                                 </NavLink>
                               </td>
                               <td className="order-td" align="right">
                                 {row.firstName} {row.lastName}
-                              </td>
-                              <td className="order-td c-pointer" align="right">
-                                {row.orderNo}
                               </td>
                               {row.deliveryDatetime === null ? (
                                 <td className="order-td" align="right">
@@ -586,11 +580,8 @@ const Orders = () => {
                 <table aria-label="custom pagination table mt-2" style={{ minWidth: '900px', overFlow: 'scroll' }}>
                   <thead>
                     <tr>
-                      <th>Order ID</th>
+                      <th  onClick={() => sorting('orderNo')} style={{ cursor: 'pointer' }}>Order ID</th>
                       <th>Customer</th>
-                      <th onClick={() => sorting('orderNo')} style={{ cursor: 'pointer' }}>
-                        Order No
-                      </th>
                       <th> Date</th>
                       <th>Order Price</th>
                       <th>Delivery Status</th>
@@ -611,17 +602,14 @@ const Orders = () => {
                       .map((row, i) => (
                         <Fragment key={i}>
                           {row.orderStatusType === 'ReadyToShip' ? (
-                            <tr key={row.orderId}>
+                            <tr key={row.orderNumberWithDate}>
                               <td style={{ width: 160, borderRight: 'none' }} align="right">
                                 <NavLink to={`/admin/orderdetail/${row.orderId}`} style={{ color: 'black' }}>
-                                  {row.orderId}
+                                  {row.orderNumberWithDate}
                                 </NavLink>
                               </td>
                               <td className="order-td" align="right">
                                 {row.firstName} {row.lastName}
-                              </td>
-                              <td className="order-td c-pointer" align="right">
-                                {row.orderNo}
                               </td>
                               {row.deliveryDatetime === null ? (
                                 <td className="order-td" align="right">
@@ -700,11 +688,8 @@ const Orders = () => {
                 <table aria-label="custom pagination table mt-2" style={{ minWidth: '900px', overFlow: 'scroll' }}>
                   <thead>
                     <tr>
-                      <th>Order ID</th>
+                      <th onClick={() => sorting('orderNo')} style={{ cursor: 'pointer' }}>Order ID</th>
                       <th>Customer</th>
-                      <th onClick={() => sorting('orderNo')} style={{ cursor: 'pointer' }}>
-                        Order No
-                      </th>
                       <th> Date</th>
                       <th>Order Price</th>
                       <th>Delivery Status</th>
@@ -725,17 +710,14 @@ const Orders = () => {
                       .map((row, i) => (
                         <Fragment key={i}>
                           {row.orderStatusType === 'Shipped' ? (
-                            <tr key={row.orderId}>
+                            <tr key={row.orderNumberWithDate}>
                               <td style={{ width: 160, borderRight: 'none' }} align="right">
                                 <NavLink to={`/admin/orderdetail/${row.orderId}`} style={{ color: 'black' }}>
-                                  {row.orderId}
+                                  {row.orderNumberWithDate}
                                 </NavLink>
                               </td>
                               <td className="order-td" align="right">
                                 {row.firstName} {row.lastName}
-                              </td>
-                              <td className="order-td c-pointer" align="right">
-                                {row.orderNo}
                               </td>
                               {row.deliveryDatetime === null ? (
                                 <td className="order-td" align="right">
@@ -815,11 +797,8 @@ const Orders = () => {
                 <table aria-label="custom pagination table mt-2" style={{ minWidth: '900px', overFlow: 'scroll' }}>
                   <thead>
                     <tr>
-                      <th>Order ID</th>
+                      <th onClick={() => sorting('orderNo')} style={{ cursor: 'pointer' }}>Order ID</th>
                       <th>Customer</th>
-                      <th onClick={() => sorting('orderNo')} style={{ cursor: 'pointer' }}>
-                        Order No
-                      </th>
                       <th> Date</th>
                       <th>Order Price</th>
                       <th>Delivery Status</th>
@@ -840,17 +819,14 @@ const Orders = () => {
                       .map((row, i) => (
                         <Fragment key={i}>
                           {row.orderStatusType === 'Delivered' ? (
-                            <tr key={row.orderId}>
+                            <tr key={row.orderNumberWithDate}>
                               <td style={{ width: 160, borderRight: 'none' }} align="right">
                                 <NavLink to={`/admin/orderdetail/${row.orderId}`} style={{ color: 'black' }}>
-                                  {row.orderId}
+                                  {row.orderNumberWithDate}
                                 </NavLink>
                               </td>
                               <td className="order-td" align="right">
                                 {row.firstName} {row.lastName}
-                              </td>
-                              <td className="order-td c-pointer" align="right">
-                                {row.orderNo}
                               </td>
                               <td className="order-td" align="right">
                                 {moment(row.deliveryDatetime).format('YYYY-MM-DD')}
@@ -919,11 +895,8 @@ const Orders = () => {
                 <table aria-label="custom pagination table mt-2" style={{ minWidth: '900px', overFlow: 'scroll' }}>
                   <thead>
                     <tr>
-                      <th>Order ID</th>
+                      <th onClick={() => sorting('orderNo')} style={{ cursor: 'pointer' }}>Order ID</th>
                       <th>Customer</th>
-                      <th onClick={() => sorting('orderNo')} style={{ cursor: 'pointer' }}>
-                        Order No
-                      </th>
                       <th> Date</th>
                       <th>Order Price</th>
                       <th>Delivery Status</th>
@@ -944,17 +917,14 @@ const Orders = () => {
                       .map((row, i) => (
                         <Fragment key={i}>
                           {row.orderStatusType === 'Canceled' ? (
-                            <tr key={row.orderId}>
+                            <tr key={row.orderNumberWithDate}>
                               <td style={{ width: 160, borderRight: 'none' }} align="right">
                                 <NavLink to={`/admin/orderdetail/${row.orderId}`} style={{ color: 'black' }}>
-                                  {row.orderId}
+                                  {row.orderNumberWithDate}
                                 </NavLink>
                               </td>
                               <td className="order-td" align="right">
                                 {row.firstName} {row.lastName}
-                              </td>
-                              <td className="order-td c-pointer" align="right">
-                                {row.orderNo}
                               </td>
                               {row.deliveryDatetime === null ? (
                                 <td className="order-td" align="right">
@@ -976,7 +946,7 @@ const Orders = () => {
                                         {row.orderStatusMappingViewModels
                                           .filter((filterData) => filterData.orderStatus === 'Canceled')
                                           .map((statusMessage, index, {length}) => (
-                                            <>
+                                            <Fragment key={index}>
                                             {index === length-1?<>
                                               {statusMessage.orderStatus === 'Canceled' ? (
                                                 <span style={{ border: '1px solid #23334C', borderRadius: '5px' }} className="p-1">
@@ -988,7 +958,7 @@ const Orders = () => {
                                                 </span>
                                               )}
                                               </>:""}
-                                            </>
+                                            </Fragment>
                                           ))}
                                       </>
                                     ) : (
@@ -1047,11 +1017,8 @@ const Orders = () => {
                 <table aria-label="custom pagination table mt-2" style={{ minWidth: '900px', overFlow: 'scroll' }}>
                   <thead>
                     <tr>
-                      <th>Order ID</th>
+                      <th onClick={() => sorting('orderNo')} style={{ cursor: 'pointer' }}>Order ID</th>
                       <th>Customer</th>
-                      <th onClick={() => sorting('orderNo')} style={{ cursor: 'pointer' }}>
-                        Order No
-                      </th>
                       <th> Date</th>
                       <th>Order Price</th>
                       <th>Delivery Status</th>
@@ -1072,17 +1039,14 @@ const Orders = () => {
                       .map((row, i) => (
                         <Fragment key={i}>
                           {row.orderStatusType === 'Returned' ? (
-                            <tr key={row.orderId}>
+                            <tr key={row.orderNumberWithDate}>
                               <td style={{ width: 160, borderRight: 'none' }} align="right">
                                 <NavLink to={`/admin/orderdetail/${row.orderId}`} style={{ color: 'black' }}>
-                                  {row.orderId}
+                                  {row.orderNumberWithDate}
                                 </NavLink>
                               </td>
                               <td className="order-td" align="right">
                                 {row.firstName} {row.lastName}
-                              </td>
-                              <td className="order-td c-pointer" align="right">
-                                {row.orderNo}
                               </td>
                               <td className="order-td" align="right">
                                 {moment(row.deliveryDatetime).format('YYYY-MM-DD')}
@@ -1145,11 +1109,8 @@ const Orders = () => {
                 <table aria-label="custom pagination table mt-2" style={{ minWidth: '900px', overFlow: 'scroll' }}>
                   <thead>
                     <tr>
-                      <th>Order ID</th>
+                      <th onClick={() => sorting('orderNo')} style={{ cursor: 'pointer' }}>Order ID</th>
                       <th>Customer</th>
-                      <th onClick={() => sorting('orderNo')} style={{ cursor: 'pointer' }}>
-                        Order No
-                      </th>
                       <th> Date</th>
                       <th>Order Price</th>
                       <th>Delivery Status</th>
@@ -1170,17 +1131,14 @@ const Orders = () => {
                       .map((row, i) => (
                         <Fragment key={i}>
                           {row.orderStatusType === 'FailDelivery' ? (
-                            <tr key={row.orderId}>
+                            <tr key={row.orderNumberWithDate}>
                               <td style={{ width: 160, borderRight: 'none' }} align="right">
                                 <NavLink to={`/admin/orderdetail/${row.orderId}`} style={{ color: 'black' }}>
-                                  {row.orderId}
+                                  {row.orderNumberWithDate}
                                 </NavLink>
                               </td>
                               <td className="order-td" align="right">
                                 {row.firstName} {row.lastName}
-                              </td>
-                              <td className="order-td c-pointer" align="right">
-                                {row.orderNo}
                               </td>
                               {row.deliveryDatetime === null ? (
                                 <td className="order-td" align="right">

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import './auth.css';
 import styled from 'styled-components';
 import { NavLink } from 'react-router-dom';
@@ -6,6 +6,12 @@ import { login } from '../../redux/apiCalls';
 import { useDispatch } from 'react-redux';
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
+import { GoogleLogout,GoogleLogin } from 'react-google-login';
+import { gapi } from "gapi-script";
+import { useEffect } from 'react';
+import {UserScript} from "./userScript";
+import jwtDecode from 'jwt-decode';
+
 const Login = ({ reloadPage, setReloadPage }) => {
   const [phone, setphone] = useState('');
   const [password, setpassword] = useState();
@@ -14,20 +20,75 @@ const Login = ({ reloadPage, setReloadPage }) => {
   const [fillFields, setFillFields] = useState(false);
   const [eyeToggle,setEyeToggle] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [spinner, setSpinner] = useState(false);
+  const [guser, setGuser] = useState();
+  const googlebuttonref = useRef();
+
 
   const handleClick = () => {
     // e.preventDefault();
-    setLoading(true)
+    setSpinner(true)
+    // setLoading(true)
     setTimeout(()=>{if (phone && password) {
       login(dispatch, { phone, password }, setInvalidLogin);
-      setLoading(false)
+      // setLoading(false)
+      setSpinner(false)
     } else {
       setFillFields(true);
-      setLoading(false)
+      // setLoading(false)
+      setSpinner(false)
     }},1000);
-    
-    
   };
+//   const onGoogleSignIn = (user) => {
+//     let userCred = user.credential;
+//     let payload = jwtDecode(userCred)
+//     setGuser(payload)
+//   }
+//   UserScript("https://accounts.google.com/gsi/client", () => {
+//     window.google.accounts.id.initialize({
+//       client_id: "385908927810-l5ggnace1t2cee0ba33bpjcr3ibp5ice.apps.googleusercontent.com",
+//       callback: onGoogleSignIn,
+//       auto_select: false
+//     });
+//   window.google.accounts.id.renderButton(googlebuttonref.ref, {
+//   size: "large"
+// })
+//   })
+  // useEffect(()=>{
+  //   gapi.load("client:auth2", () => {
+  //     gapi.client.init({
+  //       clientId:
+  //         "385908927810-l5ggnace1t2cee0ba33bpjcr3ibp5ice.apps.googleusercontent.com",
+  //       plugin_name: "chat",
+  //     });
+  //   });
+  // },[])
+  function handleCallBackResponse (response){
+    console.log(jwtDecode(response.credential))
+  }
+  useEffect(() => {
+    window.google.accounts.id.initialize({
+      client_id:"874597877760-pkuomdj63c2dk7k04e2l98oevjn4s02s.apps.googleusercontent.com",
+      callback: handleCallBackResponse
+    })
+
+    window.google.accounts.id.renderButton(
+      document.getElementById("googleSignIn"),
+      {
+        theme:"outline",
+        size: "large"
+      }
+    )
+  },[]);
+  const responseGoogle = (response) => {
+    console.log(response);
+  }
+  const responseGoogleSuccess = (response) => {
+    console.log(response);
+  }
+  const logout = (response) => {
+    console.log(response);
+  }
   const showPassword = () => {
     var x = document.getElementById('password');
     x.type === 'password' ? (x.type = 'text') : (x.type = 'password');
@@ -135,12 +196,46 @@ const Login = ({ reloadPage, setReloadPage }) => {
                 {phone.length >= 11 && password ? (
                   <button style={{ marginTop: '14px' }} onClick={handleClick} className="signup-btn">
                     Login
+                    {spinner?
+                          <i style={{marginLeft:"5px"}} className="fa fa-spinner ml-4 fa-spin"></i>
+                          :""}
                   </button>
                 ) : (
                   <button style={{ backgroundColor: 'gray', marginTop: '14px' }} disabled className="signup-btn">
                     Login
                   </button>
                 )}
+                {/* 658977310896-knrl3gka66fldh83dao2rhgbblmd4un9.apps.googleusercontent.com */}
+
+
+
+
+
+                {/* <div id="googleSignIn"></div> */}
+                
+
+
+                
+                {/* <div ref={googlebuttonref}>helo</div>
+                {guser && 
+                <div>
+                  <h1>{guser.name}</h1>
+                  <img src={guser.picture} alt="" />
+                  <p>{guser.email}</p>
+                </div>} */}
+                {/* <GoogleLogin
+                  clientId="874597877760-pkuomdj63c2dk7k04e2l98oevjn4s02s.apps.googleusercontent.com"
+                  buttonText="Login with Google"
+                  onSuccess={responseGoogleSuccess}
+                  onFailure={responseGoogle}
+                  cookiePolicy={'single_host_origin'}
+                />
+                <GoogleLogout
+                  clientId="874597877760-pkuomdj63c2dk7k04e2l98oevjn4s02s.apps.googleusercontent.com"
+                  buttonText="Logout"
+                  onLogoutSuccess={logout}
+                >
+                </GoogleLogout> */}
               </div>
             </div>
           </div>

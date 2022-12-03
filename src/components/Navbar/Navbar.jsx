@@ -22,6 +22,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import localStorage from 'redux-persist/es/storage';
 import { FaBeer } from 'react-icons/fa';
 import { Fragment } from 'react';
+
 function Navbar({ cartLength, orderLength, reviewLength }) {
   const pathname = window.location.pathname;
   const paths = pathname.split('/');
@@ -79,6 +80,7 @@ function Navbar({ cartLength, orderLength, reviewLength }) {
   const WriteReview = location.pathname === `/users/writeReview`;
   const ManageOrders = location.pathname === `/users/manage-orders`;
 
+
   const [scrollNav, setScrollNav] = useState(false);
   const [showRespSearch, setShowRespSearch] = useState(true);
   const role = useSelector((state) => state.user.currentUser && state.user.currentUser.role);
@@ -97,9 +99,28 @@ function Navbar({ cartLength, orderLength, reviewLength }) {
     const [subCatShow, setSubCatShow] = useState();
     const [catShow, setCatShow] = useState();
     const [filterProduct, setFilterProduct] = useState('');
+    const [searchSuggestions, setSearchSuggestions] = useState(null);
     const componentMounted = useRef(true);
+    const [spinner, setSpinner] = useState(false);
+    const [scrollPosition, setScrollPosition] = useState(null);
+    const [scrollDirection, setScrollDirection] = useState(true);
     const history = useHistory();
     const scrolly = useRef(0);
+    useEffect(() => {
+      if(filterProduct != "")
+      {
+        setSpinner(true)
+        const getProductsbyKey = async () => {
+          try {
+            const res = await publicRequest.get(`Home/get-products-by-search/${filterProduct}`);
+            setSearchSuggestions(res.data.data);
+            setSpinner(false)
+          } catch {}
+        };
+        getProductsbyKey();
+      }
+        
+    }, [filterProduct]);
     useEffect(() => {
       const getOrder = async () => {
         try {
@@ -131,18 +152,29 @@ function Navbar({ cartLength, orderLength, reviewLength }) {
     const ProductLenght = orders.length;
     const user = useSelector((state) => state.user.currentUser);
     const changeNavbar = () => {
-      if (window.scrollY >= 1) setScrollNav(true);
-      else setScrollNav(false);
+      if (window.scrollY >= 1) 
+      {
+        setScrollNav(true);
+        if(scrollPosition > window.scrollY)
+        {setScrollDirection(false);}
+        else if(scrollPosition < window.scrollY){
+          setScrollDirection(true);
+        }
+        setScrollPosition(window.scrollY);
+      
+      }
+      else 
+        setScrollNav(false);
     };
     window.addEventListener('scroll', changeNavbar);
     const handleClick = () => {
       window.location.assign(`/searchProduct/${filterProduct}`)
-    }
+    } 
     return (
       <div className="row">
         <nav className={` navbar-expand-lg navbar-light py-1 shadow-sm ${scrollNav ? 'navbar scrolled fixed-top' : 'navbar'} `}>
-          <div className={`${scrollNav ? 'mt-3':""} container`}>
-            <NavLink onClick={() => setShowRespSearch(true)} className="navbar-brand fw-bold fs-4" to="/">
+          <div className={`${scrollNav && (scrollDirection)?"mt-2":""} container`}>
+            <NavLink onClick={() => setShowRespSearch(true)} className={scrollNav?"":"navbar-brand"} to="/">
               <div className="fadeIn first">
                 <img src="./assets/alladainlogo.png" alt="User Icon" className='logo' />
               </div>
@@ -154,22 +186,61 @@ function Navbar({ cartLength, orderLength, reviewLength }) {
                     <input
                       onKeyPress={(e) => {
                         if (e.key === 'Enter' && filterProduct != '') {
+                          setSpinner(true)
                           handleClick();
                         }
                       }}
                       type="text" className="search-bar d-inline " placeholder="Search products..." onChange={e=>handleChange(e.target.value)} 
                     />
                     {filterProduct != '' ? (
-                      <NavLink to={`/searchProduct/${filterProduct}`}>
-                        <i className="fa fa-search d-inline cursor-pointer" aria-hidden="true">
-                          {' '}
-                        </i>
+                      <NavLink onClick={()=> setSpinner(true)} to={`/searchProduct/${filterProduct}`}>
+                        {spinner?
+                          <i style={{color:"black"}} className="fa fa-spinner ml-4 fa-spin"></i>
+                          :
+                          <i className="fa fa-search d-inline cursor-pointer" aria-hidden="true">
+                            {' '}
+                          </i>
+                        }
                       </NavLink>
                     ) : (
                       ''
                     )}
                   </div>
                 </div>
+                {searchSuggestions!= null && filterProduct!=""?
+                        <div className='search-suggestion-group'>
+                         {searchSuggestions.slice(0,3).map((product,i)=> (
+                          <NavLink key={i} to={`/product/view/${product.productId}`}>
+                          <div style={{height:"100px"}} className='d-flex'>
+                            <div>
+                              {product.productMedias.slice(0, 1).map((image,i)=> (
+                                <img key={i} width="100px" height="100%" src={image.imgUrl} />
+                              ))}
+                              </div>
+                              <div className='searh-suggestion-textField' style={{color:"black",marginLeft:"20px",textAlign:"left"}}>
+                                <span className="text-line searh-suggestion-productName">{product.productName}</span>
+                                {product.discountPrice === 0 ? (
+                                  <span>RS: {product.price}</span>
+                                ) : (
+                                  <>
+                                    <span className="p-price">RS: {product.price}</span>
+                                    {window.innerWidth <= 1100?
+                                    <br/>:""}
+                                    <span style={{marginLeft:"10px"}}>RS: {Math.trunc(product.discountPrice)}</span>
+                                  </>
+                                )}
+                              </div>
+                              <br />
+                              <hr />
+                          </div>
+                          </NavLink>
+                         ))}
+                         {/* <NavLink to={`/searchProduct/${filterProduct}`}> */}
+                         <button onClick={()=> window.location.assign(`/searchProduct/${filterProduct}`)} className='searh-suggestion-button'>View All {searchSuggestions.length} Items</button>
+                         {/* </NavLink> */}
+                        </div>
+                        :""
+                        }
               </div>
               {/* {scrollNav?
                 <button className="navbar-toggler show" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" onClick={() => setShowRespSearch(!showRespSearch)}>
@@ -180,7 +251,142 @@ function Navbar({ cartLength, orderLength, reviewLength }) {
             ) : (
               ''
             )}
-            <button className="navbar-toggler show" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" onClick={() => setShowRespSearch(!showRespSearch)}>
+            
+            {(showRespSearch && window.innerWidth<=990)?
+            <div style={{display:"flex",justifyContent:"center"}}>
+                <NavLink onClick={() => setShowRespSearch(true)} to="/carts" className={`nav-item responsive-btn`}>
+                  <div className={` content-center navbar-text  d-inline  ${window.location.pathname === '/carts' ? 'opened' : 'none'}`}>
+                    <div style={{ width:"50px", textAlign:"center"}}>
+                      {user ?
+                        <div className=" cart-lenght">({cartLength})</div>
+                      :""}
+                      <div align="center">
+                        <img style={user ? {}:{marginTop:"-5px",marginRight:"-9px"}} src={window.location.pathname === '/carts' ? './assets/red-cart.png' : './assets/shopping.png'} className={'fa-user-circle-o d-block navbar-text cart'} />
+                      </div>
+                    </div>
+                  </div>
+                </NavLink>
+                <NavLink  to="/login" className={`nav-item responsive-btn ${window.location.pathname === '/login' ? 'opened' : 'none'}`}>
+                  {user ? (
+                    <div className="content-center navbar-text d-inline ">
+                      {/* {!scrollNav ? (
+                        <> */}
+                        <div style={{ width:"50px", textAlign:"center"}}>
+                          <div align="center">
+                            <img src="./assets/account.png" className="fa-user-circle-o d-block" />
+                          </div>
+                          <div>
+                            <div align="center">
+                              <button
+                                type="button"
+                                className="btn dropDownButton dropdown-toggle dropdown-toggle-split"
+                                style={{
+                                  height: '0px',
+                                  marginTop: '-25px',
+                                  boxShadow: 'none',
+                                  color: 'white',
+                                }}
+                                data-bs-toggle="dropdown"
+                                aria-expanded="false"
+                              ></button>
+                              <ul style={{zIndex:"4"}} className="navbar-dropdown dropdown-menu">
+                                <button
+                                  className="btn accountItems px-0"
+                                  onClick={(e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    history.push('/users/myProfile');
+                                    setShowRespSearch(true);
+                                  }}
+                                >
+                                  <li className="accountItemsText">&nbsp;&nbsp;Profile</li>
+                                </button>
+                                {role !== 'Admin' ? (
+                                  <>
+                                    <br />
+                                    <button
+                                      className="btn accountItems px-0"
+                                      onClick={(e) => {
+                                        e.preventDefault();
+                                        e.stopPropagation();
+                                        history.push('/users/myAddress');
+                                        setShowRespSearch(true);
+                                      }}
+                                    >
+                                      <li className="accountItemsText">&nbsp;&nbsp;My Address</li>
+                                    </button>
+                                    <button
+                                      className="btn accountItems px-0"
+                                      onClick={(e) => {
+                                        e.preventDefault();
+                                        e.stopPropagation();
+                                        history.push('/users/myOrders');
+                                        setShowRespSearch(true);
+                                      }}
+                                    >
+                                      <li className="accountItemsText">&nbsp;&nbsp;My Orders</li>
+                                    </button>
+                                    <button
+                                      style={{ textDecoration: 'none' }}
+                                      className="btn accountItems px-0"
+                                      onClick={(e) => {
+                                        e.preventDefault();
+                                        e.stopPropagation();
+                                        history.push('/users/cancellations/3');
+                                        setShowRespSearch(true);
+                                      }}
+                                    >
+                                      <li className="accountItemsText">&nbsp;&nbsp;My Cancelation</li>
+                                    </button>
+                                    <button
+                                      style={{ textDecoration: 'none' }}
+                                      className="btn accountItems px-0"
+                                      onClick={(e) => {
+                                        e.preventDefault();
+                                        e.stopPropagation();
+                                        history.push('/users/return/8');
+                                        setShowRespSearch(true);
+                                      }}
+                                    >
+                                      <li className="accountItemsText">&nbsp;&nbsp;My Returns</li>
+                                    </button>
+                                    <button
+                                      style={{ textDecoration: 'none' }}
+                                      className="btn accountItems px-0"
+                                      onClick={(e) => {
+                                        e.preventDefault();
+                                        e.stopPropagation();
+                                        history.push('/users/reviews');
+                                        setShowRespSearch(true);
+                                      }}
+                                    >
+                                      <li className="accountItemsText">&nbsp;&nbsp;My Reviews</li>
+                                    </button>
+                                  </>
+                                ) : (
+                                  ''
+                                )}
+                                <li className="accountItemsLogout" onClick={() => {setShowRespSearch(true); dispatch(logout())}}>
+                                  &nbsp;&nbsp;Log Out
+                                </li>
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
+                    </div>
+                  ) : (
+                    <div className="content-center navbar-text d-inline ">
+                      <div style={{ width:"50px", textAlign:"center"}}>
+                        <div align="center">
+                          <img src={window.location.pathname === '/login' ? './assets/red-user.png' : './assets/account.png'} className={'fa-user-circle-o d-block'} />
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </NavLink>
+            </div>
+            :""}
+            <button style={{height:"fit-content",marginTop:"10px"}} className="navbar-toggler show" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" onClick={() => setShowRespSearch(!showRespSearch)}>
               <span className="navbar-toggler-icon"></span>
             </button>
             <div className={`collapse navbar-collapse ${showRespSearch ? '' : 'show'}`} id="navbarSupportedContent">
@@ -197,6 +403,7 @@ function Navbar({ cartLength, orderLength, reviewLength }) {
                     </>
                   ) : (
                     <>
+
                       <div
                         style={{
                           background: 'none',
@@ -246,8 +453,8 @@ function Navbar({ cartLength, orderLength, reviewLength }) {
                                   </a>
                                 </div>
                                 <div className="sidebar-content">
-                                  {mainCategories.map((miancategory) => (
-                                    <div style={{ display: 'flex' }}>
+                                  {mainCategories.map((miancategory,i) => (
+                                    <div key={i} style={{ display: 'flex' }}>
                                       <div key={miancategory.mainCategoryId}>
                                         <div className="sidebar-item" key={miancategory.mainCategoryId}>
                                           <div style={{ width: 'fit-content' }} onMouseOver={() => setCatShow(miancategory.mainCategoryId)}>
@@ -271,8 +478,8 @@ function Navbar({ cartLength, orderLength, reviewLength }) {
                                       <div>
                                         {catShow === miancategory.mainCategoryId ? (
                                           <div>
-                                            {mainCategories.map((mainCat) => (
-                                              <>
+                                            {mainCategories.map((mainCat,i) => (
+                                              <Fragment key={i}>
                                                 {mainCat.mainCategoryId === catShow && mainCat.categories.length != [] ? (
                                                   <div key={miancategory.mainCategoryId} style={{ overflow: 'visible' }}>
                                                     <ul className="sub-cate subcategoryList" key={mainCat.mainCategoryId}>
@@ -290,14 +497,14 @@ function Navbar({ cartLength, orderLength, reviewLength }) {
                                                               <>
                                                                 {/* <div className='subcategoryItems'> */}
                                                                 <ul style={{ listStyleType: 'none', marginLeft: '267px', position:"absolute"  }}>
-                                                                  {category.subCategories.map((subcategory) => (
-                                                                    <>
+                                                                  {category.subCategories.map((subcategory,i ) => (
+                                                                    <Fragment key={i}>
                                                                       <li key={subcategory.subCategoryId}>
                                                                         <NavLink onClick={() => setShowRespSearch(true)} className="subcategory-name-box" to={`/products/${subcategory.subCategoryId}`}>
                                                                           {subcategory.name}
                                                                         </NavLink>
                                                                       </li>
-                                                                    </>
+                                                                    </Fragment>
                                                                   ))}
                                                                 </ul>
                                                                 {/* </div> */}
@@ -313,7 +520,7 @@ function Navbar({ cartLength, orderLength, reviewLength }) {
                                                 ) : (
                                                   <span></span>
                                                 )}
-                                              </>
+                                              </Fragment>
                                             ))}
                                           </div>
                                         ) : (
@@ -373,21 +580,60 @@ function Navbar({ cartLength, orderLength, reviewLength }) {
                         <input 
                           onKeyPress={(e) => {
                             if (e.key === 'Enter' && filterProduct != '') {
+                              setSpinner(true);
                               handleClick();
                             }
                           }} 
                           type="text" className="search-bar d-inline " placeholder="Search products..." onChange={e=>handleChange(e.target.value)} 
                         />
                         {filterProduct != '' ? (
-                          <NavLink  style={{zIndex:"5"}} to={`/searchProduct/${filterProduct}`}>
-                            <i className="fa fa-search d-inline cursor-pointer" aria-hidden="true">
-                              {' '}
-                            </i>
+                          <NavLink onClick={()=>setSpinner(true)} style={{zIndex:"5"}} to={`/searchProduct/${filterProduct}`}>
+                            {spinner?
+                              <i style={{color:"black"}} className="fa fa-spinner fa-spin"></i>
+                              :
+                              <i className="fa fa-search d-inline cursor-pointer" aria-hidden="true">
+                                {' '}
+                              </i>
+                            }
                           </NavLink>
                         ) : (
                           ''
                         )}
                       </div>
+                      {searchSuggestions!= null && filterProduct!=""?
+                        <div className='search-suggestion-group'>
+                         {searchSuggestions.slice(0,3).map((product, i)=> (
+                          <NavLink key={i} to={`/product/view/${product.productId}`}>
+                          <div style={{height:"100px"}} className='d-flex'>
+                            <div>
+                              {product.productMedias.slice(0, 1).map((image,i)=> (
+                                <img key={i} width="100px" height="100%" src={image.imgUrl} />
+                              ))}
+                              </div>
+                              <div className='searh-suggestion-textField' style={{color:"black",marginLeft:"20px",textAlign:"left"}}>
+                                <span className="text-line searh-suggestion-productName">{product.productName}</span>
+                                {product.discountPrice === 0 ? (
+                                  <span>RS: {product.price}</span>
+                                ) : (
+                                  <>
+                                    <span className="p-price">RS: {product.price}</span>
+                                    {window.innerWidth <= 1100?
+                                    <br/>:""}
+                                    <span style={{marginLeft:"10px"}}>RS: {Math.trunc(product.discountPrice)}</span>
+                                  </>
+                                )}
+                              </div>
+                              <br />
+                              <hr />
+                          </div>
+                          </NavLink>
+                         ))}
+                         {/* <NavLink to={`/searchProduct/${filterProduct}`}> */}
+                         <button onClick={()=> window.location.assign(`/searchProduct/${filterProduct}`)} className='searh-suggestion-button'>View All {searchSuggestions.length} Items</button>
+                         {/* </NavLink> */}
+                        </div>
+                        :""
+                        }
                     </div>
                   </div>
                 </ul>
@@ -1041,4 +1287,5 @@ const ResponsiveNav = styled.div`
     }
   }
 `;
+
 export default Navbar;

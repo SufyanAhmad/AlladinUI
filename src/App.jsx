@@ -55,7 +55,8 @@ import ProductByCategoryId from './components/productByCategoryId/productByCateg
 import ProductByMainCategoryId from './components/productByMainCategory/ProductByMainCategoryId';
 import BuyNow from './components/buyNow/BuyNow';
 import ForgotPassword from './components/Auth/ForgotPassword';
-import { Helmet } from 'react-helmet';
+import { HelmetProvider } from 'react-helmet-async';
+import OrderConfirmation from './components/orderConfirmation/OrderConfirmation';
 
 const App = () => {
   let refresh = useSelector((state) => state.refresh);
@@ -120,12 +121,14 @@ const App = () => {
   const reviews = reviewsnumber.filter((item) => item.replyStatus === false);
   return (
     <>
+    <HelmetProvider>
       <Navbar cartLength={cartLength} orderLength={pendings.length} reviewLength={reviews.length} />
       <Switch>
         <Route exact path="/">
           <Home appRefresher={appRefresher} setAppRefresher={setAppRefresher} />
         </Route>
         <Route path="/orderdetail/:id" component={OrderDetails} />
+        <Route path="/orderconfirmation" component={OrderConfirmation} />
         <Route path="/buyNow/:id" component={BuyNow} />
         <Route path="/loading" component={Loading} />
         <Route path="/topproduct">
@@ -192,6 +195,7 @@ const App = () => {
         <Route path="/*" component={PageNotFound} />
       </Switch>
       <Footer />
+      </HelmetProvider>
     </>
   );
 };

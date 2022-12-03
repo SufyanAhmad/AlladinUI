@@ -20,6 +20,7 @@ const Carts = ({ appRefresher, setAppRefresher }) => {
   const [quantities, setQuantity] = useState();
   const [reload, setReload] = useState([orders]);
   const [refresh, setRefresh] = useState(true);
+  const [spinner, setSpinner] = useState(false)
   let refreshCart = useSelector((state) => state.refresh);
   let history = useHistory();
   const handleAdd = (item) => {
@@ -53,6 +54,7 @@ const Carts = ({ appRefresher, setAppRefresher }) => {
   // let checkProduct = orders.filter((item) => item.status === true);
   let cartProduct = orders.length;
   const AddToCart = (data) => {
+    setSpinner(true)
     const productId = data.productId;
     {
       fetch(FetchUrl + `Cart/add-to-cart/${productId}`, {
@@ -65,6 +67,7 @@ const Carts = ({ appRefresher, setAppRefresher }) => {
         body: JSON.stringify(data),
       }).then((resp) => {
         resp.json().then((result) => {
+          setSpinner(false)
           if (result.status === 'Success') {
             setRefresh(!refresh);
             dispatch(cartQuantityRefresh(refresh));
@@ -77,6 +80,7 @@ const Carts = ({ appRefresher, setAppRefresher }) => {
   };
 
   const RemoveToCart = (data) => {
+    setSpinner(true)
     const productId = data.productId;
     {
       fetch(FetchUrl + `Cart/remove-from-cart/${productId}`, {
@@ -89,6 +93,7 @@ const Carts = ({ appRefresher, setAppRefresher }) => {
         body: JSON.stringify(productId),
       }).then((resp) => {
         resp.json().then((result) => {
+          setSpinner(false)
           if (result.status === 'Success') {
             setRefresh(!refresh);
             dispatch(cartQuantityRefresh(refresh));
@@ -262,12 +267,20 @@ const Carts = ({ appRefresher, setAppRefresher }) => {
                           <span className="fa fa-heart cartdelete ml-3 c-pointer" style={{ marginLeft: '15px', fontSize: '25px' }} title="Add to WishList" onClick={() => AddToWishList(order)}></span>
                         )}
                         <button className="btn btn-outline-dark me-1 d-inline quantiy-decrease" onClick={() => RemoveToCart(order)}>
-                          <i className="fa fa-minus"></i>
+                          {spinner?
+                            <i style={{color:"#23334C"}} className="fa fa-spinner ml-4 fa-spin"></i>
+                            :
+                            <i className="fa fa-minus"></i>
+                          }
                         </button>
                         <button className="qty-count">{order.quantity}</button>
                         {order.quantity !== order.availableStock && order.quantity < order.availableStock ? (
                           <button className="btn btn-outline-dark d-inline quantiy-increase" onClick={() => AddToCart(order)}>
-                            <i className="fa fa-plus"></i>
+                            {spinner?
+                              <i style={{color:"#23334C"}} className="fa fa-spinner ml-4 fa-spin"></i>
+                              :
+                              <i className="fa fa-plus"></i>
+                            }
                           </button>
                         ) : (
                           <button className="btn btn-outline-dark d-inline quantiy-increase" disabled>
@@ -311,10 +324,10 @@ const Carts = ({ appRefresher, setAppRefresher }) => {
                 </div>
                 <div className="d-flex justify-content-center  mt-5">
                   {cartSummary.total===0?
-                  <button disabled className="disabled-btn">Proced to checkout</button>
+                  <button disabled className="disabled-btn">Proceed to checkout</button>
                   :
                   <NavLink to="/checkout">
-                    <button className="button-cart-checkout">Proced to checkout</button>
+                    <button className="button-cart-checkout">Proceed to checkout</button>
                   </NavLink>
                   }
                  

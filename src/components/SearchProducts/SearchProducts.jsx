@@ -194,8 +194,7 @@ function SearchProducts({ appRefresher, setAppRefresher }) {
   };
   const handleClick = (product) => {
     window.location.assign(`/product/view/${product.productId}`)
-    console.log(product.productId)
-    debugger
+   
   }
   return (
     <div className="background">
@@ -216,7 +215,7 @@ function SearchProducts({ appRefresher, setAppRefresher }) {
         </div>
         <div className="row mt-4">
           <div className="col-lg-12 col-md-12 col-sm-12 mb-5">
-            <div className="container">
+            <div>
               {products.length != [] ? (
                 <div className="row">
                   {products
@@ -228,7 +227,7 @@ function SearchProducts({ appRefresher, setAppRefresher }) {
                       }
                     })
                     .map((product) => (
-                      <div className="col-lg-3 col-md-4 col-sm-12 d-flex flex-column align-items-center justify-content-center product-item mt-2" key={product.productId}>
+                      <div className="col-lg-2 col-md-3 col-sm-12 col-xs-12 d-flex flex-column align-items-center justify-content-center product-item mt-2" key={product.productId}>
                         <div className="product">
                           <span onClick={()=>handleClick(product)} style={{ diplay: 'block', width: '100%' }}>
                             {product.productMedias[0] == null ? (
@@ -269,10 +268,12 @@ function SearchProducts({ appRefresher, setAppRefresher }) {
                         {product.discountPrice === 0 ? (
                           <div className="price">RS: {product.price}</div>
                         ) : (
-                          <>
-                            <span className="p-price">RS: {product.price}</span>
-                            <br></br>
-                            <span>RS: {Math.trunc(product.discountPrice)}</span>
+                          <><div style={{marginBottom:"-5px"}}>
+                            <span className=" p-price">RS: {product.price}</span>
+                            </div>
+                            <div>
+                            <span className="price">RS: {Math.trunc(product.discountPrice)}</span>
+                            </div>
                           </>
                         )}
                       </div>
@@ -301,8 +302,8 @@ function SearchProducts({ appRefresher, setAppRefresher }) {
               </div>
               {productDetail.length !== 0?
                 <>
-                  {productDetail.slice(0, 1).map((image) => (
-                    <img className="popup-img-product" style={{ maxWidth: '200px' }} src={image.imgUrl} />
+                  {productDetail.slice(0, 1).map((image, i) => (
+                    <img key={i} className="popup-img-product" style={{ maxWidth: '200px' }} src={image.imgUrl} />
                   ))}
                 </>
               :

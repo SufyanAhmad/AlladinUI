@@ -80,14 +80,14 @@ export default function MyReturns() {
                           <tr className="tableRow" key={data.orderId}>
                             {data.status === true ?
                               <>
-                                <td className="tableItem">{data.orderNo}</td>
+                                <td className="tableItem">{data.orderNumberWithDate}</td>
                                 <td className="tableItem">{moment(data.createAt).format("DD/MM/YYYY")}</td>
                                 <td className="tableItem">{data.orderStatusType}</td>
                                 <td className="tableItem">{data.phoneNo}</td>
                               </>
                               :
                               <>
-                                <td className="tableItem">{data.orderNo}</td>
+                                <td className="tableItem">{data.orderNumberWithDate}</td>
                                 <td className="tableItem"> {moment(data.createAt).format("DD/MM/YYYY")}</td>
                                 <td className="tableItem">{data.orderStatusType}</td>
                                 {data.orderDetails.length !== 0?<>

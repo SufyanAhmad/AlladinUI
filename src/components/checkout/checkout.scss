@@ -412,6 +412,9 @@ form {
     display: flex; /* 2. display flex to the rescue */
     flex-direction: column;
   }
+  .form{
+    margin-top: 50px !important;
+  }
   .empty-cart-img{
     width: 200px;
     height: 200px;

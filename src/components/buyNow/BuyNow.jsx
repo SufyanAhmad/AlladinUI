@@ -276,7 +276,7 @@ const BuyNow = ({reloadPage,setReloadPage}) => {
                                   </div>
                                 ))}
                               </div>:""}
-                              <div className={`${allAddress.length !== 0?"col-lg-7":"col-lg-12"} col-md-12 col-sm-12`}>
+                              <div className={`${allAddress.length !== 0?"col-lg-7":"col-lg-12"} form col-md-12 col-sm-12`}>
                                 <label className="checkout-label">Name</label>
                                 <br/>
                                 <input type="text"  className="checkout-input" 

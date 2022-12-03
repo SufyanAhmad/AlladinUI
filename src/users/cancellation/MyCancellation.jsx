@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import UsersSidebar from "../usersSidebar/UsersSidebar";
 import "./myCancellation.scss";
 import { NavLink } from "react-router-dom";
@@ -88,18 +88,18 @@ export default function MyCancellation() {
                           <tr className="tableRow" key={data.orderId}>
                             {data.status === true ?
                               <>
-                                <td className="tableItem">{data.orderNo}</td>
+                                <td className="tableItem">{data.orderNumberWithDate}</td>
                                 <td className="tableItem">{moment(data.createAt).format("DD/MM/YYYY")}</td>
                                 {data.orderStatusType === "Canceled"?<> 
                                 {data.orderStatusMappingViewModels.filter((filterData) => (filterData.orderStatus === "Canceled")).length !== 0?<>
-                                {data.orderStatusMappingViewModels.filter((filterData) => (filterData.orderStatus === "Canceled")).map((statusMessage,index,{length}) => {return <>
+                                {data.orderStatusMappingViewModels.filter((filterData) => (filterData.orderStatus === "Canceled")).map((statusMessage,index,{length}) => {return <Fragment key={index}>
                                   {index===length-1?<>
                                   {statusMessage.orderStatus === "Canceled"?
                                     <td className="tableItem">{ statusMessage.createByRole === "Customer"? "Canceled by Customer" : statusMessage.createByRole === "Admin"?  "Canceled by System" : "Canceled by Customer" }</td>
                                     :
                                     <td className="tableItem">Canceled by Customer</td>}
                                     </>:""}
-                                  </>
+                                  </Fragment>
                                 })}
                                 </>
                                 :<td className="tableItem">Canceled by Customer</td>}
@@ -109,18 +109,18 @@ export default function MyCancellation() {
                               </>
                               :
                               <>
-                                <td className="tableItem">{data.orderNo}</td>
+                                <td className="tableItem">{data.orderNumberWithDate}</td>
                                 <td className="tableItem"> {moment(data.createAt).format("DD/MM/YYYY")}</td>
                                 {data.orderStatusType === "Canceled"?<> 
                                 {data.orderStatusMappingViewModels.filter((filterData) => (filterData.orderStatus === "Canceled")).length !== 0?<>
-                                {data.orderStatusMappingViewModels.filter((filterData) => (filterData.orderStatus === "Canceled")).map((statusMessage,index,{length}) => {return <>
+                                {data.orderStatusMappingViewModels.filter((filterData) => (filterData.orderStatus === "Canceled")).map((statusMessage,index,{length}) => {return <Fragment key={index}>
                                   {index===length-1?<>
                                   {statusMessage.orderStatus === "Canceled"?
                                     <td className="tableItem">{ statusMessage.createByRole === "Customer"? "Canceled by Customer" : statusMessage.createByRole === "Admin"?  "Canceled by System" : "Canceled by Customer" }</td>
                                     :
                                     <td className="tableItem">Canceled by Customer</td>}
                                     </>:""}
-                                  </>
+                                  </Fragment>
                                 })}
                                 </>
                                 :<td className="tableItem">Canceled by Customer</td>}

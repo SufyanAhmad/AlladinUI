@@ -249,6 +249,16 @@ color: #23334C;
     text-decoration: line-through;
 }
 @media (max-width: 767.5px) {
+    .form-check{
+        width: fit-content;
+        margin-right: 15px;
+    }
+    .form-check-label{
+        width: max-content;
+        margin-left: -5px
+    }
+}
+@media (max-width: 767.5px) {
 
     // .navbar-nav .nav-link.active,
     // .navbar-nav .nav-link:hover {

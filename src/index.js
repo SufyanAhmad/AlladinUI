@@ -10,15 +10,20 @@ import { Provider } from 'react-redux';
 import { store, persistor } from './redux/store';
 import { PersistGate } from 'redux-persist/integration/react';
 import HttpsRedirect from 'react-https-redirect';
-// import { hydrate, render } from "react-dom";
+import { HelmetProvider } from 'react-helmet-async';
+import { hydrate, render } from "react-dom";
 // import { render } from 'react-snapshot';
  
 // const app = (
 // <BrowserRouter>
 //   <Provider store={store}>
+      // <HttpsRedirect>
+//    <HelmetProvider>
 //     <PersistGate loading={null} persistor={persistor}>
 //       <App />
 //     </PersistGate>
+//     </HelmetProvider>
+      // </HttpsRedirect>
 //   </Provider>
 // </BrowserRouter>
 // );
@@ -27,19 +32,19 @@ import HttpsRedirect from 'react-https-redirect';
 // if (rootElement.hasChildNodes()) {
 //   hydrate(app , rootElement);
 // } else {
-//   hydrate(app , rootElement);
+//   render(app , rootElement);
 // }
-ReactDOM.render(
-  // render(
+ReactDOM.hydrate(
     <BrowserRouter>
+    <HttpsRedirect>
     <Provider store={store}>
-      <HttpsRedirect>
         <PersistGate loading={null} persistor={persistor}>
+          <HelmetProvider>
           <App />
+          </HelmetProvider>
         </PersistGate>
-      </HttpsRedirect>
     </Provider>
+  </HttpsRedirect>
   </BrowserRouter>,
   document.getElementById('root')
-  // )
 );

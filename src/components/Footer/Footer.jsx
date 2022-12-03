@@ -70,8 +70,8 @@ const Footer = () => {
           <div className="container-fluid text-center text-md-left">
             <div className="row text-align">
               <div className="row text-align">
-                {Services.map((Service) => (
-                  <div className="top-footer mb-md-0 mb-3">
+                {Services.map((Service,i) => (
+                  <div key={i} className="top-footer mb-md-0 mb-3">
                     <img className="footer-img" style={{ width: '50px', height: '40px' }} src={Service.iconImageUrl} />
                     <ul className="list-unstyled text-white">
                       <li>
@@ -169,7 +169,13 @@ const Footer = () => {
                         <img src="./assets/footer/location-icon.png" alt="location" /> &nbsp;{' '}
                         <a className="text-white">
                           {' '}
-                          {footer.address1}, {footer.address2}
+                          {footer.address1}
+                          {footer.address2 === "null"?
+                            ""
+                          :
+                            "," + footer.address2
+                          }
+                          
                         </a>
                       </li>
                       <li className="mt-1">
@@ -305,7 +311,7 @@ const Footer = () => {
         {showMainFooter && <MainFooter />}
         {ProductByMainCate && <SubFooter />}
         {ProductBySubCate && <SubFooter />}
-        {/* {showsubFooter3 && <SubFooter />} */}
+        {showsubFooter3 && <SubFooter />}
         {ForgotPassword && <SubFooter />}
         {showsubFooter && <SubFooter />}
         {showsubFooter1 && <SubFooter />}

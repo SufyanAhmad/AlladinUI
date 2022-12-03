@@ -38,17 +38,31 @@ const Slider = ({ appRefresher, setAppRefresher }) => {
   const [reload, setReload] = useState([saleProduct, subcategoryProduct, sliderProduct]);
   const dispatch = useDispatch();
   const [refresh, setRefresh] = useState(true);
+  const [filterProduct, setFilterProduct] = useState('');
+  const [searchSuggestions, setSearchSuggestions] = useState(null);
 
   let user = useSelector((state) => state.user.currentUser);
+  // useEffect(() => {
+  //   setLoading(true);
+  //   fetch(FetchUrl + 'Home/get-slider-subCategory-products').then((result) => {
+  //     result.json().then((resp) => {
+  //       setSliderProduct(resp.data);
+  //       setLoading(false);
+  //     });
+  //   });
+  // }, [reload]);
   useEffect(() => {
-    setLoading(true);
-    fetch(FetchUrl + 'Home/get-slider-subCategory-products').then((result) => {
-      result.json().then((resp) => {
-        setSliderProduct(resp.data);
-        setLoading(false);
-      });
-    });
-  }, [reload]);
+    if(filterProduct != "")
+    {
+      const getProductsbyKey = async () => {
+        try {
+          const res = await publicRequest.get(`Home/get-products-by-search/${filterProduct}`);
+          setSearchSuggestions(res.data.data);
+        } catch {}
+      };
+      getProductsbyKey();
+    }
+}, [filterProduct]);
   useEffect(() => {
     if (user === null) {
       setLoading(true);
@@ -338,12 +352,16 @@ const Slider = ({ appRefresher, setAppRefresher }) => {
       </>
     );
   };
+  const handleClick = () => {
+    window.location.assign(`/searchProduct/${filterProduct}`)
+  }
   const ShowProducts = () => {
     return (
       <>
-        <div className="bgColor">
-          <br></br>
+        <div className="bgColor mt-2 ">
+          {/* <br></br> */}
           <div className="slider-container">
+            
             <div className="row navbar-container">
               <div className={` ${sideBarToggle ? 'col-3' : 'col-1'} sidebar-items left-sidebar`}>
                 <div
@@ -402,8 +420,8 @@ const Slider = ({ appRefresher, setAppRefresher }) => {
                             </div>
                             {miancategory.mainCategoryId === subCatShow ? (
                               <div>
-                                {mainCategories.map((mainCat) => (
-                                  <>
+                                {mainCategories.map((mainCat, i) => (
+                                  <Fragment key={i}>
                                     {mainCat.mainCategoryId === subCatShow && mainCat.categories.length != [] ? (
                                       <div key={miancategory.mainCategoryId} style={{ overflow: 'visible' }}>
                                         <ul className="sub-cate subcategoryList" key={mainCat.mainCategoryId}>
@@ -421,14 +439,14 @@ const Slider = ({ appRefresher, setAppRefresher }) => {
                                                   <>
                                                     {/* <div className='subcategoryItems'> */}
                                                     <ul style={{ listStyleType: 'none', marginLeft: '267px', position: 'absolute' }}>
-                                                      {data.subCategories.map((subcategory) => (
-                                                        <>
+                                                      {data.subCategories.map((subcategory, i) => (
+                                                        <Fragment key={i}>
                                                           <li key={subcategory.subCategoryId}>
                                                             <NavLink className="subcategory-name-box" to={`/products/${subcategory.subCategoryId}`}>
                                                               {subcategory.name}
                                                             </NavLink>
                                                           </li>
-                                                        </>
+                                                        </Fragment>
                                                       ))}
                                                     </ul>
                                                     {/* </div> */}
@@ -444,7 +462,7 @@ const Slider = ({ appRefresher, setAppRefresher }) => {
                                     ) : (
                                       <span></span>
                                     )}
-                                  </>
+                                  </Fragment>
                                 ))}
                               </div>
                             ) : (
@@ -491,10 +509,10 @@ const Slider = ({ appRefresher, setAppRefresher }) => {
                   </div> */}
                 </div>
               </div>
-              <div style={{ height: '500px', zIndex: '1' }} className={`${sideBarToggle ? 'col-lg-7' : 'col-lg-9'} col-md-12 col-sm-12 `}>
+              <div className={`${sideBarToggle ? 'col-lg-7' : 'col-lg-9'}  col-md-12 col-sm-12 slider-carousel-container`}>
                 <Carousel>
                   {slider.map((slide, i) => (
-                    <Carousel.Item style={{ height: '450px' }} key={i}>
+                    <Carousel.Item className="slider-carousel-item" key={i}>
                       <img className="d-block w-100 slider-img" src={slide.imageUrl} alt="First slide" />
                       <Carousel.Caption></Carousel.Caption>
                     </Carousel.Item>
@@ -559,19 +577,47 @@ const Slider = ({ appRefresher, setAppRefresher }) => {
                     <NavLink to={`/productList/${1}`}>View more </NavLink>
                   </button>
                 </div>
-                {saleProduct.map((product) => (
-                  <div className="col-lg-2 col-md-4 col-sm-12 ml-2" key={product.productId}>
-                    <br></br>
-                    <div className="card">
-                      <div className="d-inline">
-                        <button className="discount-btn">-{Math.trunc(((product.price-product.discountPrice)/product.price)*100)}%</button>
-                      </div>
-                      {product.productMedias[0] == null ? (
-                        <>
+                <div className={`deal-cards ${window.innerWidth >= 768 ?"row":""}`}>
+                  {saleProduct.map((product) => (
+                    <div className="col-lg-2 col-md-4 col-sm-4 ml-2" key={product.productId}>
+                      <div className="card">
+                        <div className="d-inline">
+                          <button className="discount-btn">-{Math.trunc(((product.price-product.discountPrice)/product.price)*100)}%</button>
+                        </div>
+                        {product.productMedias[0] == null ? (
+                          <>
+                            <span style={{ diplay: 'block', width: '100%' }}>
+                              <NavLink style={{ width: '100%' }} to={`/product/view/${product.productId}`}>
+                                <img className="sale-product-img" src="./assets/Auth/Default-img.png" alt={product.productName} />
+                              </NavLink>
+                              <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
+                                <ul className="d-flex align-items-center justify-content-center list-unstyled icons">
+                                  <li className="icon" onClick={() => getProductDetail(product.productId)}>
+                                    <span className="fa fa-eye" onClick={() => EditOpenModal(product.productId)}></span>
+                                  </li>
+                                  <li className="icon mid-icon">
+                                    {product.isInWishList ? <span className="fa fa-heart bgBlue" title="Remove from Wishlist" onClick={() => RemoveToWishList(product)}></span> : <span className="fa fa-heart" title="Add to WishList" onClick={() => AddToWishList(product)}></span>}
+                                  </li>
+                                  <li className="icon">{product.isInCart ? <span className="fa fa-shopping-cart bgBlue" title="Remove from Cart" onClick={() => RemoveFromCart(product)}></span> : <span className="fa fa-shopping-cart" title="Add to Cart" onClick={() => AddToCart(product)}></span>}</li>
+                                </ul>
+                              </div>
+                            </span>
+                          </>
+                        ) : (
                           <span style={{ diplay: 'block', width: '100%' }}>
-                            <NavLink style={{ width: '100%' }} to={`/product/view/${product.productId}`}>
-                              <img className="sale-product-img" src="./assets/Auth/Default-img.png" alt={product.productName} />
-                            </NavLink>
+                            {product.productMedias.length !== 0 ? (
+                              <>
+                                {product.productMedias.slice(0, 1).map((image, i) => (
+                                  <NavLink style={{ width: '100%' }} key={i} to={`/product/view/${product.productId}`}>
+                                    <img className="sale-product-img" src={image.imgUrl} alt={product.productName} />
+                                  </NavLink>
+                                ))}
+                              </>
+                            ) : (
+                              <NavLink style={{ width: '100%' }} to={`/product/view/${product.productId}`}>
+                                <img className="sale-product-img" src="./assets/Auth/default-img.png" alt={product.productName} />
+                              </NavLink>
+                            )}
                             <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
                               <ul className="d-flex align-items-center justify-content-center list-unstyled icons">
                                 <li className="icon" onClick={() => getProductDetail(product.productId)}>
@@ -584,50 +630,23 @@ const Slider = ({ appRefresher, setAppRefresher }) => {
                               </ul>
                             </div>
                           </span>
-                        </>
-                      ) : (
-                        <span style={{ diplay: 'block', width: '100%' }}>
-                          {product.productMedias.length !== 0 ? (
-                            <>
-                              {product.productMedias.slice(0, 1).map((image, i) => (
-                                <NavLink style={{ width: '100%' }} key={i} to={`/product/view/${product.productId}`}>
-                                  <img className="sale-product-img" src={image.imgUrl} alt={product.productName} />
-                                </NavLink>
-                              ))}
-                            </>
-                          ) : (
-                            <NavLink style={{ width: '100%' }} to={`/product/view/${product.productId}`}>
-                              <img className="sale-product-img" src="./assets/Auth/default-img.png" alt={product.productName} />
-                            </NavLink>
-                          )}
-                          <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
-                            <ul className="d-flex align-items-center justify-content-center list-unstyled icons">
-                              <li className="icon" onClick={() => getProductDetail(product.productId)}>
-                                <span className="fa fa-eye" onClick={() => EditOpenModal(product.productId)}></span>
-                              </li>
-                              <li className="icon mid-icon">
-                                {product.isInWishList ? <span className="fa fa-heart bgBlue" title="Remove from Wishlist" onClick={() => RemoveToWishList(product)}></span> : <span className="fa fa-heart" title="Add to WishList" onClick={() => AddToWishList(product)}></span>}
-                              </li>
-                              <li className="icon">{product.isInCart ? <span className="fa fa-shopping-cart bgBlue" title="Remove from Cart" onClick={() => RemoveFromCart(product)}></span> : <span className="fa fa-shopping-cart" title="Add to Cart" onClick={() => AddToCart(product)}></span>}</li>
-                            </ul>
-                          </div>
-                        </span>
-                      )}
-                      <div className=" d-flex justify-content-center home-product-name ">
-                        <span className="text-line">{product.productName}</span>
+                        )}
+                        <div className=" d-flex justify-content-center home-product-name ">
+                          <span className="text-line">{product.productName}</span>
+                        </div>
+                        <div className="priceBox">
+                          <div className="product-price-slider">RS: {product.discountPrice}</div>
+                          <div className="product-price-slider price-with-discount">RS: {product.price}</div>
+                        </div>
+                        <div className="d-inline">
+                          <p className="sold-out d-inline">{product.productSold} sold</p>
+                          {product.freeShippingLabel ? <img className="product-price-org d-inline" src="./assets/delivery-img.png" alt="sold-out" /> : <></>}
+                        </div>
+                        <br></br>
                       </div>
-                      <div className=" d-flex justify-content-between">
-                        <p className="product-price-slider">RS: {product.discountPrice}</p>
-                        <p className="product-price-slider price-with-discount">RS: {product.price}</p>
-                      </div>
-                      <div className="d-inline">
-                        <p className="sold-out d-inline">{product.productSold} sold</p>
-                        {product.freeShippingLabel ? <img className="product-price-org d-inline" src="./assets/delivery-img.png" alt="sold-out" /> : <></>}
-                      </div>
-                      <br></br>
                     </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
             </div>
             {/* new Arival */}
@@ -644,75 +663,77 @@ const Slider = ({ appRefresher, setAppRefresher }) => {
                       <NavLink to={`/categoryProducts/${product.categoryId}`}>View more </NavLink>
                     </button>
                   </div>
-                  {product.products.map((data) => (
-                    <div className="col-lg-2 col-md-4 col-sm-12 ml-2" key={data.productId}>
-                      <div className="card">
-                        {data.productMedias[0] === null ? (
-                          <>
-                            <span style={{ diplay: 'block', width: '100%' }}>
-                              <NavLink style={{ width: '100%' }} to={`/product/view/${data.productId}`}>
-                                <img className="sale-product-img" src="./assets/Auth/Default-img.png" alt={data.productName} />
-                              </NavLink>
-                              <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
-                                <ul className="d-flex align-items-center justify-content-center list-unstyled icons">
-                                  <li className="icon" onClick={() => getProductDetail(data.productId)}>
-                                    <span className="fa fa-eye" onClick={() => EditOpenModal(data.productId)}></span>
-                                  </li>
-                                  <li className="icon">{data.isInWishList ? <span className="fa fa-heart bgBlue" title="Remove from Wishlist" onClick={() => RemoveToWishList(data)}></span> : <span className="fa fa-heart" title="Add to WishList" onClick={() => AddToWishList(data)}></span>}</li>
-                                  <li className="icon">{data.isInCart ? <span className="fa fa-shopping-cart bgBlue" title="Remove from Cart" onClick={() => RemoveFromCart(data)}></span> : <span className="fa fa-shopping-cart" title="Add to Cart" onClick={() => AddToCart(data)}></span>}</li>
-                                </ul>
-                              </div>
-                            </span>
-                          </>
-                        ) : (
-                          <>
-                            <span style={{ diplay: 'block', width: '100%' }}>
-                              {data.productMedias.slice(0, 1).map((image) => (
-                                <NavLink style={{ width: '100%' }} key={image} to={`/product/view/${data.productId}`}>
-                                  <img className="product-img" style={{ width: '100%' }} src={image.imgUrl} alt={data.productName} />
+                  <div className={`deal-cards ${window.innerWidth >= 768 ?"row":""}`}>
+                    {product.products.map((data) => (
+                      <div className="col-lg-2 col-md-4 col-sm-4 ml-2 subcategoryProduct-cardContainer" key={data.productId}>
+                        <div className="card">
+                          {data.productMedias[0] === null ? (
+                            <>
+                              <span style={{ diplay: 'block', width: '100%' }}>
+                                <NavLink style={{ width: '100%' }} to={`/product/view/${data.productId}`}>
+                                  <img className="sale-product-img" src="./assets/Auth/Default-img.png" alt={data.productName} />
                                 </NavLink>
-                              ))}
-                              <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
-                                <ul className="d-flex align-items-center justify-content-center list-unstyled icons">
-                                  <li className="icon" onClick={() => getProductDetail(data.productId)}>
-                                    <span className="fa fa-eye" onClick={() => EditOpenModal(data.productId)}></span>
-                                  </li>
-                                  <li className="icon mid-icon">
-                                    {data.isInWishList ? <span className="fa fa-heart bgBlue" title="Remove from Wishlist" onClick={() => RemoveToWishList(data)}></span> : <span className="fa fa-heart" title="Add to WishList" onClick={() => AddToWishList(data)}></span>}
-                                  </li>
-                                  <li className="icon">{data.isInCart ? <span className="fa fa-shopping-cart bgBlue" title="Remove from Cart" onClick={() => RemoveFromCart(data)}></span> : <span className="fa fa-shopping-cart" title="Add to Cart" onClick={() => AddToCart(data)}></span>}</li>
-                                </ul>
-                              </div>
-                            </span>
-                          </>
-                        )}
-                        <div className="d-inline">
-                          <p className="arrival-product-name d-inline">
-                            <span className="text-line ml-2">{data.productName}</span>
-                          </p>
-                          <button className="rating d-inline" style={{ marginLeft: '10px', textAlign: 'center', width: '30px' }}>
-                            {data.rating} <i class="fa fa-star" aria-hidden="true" style={{ marginLeft: '5px' }}></i>
-                          </button>
-                          <p className="d-inline charges-sold">{data.productSold} sold</p>
-                          <br />
-                          {data.discountPrice === 0 ? (
-                            <p className="product-price d-inline">RS: {data.price}</p>
+                                <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
+                                  <ul className="d-flex align-items-center justify-content-center list-unstyled icons">
+                                    <li className="icon" onClick={() => getProductDetail(data.productId)}>
+                                      <span className="fa fa-eye" onClick={() => EditOpenModal(data.productId)}></span>
+                                    </li>
+                                    <li className="icon">{data.isInWishList ? <span className="fa fa-heart bgBlue" title="Remove from Wishlist" onClick={() => RemoveToWishList(data)}></span> : <span className="fa fa-heart" title="Add to WishList" onClick={() => AddToWishList(data)}></span>}</li>
+                                    <li className="icon">{data.isInCart ? <span className="fa fa-shopping-cart bgBlue" title="Remove from Cart" onClick={() => RemoveFromCart(data)}></span> : <span className="fa fa-shopping-cart" title="Add to Cart" onClick={() => AddToCart(data)}></span>}</li>
+                                  </ul>
+                                </div>
+                              </span>
+                            </>
                           ) : (
-                            <div className="d-inline">
-                              <p className="product-price d-inline">RS: {Math.trunc(data.discountPrice)}</p>
-                              <p className="product-price-org d-inline">PKR: {data.price}</p>
-                            </div>
+                            <>
+                              <span style={{ diplay: 'block', width: '100%' }}>
+                                {data.productMedias.slice(0, 1).map((image) => (
+                                  <NavLink style={{ width: '100%' }} key={image} to={`/product/view/${data.productId}`}>
+                                    <img className="product-img" style={{ width: '100%' }} src={image.imgUrl} alt={data.productName} />
+                                  </NavLink>
+                                ))}
+                                <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
+                                  <ul className="d-flex align-items-center justify-content-center list-unstyled icons">
+                                    <li className="icon" onClick={() => getProductDetail(data.productId)}>
+                                      <span className="fa fa-eye" onClick={() => EditOpenModal(data.productId)}></span>
+                                    </li>
+                                    <li className="icon mid-icon">
+                                      {data.isInWishList ? <span className="fa fa-heart bgBlue" title="Remove from Wishlist" onClick={() => RemoveToWishList(data)}></span> : <span className="fa fa-heart" title="Add to WishList" onClick={() => AddToWishList(data)}></span>}
+                                    </li>
+                                    <li className="icon">{data.isInCart ? <span className="fa fa-shopping-cart bgBlue" title="Remove from Cart" onClick={() => RemoveFromCart(data)}></span> : <span className="fa fa-shopping-cart" title="Add to Cart" onClick={() => AddToCart(data)}></span>}</li>
+                                  </ul>
+                                </div>
+                              </span>
+                            </>
                           )}
+                          <div className="d-inline">
+                            <p className="arrival-product-name d-inline">
+                              <span className="text-line ml-2">{data.productName}</span>
+                            </p>
+                            <button className="rating d-inline" style={{ marginLeft: '10px', textAlign: 'center', width: '30px' }}>
+                              {data.rating} <i class="fa fa-star" aria-hidden="true" style={{ marginLeft: '5px' }}></i>
+                            </button>
+                            <p className="d-inline charges-sold">{data.productSold} sold</p>
+                            <br />
+                            {data.discountPrice === 0 ? (
+                              <p className="product-price d-inline">RS: {data.price}</p>
+                            ) : (
+                              <div className="d-inline">
+                                <p className="product-price d-inline">RS: {Math.trunc(data.discountPrice)}</p>
+                                <p className="product-price-org d-inline">PKR: {data.price}</p>
+                              </div>
+                            )}
+                          </div>
+                          <br></br>
                         </div>
-                        <br></br>
                       </div>
-                    </div>
-                  ))}
+                    ))}
+                  </div>
                 </div>
               </div>
             ))}
             {subcategoryProduct.map((product) => (
-              <div key={product.subCategoryId} className="super-deal">
+              <div key={product.subCategoryId} className="super-deal subcategoryProductSlider">
                 <div className="row g-4 ">
                   <div className="deal-content">
                     <p className="d-inline deal-text">{product.name}</p>
@@ -720,83 +741,84 @@ const Slider = ({ appRefresher, setAppRefresher }) => {
                       <NavLink to={`/products/${product.subCategoryId}`}>View more </NavLink>
                     </button>
                   </div>
-                  {product.products.map((data) => (
-                    <div className="col-lg-2 col-md-4 col-sm-12 ml-2" key={data.productId}>
-                      <div className="card">
-                        {data.productMedias[0] === null ? (
-                          <>
-                            <span style={{ diplay: 'block', width: '100%' }}>
-                              <NavLink style={{ width: '100%' }} to={`/product/view/${data.productId}`}>
-                                <img className="sale-product-img" src="./assets/Auth/Default-img.png" alt={data.productName} />
-                              </NavLink>
-                              <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
-                                <ul className="d-flex align-items-center justify-content-center list-unstyled icons">
-                                  <li className="icon" onClick={() => getProductDetail(data.productId)}>
-                                    <span className="fa fa-eye" onClick={() => EditOpenModal(data.productId)}></span>
-                                  </li>
-                                  <li className="icon">{data.isInWishList ? <span className="fa fa-heart bgBlue" title="Remove from Wishlist" onClick={() => RemoveToWishList(data)}></span> : <span className="fa fa-heart" title="Add to WishList" onClick={() => AddToWishList(data)}></span>}</li>
-                                  <li className="icon">{data.isInCart ? <span className="fa fa-shopping-cart bgBlue" title="Remove from Cart" onClick={() => RemoveFromCart(data)}></span> : <span className="fa fa-shopping-cart" title="Add to Cart" onClick={() => AddToCart(data)}></span>}</li>
-                                </ul>
-                              </div>
-                            </span>
-                          </>
-                        ) : (
-                          <>
-                            <span style={{ diplay: 'block', width: '100%' }}>
-                              {data.productMedias.length === 0 ? (
-                                <img className="product-img" style={{ width: '100%' }} src="./assets/Auth/default-img.png" alt="Product Image" />
-                              ) : (
-                                <>
-                                  {data.productMedias.slice(0, 1).map((image) => (
-                                    <NavLink style={{ width: '100%' }} key={image} to={`/product/view/${data.productId}`}>
-                                      <img className="product-img" style={{ width: '100%' }} src={image.imgUrl} alt={data.productName} />
-                                    </NavLink>
-                                  ))}
-                                </>
-                              )}
-                              <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
-                                <ul className="d-flex align-items-center justify-content-center list-unstyled icons">
-                                  <li className="icon" onClick={() => getProductDetail(data.productId)}>
-                                    <span className="fa fa-eye" onClick={() => EditOpenModal(data.productId)}></span>
-                                  </li>
-                                  <li className="icon mid-icon">
-                                    {data.isInWishList ? <span className="fa fa-heart bgBlue" title="Remove from Wishlist" onClick={() => RemoveToWishList(data)}></span> : <span className="fa fa-heart" title="Add to WishList" onClick={() => AddToWishList(data)}></span>}
-                                  </li>
-                                  <li className="icon">{data.isInCart ? <span className="fa fa-shopping-cart bgBlue" title="Remove from Cart" onClick={() => RemoveFromCart(data)}></span> : <span className="fa fa-shopping-cart" title="Add to Cart" onClick={() => AddToCart(data)}></span>}</li>
-                                </ul>
-                              </div>
-                            </span>
-                          </>
-                        )}
-                        <div className="mt-1 d-inline">
-                          <p className="arrival-product-name d-inline">
-                            <span className="text-line ml-2">{data.productName}</span>
-                          </p>
-                          <div className='mt-1'>
-                          <button className="rating d-inline" style={{ marginLeft: '10px', textAlign: 'center', width: '30px' }}>
-                            {data.rating}
-                            <i className="fa fa-star" aria-hidden="true" style={{ marginLeft: '5px' }}></i>
-                          </button>
-                          <p className="d-inline charges-sold">{data.productSold} sold</p>
-                          </div>
-                          <br />
-                          {data.discountPrice === 0 ? (
-                            <p className="product-price d-inline">RS: {data.price}</p>
+                  <div className={`deal-cards ${window.innerWidth >= 768 ?"row":""}`}>
+                    {product.products.map((data) => (
+                      <div className="col-lg-2 col-md-4 col-sm-4 ml-2 subcategoryProduct-cardContainer" key={data.productId}>
+                        <div className="card">
+                          {data.productMedias[0] === null ? (
+                            <>
+                              <span style={{ diplay: 'block', width: '100%' }}>
+                                <NavLink style={{ width: '100%' }} to={`/product/view/${data.productId}`}>
+                                  <img className="sale-product-img" src="./assets/Auth/Default-img.png" alt={data.productName} />
+                                </NavLink>
+                                <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
+                                  <ul className="d-flex align-items-center justify-content-center list-unstyled icons">
+                                    <li className="icon" onClick={() => getProductDetail(data.productId)}>
+                                      <span className="fa fa-eye" onClick={() => EditOpenModal(data.productId)}></span>
+                                    </li>
+                                    <li className="icon">{data.isInWishList ? <span className="fa fa-heart bgBlue" title="Remove from Wishlist" onClick={() => RemoveToWishList(data)}></span> : <span className="fa fa-heart" title="Add to WishList" onClick={() => AddToWishList(data)}></span>}</li>
+                                    <li className="icon">{data.isInCart ? <span className="fa fa-shopping-cart bgBlue" title="Remove from Cart" onClick={() => RemoveFromCart(data)}></span> : <span className="fa fa-shopping-cart" title="Add to Cart" onClick={() => AddToCart(data)}></span>}</li>
+                                  </ul>
+                                </div>
+                              </span>
+                            </>
                           ) : (
-                            <div className="d-inline">
-                              <p className="product-price d-inline">RS: {Math.trunc(data.discountPrice)}</p>
-                              <p className="product-price-org d-inline">PKR: {data.price}</p>
-                            </div>
+                            <>
+                              <span style={{ diplay: 'block', width: '100%' }}>
+                                {data.productMedias.length === 0 ? (
+                                  <img className="product-img" style={{ width: '100%' }} src="./assets/Auth/default-img.png" alt="Product Image" />
+                                ) : (
+                                  <>
+                                    {data.productMedias.slice(0, 1).map((image) => (
+                                      <NavLink style={{ width: '100%' }} key={image} to={`/product/view/${data.productId}`}>
+                                        <img className="product-img" style={{ width: '100%' }} src={image.imgUrl} alt={data.productName} />
+                                      </NavLink>
+                                    ))}
+                                  </>
+                                )}
+                                <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
+                                  <ul className="d-flex align-items-center justify-content-center list-unstyled icons">
+                                    <li className="icon" onClick={() => getProductDetail(data.productId)}>
+                                      <span className="fa fa-eye" onClick={() => EditOpenModal(data.productId)}></span>
+                                    </li>
+                                    <li className="icon mid-icon">
+                                      {data.isInWishList ? <span className="fa fa-heart bgBlue" title="Remove from Wishlist" onClick={() => RemoveToWishList(data)}></span> : <span className="fa fa-heart" title="Add to WishList" onClick={() => AddToWishList(data)}></span>}
+                                    </li>
+                                    <li className="icon">{data.isInCart ? <span className="fa fa-shopping-cart bgBlue" title="Remove from Cart" onClick={() => RemoveFromCart(data)}></span> : <span className="fa fa-shopping-cart" title="Add to Cart" onClick={() => AddToCart(data)}></span>}</li>
+                                  </ul>
+                                </div>
+                              </span>
+                            </>
                           )}
+                          <div className="mt-1 d-inline">
+                            <p className="arrival-product-name d-inline">
+                              <span className="text-line ml-2">{data.productName}</span>
+                            </p>
+                            <div className='mt-1'>
+                            <button className="rating d-inline" style={{ marginLeft: '10px', textAlign: 'center', width: '30px' }}>
+                              {data.rating}
+                              <i className="fa fa-star" aria-hidden="true" style={{ marginLeft: '5px' }}></i>
+                            </button>
+                            <p className="d-inline charges-sold">{data.productSold} sold</p>
+                            </div>
+                            <br />
+                            {data.discountPrice === 0 ? (
+                              <p className="product-price d-inline">RS: {data.price}</p>
+                            ) : (
+                              <div className="d-inline">
+                                <p className="product-price d-inline">RS: {Math.trunc(data.discountPrice)}</p>
+                                <p className="product-price-org d-inline">PKR: {data.price}</p>
+                              </div>
+                            )}
+                          </div>
+                          <br></br>
                         </div>
-                        <br></br>
                       </div>
-                    </div>
-                  ))}
+                    ))}
+                  </div>
                 </div>
               </div>
             ))}
-
             <br></br>
           </div>
         </div>
@@ -806,7 +828,71 @@ const Slider = ({ appRefresher, setAppRefresher }) => {
   return (
     <div>
       <div className="mb-4 pl-3 pr-3">
-        <div className="row justify-content-center">{loading ? <Loading /> : <ShowProducts />}</div>
+      
+        <div className="row justify-content-center">{loading ? <Loading /> : 
+        <>
+        {window.innerWidth <= 768 ?
+              <div align="center" className="d-inline">
+                    <div style={{height:"45px"}} className="Container-navbar">
+                      <div style={{height:"42px"}} className="Form-group">
+                        <input 
+                          onKeyPress={(e) => {
+                            if (e.key === 'Enter' && filterProduct != '') {
+                              handleClick();
+                            }
+                          }} 
+                          type="text" id='focusedSearch' defaultValue={filterProduct} className="search-bar d-inline " placeholder="Search products..." onChange={e=>setFilterProduct(e.target.value)} 
+                        />
+                        {filterProduct != '' ? (
+                          <NavLink  style={{zIndex:"5"}} to={`/searchProduct/${filterProduct}`}>
+                            <i className="fa fa-search d-inline cursor-pointer" aria-hidden="true">
+                              {' '}
+                            </i>
+                          </NavLink>
+                        ) : (
+                          ''
+                        )}
+                      </div>
+                    {searchSuggestions!= null && filterProduct!=""?
+                        <div className='search-suggestion-group'>
+                         {searchSuggestions.slice(0,3).map((product, i)=> (
+                          <NavLink key={i} to={`/product/view/${product.productId}`}>
+                            <div style={{height:"100px"}} className='d-flex'>
+                              <div>
+                                {product.productMedias.slice(0, 1).map((image, i)=> (
+                                  <img key={i} width="100px" height="100%" src={image.imgUrl} />
+                                ))}
+                                </div>
+                                <div className='searh-suggestion-textField' style={{color:"black",marginLeft:"20px",textAlign:"left"}}>
+                                  <span className="text-line searh-suggestion-productName">{product.productName}</span>
+                                  {product.discountPrice === 0 ? (
+                                    <span>RS: {product.price}</span>
+                                  ) : (
+                                    <>
+                                      <span className="p-price">RS: {product.price}</span>
+                                      {window.innerWidth <= 1100?
+                                      <br/>:""}
+                                      <span style={{marginLeft:"10px"}}>RS: {Math.trunc(product.discountPrice)}</span>
+                                    </>
+                                  )}
+                                </div>
+                                <br />
+                                <hr />
+                            </div>
+                          </NavLink>
+                         ))}
+                         {/* <NavLink to={`/searchProduct/${filterProduct}`}> */}
+                         <button onClick={()=> window.location.assign(`/searchProduct/${filterProduct}`)} className='searh-suggestion-button'>View All {searchSuggestions.length} Items</button>
+                         {/* </NavLink> */}
+                        </div>
+                        :""
+                        }
+                    </div>
+                  </div>
+                  :<></>}
+        <ShowProducts />
+        </>
+        }</div>
       </div>
       <div className=" model">
         <Modal open={Editopen} onClose={EditCloseModal} center>

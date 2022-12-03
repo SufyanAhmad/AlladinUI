@@ -28,6 +28,8 @@ const Registration = () => {
     const [sentOTP,setSentOTP] = useState(false);
     const [oTP,setOTP] = useState(null);
     const [loading, setLoading] = useState(false);
+    const [spinner, setSpinner] = useState(false);
+
 
     const [verfiyOTPToggle,setVerfiyOTPToggle] = useState(false)
 
@@ -35,9 +37,11 @@ const Registration = () => {
     let history = useHistory();
   const handleSubmit = async e => {
     // setLoading(true);
+    setSpinner(true)
     if(phoneNumber.length >10){
         // setLoading(false);
         setPhoneError(true);
+        setSpinner(false)
     }
     // var regularExpression  =  /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/;
     // if (!regularExpression.test(password)) {
@@ -46,6 +50,7 @@ const Registration = () => {
     if(password !== confirmPassword){
         // setLoading(false);
         setPasswordError(true);
+        setSpinner(false)
     }
     e.preventDefault();
     if(phoneNumber && password === confirmPassword && firstname && lastname){
@@ -64,10 +69,11 @@ const Registration = () => {
         // setLoading(false);
         history.push("/login");
         setSentOTP(false);
-
+        setSpinner(false)
       });
     }else{
       swal("Error", response.message, "error");
+      setSpinner(false)
       // setLoading(true);
     }
   }
@@ -343,7 +349,11 @@ const Registration = () => {
                                     </div>
                                     <div className='col-lg-6 col-md-6 col-sm-12 mt-3'>
                                       <div align="center" style={{width:"300px"}} >
-                                        <button onClick={handleSubmit} type='button' className="signup-btn">Signup</button>
+                                        <button onClick={handleSubmit} type='button' className="signup-btn">Signup
+                                        {spinner?
+                                          <i style={{marginLeft:"5px"}} className="fa fa-spinner ml-4 fa-spin"></i>
+                                          :""}
+                                        </button>
                                       </div>
                                     </div>
                           </div>

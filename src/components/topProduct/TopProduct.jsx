@@ -261,8 +261,9 @@ const TopProduct = ({ appRefresher, setAppRefresher }) => {
                   <NavLink to={`/productList/${2}`}>View more </NavLink>
                 </button>
               </div>
+              <div className={`topProduct-content ${window.innerWidth >= 768 ?"row":""}`}>
               {topProduct.map((product) => (
-                <div className="col-lg-4 col-md-6 col-sm-12 " key={product.productId}>
+                <div className="col-lg-4 col-md-6 col-sm-4 " key={product.productId}>
                   <div className="topProduct-card">
                     {product.productMedias[0] == null ? (
                       <span style={{ diplay: 'block', width: '100%' }}>
@@ -332,6 +333,7 @@ const TopProduct = ({ appRefresher, setAppRefresher }) => {
                   </div>
                 </div>
               ))}
+              </div>
             </div>
           </div>
         </div>
@@ -344,8 +346,9 @@ const TopProduct = ({ appRefresher, setAppRefresher }) => {
                   <NavLink to={`/productList/${3}`}>View more </NavLink>
                 </button>
               </div>
+              <div className={`topProduct-content ${window.innerWidth >= 768 ?"row":""}`}>
               {papularProduct.map((pProduct) => (
-                <div className="col-lg-4 col-md-6 col-sm-12" key={pProduct.productId}>
+                <div className="col-lg-4 col-md-6 col-sm-4" key={pProduct.productId}>
                   <div className="topProduct-card">
                     {pProduct.productMedias[0] == null ? (
                       <span style={{ diplay: 'block', width: '100%' }}>
@@ -417,6 +420,7 @@ const TopProduct = ({ appRefresher, setAppRefresher }) => {
                   </div>
                 </div>
               ))}
+              </div>
             </div>
           </div>
         </div>
@@ -424,7 +428,7 @@ const TopProduct = ({ appRefresher, setAppRefresher }) => {
       <div className="model">
         <Modal open={Editopen} onClose={EditCloseModal} center>
           <br></br>
-          <div className="row">
+          <div className="row modal">
             <div className="col-lg-6 col-md-6 col-sm-12">
               {productDetail[0] == null ? (
                 <img className="product-img" src="./assets/Auth/Default-img.png" />

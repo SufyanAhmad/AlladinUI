@@ -48,10 +48,10 @@ export default function MyOrderDetail() {
               <div className="ordersBody">
                 <span>Recent Order</span>
                 <div className="order">
-                  <span className="orderID">Order# {order.orderNo}</span>
+                  <span className="orderID">Order# {order.orderNumberWithDate}</span>
 
-                  {orderDetail.map((orderData) => (
-                    <div className="row d-flex border">
+                  {orderDetail.map((orderData, i) => (
+                    <div key={i} className="row d-flex border">
                       {order.orderStatusId !== 7 ? (
                         ''
                       ) : (
@@ -95,8 +95,8 @@ export default function MyOrderDetail() {
                         <>
                           <hr />
                           {orderData.productMediaViewModels.length !== 0?<>
-                            {orderData.productMediaViewModels.slice(0, 1).map((image) => (
-                              <div className="col-md-2 mb-2" style={{ width: '100px' }}>
+                            {orderData.productMediaViewModels.slice(0, 1).map((image, index) => (
+                              <div key={index} className="col-md-2 mb-2" style={{ width: '100px' }}>
                                 <img className="orderImage" src={image.imgUrl} />
                               </div>
                             ))}

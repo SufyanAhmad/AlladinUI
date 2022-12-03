@@ -304,7 +304,7 @@ const AdminFooter = () => {
             <br />
             <br />
             {Services.map((Service, index) => (
-              <div className="footer col-md-3 mb-md-0 mb-3">
+              <div key={index} className="footer col-md-3 mb-md-0 mb-3">
                 <div className="mb-2">
                   <div className="back">
                     <img className="footerimg" style={{ width: '60px', height: '50px' }} src={Service.iconImageUrl} />

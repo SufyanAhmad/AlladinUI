@@ -84,6 +84,7 @@ export default function Category() {
   const [subCategoryDetail , setSubCategoryDetail] = useState('')
   const [reload, setReload] = useState([subCategories]);
   const [errorMessage, setErrorMessage] = useState(false);
+  const [spinner, setSpinner] = useState(false);
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - subCategories.length) : 0;
@@ -134,6 +135,7 @@ export default function Category() {
  }
  //get categories
 useEffect(() => {
+  setSpinner(true)
     fetch(FetchUrl+`Home/get-SubCategories/${id}`,{
       headers: {
         Authorization : 'bearer '+ JSON.parse(JSON.parse(localStorage.getItem("persist:root")).user).currentUser.token
@@ -141,6 +143,7 @@ useEffect(() => {
     }).then((result)=>{
       result.json().then((resp)=>{
         setSubCategories(resp.data)
+        setSpinner(false)
       })
     })
   }, [reload]);
@@ -222,10 +225,20 @@ useEffect(() => {
           <div className="d-flex justify-content-between">
             <ul className="nav nav-pills mb-3" id="pills-tab" role="tablist">
               <li className="nav-item" role="presentation">
-                <button className="nav-link active" id="pills-Active-tab" data-bs-toggle="pill" data-bs-target="#pills-Active" type="button" role="tab" aria-controls="pills-Active" aria-selected="true">Activate</button>
+                <button className="nav-link active" id="pills-Active-tab" data-bs-toggle="pill" data-bs-target="#pills-Active" type="button" role="tab" aria-controls="pills-Active" aria-selected="true">
+                  Activate
+                  {spinner?
+                            <i style={{marginLeft:"3px"}} className="fa fa-spinner ml-4 fa-spin"></i>
+                            :""}
+                </button>
               </li>
               <li className="nav-item" role="presentation">
-                <button className="nav-link" id="pills-deActive-tab" data-bs-toggle="pill" data-bs-target="#pills-deActive" type="button" role="tab" aria-controls="pills-deActive" aria-selected="false">Deactivate</button>
+                <button className="nav-link" id="pills-deActive-tab" data-bs-toggle="pill" data-bs-target="#pills-deActive" type="button" role="tab" aria-controls="pills-deActive" aria-selected="false">
+                  Deactivate
+                  {spinner?
+                            <i style={{marginLeft:"3px"}} className="fa fa-spinner ml-4 fa-spin"></i>
+                            :""}
+                </button>
               </li>
             </ul>
           </div>

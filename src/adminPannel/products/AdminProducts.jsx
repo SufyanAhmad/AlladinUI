@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './adminmodule.scss';
 import styled from 'styled-components';
 import TablePaginationUnstyled from '@mui/base/TablePaginationUnstyled';
@@ -11,6 +11,8 @@ import axios from 'axios';
 import { FetchUrl } from '../../requestMethod';
 import { FaTrash } from 'react-icons/fa';
 import swal from 'sweetalert';
+import JoditEditor from 'jodit-react';
+import { Fragment } from 'react';
 const Section = styled.section`
   margin-left: 18vw;
   height: 100vh;
@@ -91,6 +93,7 @@ const AdminProducts = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [sort, setSort] = useState('ASC');
   const [open, setOpen] = useState(false);
+  const [spinner, setSpinner] = useState(false);
   const [ImgArrangementNo, setImgArrangementNo] = useState();
 
   const onOpenModal = () => {
@@ -192,6 +195,7 @@ const AdminProducts = () => {
   };
   useEffect(() => {
     const getOrders = async () => {
+      setSpinner(true)
       try {
         const res = await publicRequest.get('Home/get-all-products', {
           headers: {
@@ -199,12 +203,14 @@ const AdminProducts = () => {
           },
         });
         setOrders(res.data.data);
+        setSpinner(false)
       } catch {}
     };
     getOrders();
   }, [reload]);
   useEffect(() => {
     const getOutOfStock = async () => {
+      setSpinner(true)
       try {
         const res = await publicRequest.get('Home/get-out-of-stock-products', {
           headers: {
@@ -212,12 +218,14 @@ const AdminProducts = () => {
           },
         });
         setOutOfStock(res.data.data);
+        setSpinner(false)
       } catch {}
     };
     getOutOfStock();
   }, [reload]);
   useEffect(() => {
     const getInactive = async () => {
+      setSpinner(true)
       try {
         const res = await publicRequest.get('Home/get-deactive-products', {
           headers: {
@@ -225,12 +233,14 @@ const AdminProducts = () => {
           },
         });
         setInactive(res.data.data);
+        setSpinner(false)
       } catch {}
     };
     getInactive();
   }, [reload]);
   useEffect(() => {
     const getOnline = async () => {
+      setSpinner(true)
       try {
         const res = await publicRequest.get('Home/get-active-products', {
           headers: {
@@ -238,7 +248,7 @@ const AdminProducts = () => {
           },
         });
         setOnline(res.data.data);
-        console.log(editSubCat);
+        setSpinner(false)
       } catch {}
     };
     getOnline();
@@ -329,6 +339,7 @@ const AdminProducts = () => {
     setWarranty(product.warrantyId);
   }
   const SubmitProduct = async (e) => {
+    setSpinner(true)
     if ((productName && highLight && description && hight && width && length && SubCategory) && (_categoryId && weight && price && _brandId && _warrantyId && typeof freeShippingLabels === 'boolean' && typeof shippingStatuses === 'boolean' && typeof isPapulars === 'boolean')) {
       var freeShippingLabel = freeShippingLabels;
       var shippingStatus = true;
@@ -382,15 +393,17 @@ const AdminProducts = () => {
     }).then((resp) => {
       resp.json().then((result) => {
         if (result.status === 'Success') {
-          swal('Success', result.message, 'success', {
-            buttons: false,
-            timer: 2000,
-          }).then((value) => {
+          // swal('Success', result.message, 'success', {
+          //   buttons: false,
+          //   timer: 2000,
+          // }).then((value) => {
+            setSpinner(false);
             setOpen(false);
             setReload(online, subCategories);
             setFillFields(false);
-          });
+          // });
         } else {
+          setSpinner(false)
           swal('Failed', result.message, 'error');
         }
       });
@@ -435,10 +448,11 @@ const AdminProducts = () => {
     }).then((resp) => {
       resp.json().then((result) => {
         if (result.status === 'Success') {
-          swal('Success', result.message, 'success', {
-            buttons: false,
-            timer: 2000,
-          }).then((value) => {
+          // swal('Success', result.message, 'success', {
+          //   buttons: false,
+          //   timer: 2000,
+          // }).then((value) => {
+            setSpinner(false)
             setEditOpen(false);
             setReload(online);
             setOldCatID(null);
@@ -447,14 +461,16 @@ const AdminProducts = () => {
             setEditCat(null);
             setEditMainCat(null);
             setEditSubCat(null);
-          });
+          // });
         } else {
+          setSpinner(false)
           swal('Failed', result.message, 'error');
         }
       });
     });
   }
   const SubmitEditProduct = async (e) => {
+    setSpinner(true)
     var discountStart = discountStartVar === '' || price === discount ? null : discountStartVar;
     var discountEnd = discountEndVar === '' || price === discount ? null : discountEndVar;
     var freeShippingLabel = freeShippingLabels;
@@ -712,17 +728,24 @@ const AdminProducts = () => {
                 </li>
                 <li className="nav-item" role="presentation">
                   <button className="nav-link active" id="pills-online-tab" data-bs-toggle="pill" data-bs-target="#pills-online" type="button" role="tab" aria-controls="pills-online" aria-selected="false">
-                    Online({online.length})
+                    Online({spinner?
+                            <i className="fa fa-spinner ml-4 fa-spin"></i>
+                            : online.length})
+                    
                   </button>
                 </li>
                 <li className="nav-item" role="presentation">
                   <button className="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact" aria-selected="false">
-                    Out of stock({outOfStock.length})
+                    Out of stock({spinner?
+                            <i className="fa fa-spinner ml-4 fa-spin"></i>
+                            : outOfStock.length})
                   </button>
                 </li>
                 <li className="nav-item" role="presentation">
                   <button className="nav-link" id="pills-inactive-tab" data-bs-toggle="pill" data-bs-target="#pills-inactive" type="button" role="tab" aria-controls="pills-contact" aria-selected="false">
-                    Inactive({inactive.length})
+                    Inactive({spinner?
+                            <i className="fa fa-spinner ml-4 fa-spin"></i>
+                            : inactive.length})
                   </button>
                 </li>
               </ul>
@@ -1249,12 +1272,14 @@ const AdminProducts = () => {
                   Highlight<span className="required">*</span>
                 </label>
                 <br />
-                <textarea type="text" id="keyPressHigh" name="username" className="product-textarea" placeholder="Please enter highlight here" rows="4" required onFocus={(e) => onFocusHigh(e)} onKeyUp={(e) => keyupHigh(e)} onChange={(e) => setHighLight(e.target.value)} />
+                {/* <textarea type="text" id="keyPressHigh" name="username" className="product-textarea" placeholder="Please enter highlight here" rows="4" required onFocus={(e) => onFocusHigh(e)} onKeyUp={(e) => keyupHigh(e)} onChange={(e) => setHighLight(e.target.value)} /> */}
+                <JoditEditor value={`${highLight}`} id="keyPressHigh" name="username" className="product-textarea" rows="4" required onFocus={(e) => onFocusHigh(e)} onKeyUp={(e) => keyupHigh(e)} onChange={(e) => setHighLight(e)} />
                 <label className="product-label">
                   Description<span className="required">*</span>
                 </label>
                 <br></br>
-                <textarea type="text" id="keyPress" name="username" rows="4" className="product-textarea" placeholder="Please enter product description" required onFocus={(e) => onFocusDesc(e)} onKeyUp={(e) => keyupDesc(e)} onChange={(e) => setDescription(e.target.value)} />
+                {/* <textarea type="text" id="keyPress" name="username" rows="4" className="product-textarea" placeholder="Please enter product description" required onFocus={(e) => onFocusDesc(e)} onKeyUp={(e) => keyupDesc(e)} onChange={(e) => setDescription(e.target.value)} /> */}
+                <JoditEditor value={`${description}`} type="text" id="keyPress" name="username" rows="4" className="product-textarea" placeholder="Please enter product description" required onFocus={(e) => onFocusDesc(e)} onKeyUp={(e) => keyupDesc(e)} onChange={(e) => setDescription(e)} />
                 <div className="row">
                   <label className="product-label">Package Dimensions (cm)</label>
                   <div className="col">
@@ -1369,6 +1394,9 @@ const AdminProducts = () => {
                 <div className="d-flex justify-content-between" style={{ float: 'right' }}>
                   <button type="submit" className="save-prodcut-btn mr-2" onClick={SubmitProduct}>
                     Save Product
+                    {spinner?
+                    <i className="fa fa-spinner ml-4 fa-spin"></i>
+                    :""}
                   </button>
                 </div>
               </div>
@@ -1475,12 +1503,14 @@ const AdminProducts = () => {
                   Highlight<span className="required">*</span>
                 </label>
                 <br />
-                <textarea type="text" id="keyPressHigh" name="username" className="product-textarea" placeholder="Please enter your highlight here" rows="4" required value={highLight} onFocus={(e) => onFocusHigh(e)} onKeyUp={(e) => keyupHigh(e)} onChange={(e) => setHighLight(e.target.value)} />
+                {/* <textarea type="text" id="keyPressHigh" name="username" className="product-textarea" placeholder="Please enter your highlight here" rows="4" required value={highLight} onFocus={(e) => onFocusHigh(e)} onKeyUp={(e) => keyupHigh(e)} onChange={(e) => setHighLight(e.target.value)} /> */}
+                <JoditEditor id="keyPressHigh" name="username" className="product-textarea" placeholder="Please enter your highlight here" rows="4" value={`${highLight}`} required onFocus={(e) => onFocusHigh(e)} onKeyUp={(e) => keyupHigh(e)} onBlur={(e) => setHighLight(e) } />
                 <label className="product-label">
                   Description<span className="required">*</span>
                 </label>
                 <br></br>
-                <textarea type="text" id="keyPress" name="username" rows="4" className="product-textarea" placeholder="Please enter your package weight here" required value={description} onFocus={(e) => onFocusDesc(e)} onKeyUp={(e) => keyupDesc(e)} onChange={(e) => setDescription(e.target.value)} />
+                {/* <textarea type="text" id="keyPress" name="username" rows="4" className="product-textarea" placeholder="Please enter your package weight here" required value={description} onFocus={(e) => onFocusDesc(e)} onKeyUp={(e) => keyupDesc(e)} onChange={(e) => setDescription(e.target.value)} /> */}
+                <JoditEditor value={`${description}`} id="keyPress" name="username" rows="4" className="product-textarea" placeholder="Please enter your package weight here" required onFocus={(e) => onFocusDesc(e)} onKeyUp={(e) => keyupDesc(e)} onChange={(e) => setDescription(e)} />
                 <div className="img p-3">
                   <div className="result">
                     {renderPhotosDesc(DescriptionImages)}
@@ -1582,14 +1612,14 @@ const AdminProducts = () => {
 
                 <Form.Select defaultValue={_brandId} aria-label="Default select example" onChange={(e) => setBrand(e.target.value)}>
                   {brands.map((brand, i) => (
-                    <>
+                    <Fragment key={i}>
                       <option defaultValue={_brandId} disabled hidden>
                         {_brandId === brand.brandId ? brand.brandName : 'Select'}
                       </option>
                       <option key={i} value={brand.brandId} id={brand.brandId}>
                         {brand.brandName}
                       </option>
-                    </>
+                    </Fragment>
                   ))}
                 </Form.Select>
                 <label className="product-label mt-2">
@@ -1598,14 +1628,14 @@ const AdminProducts = () => {
                 <br />
                 <Form.Select defaultValue={_warrantyId} aria-label="Default select example" onChange={(e) => setWarranty(e.target.value)}>
                   {warrantes.map((warrante, i) => (
-                    <>
+                    <Fragment key={i}>
                       <option defaultValue={_warrantyId} disabled hidden>
                         {_warrantyId === warrante.warrantyId ? warrante.warrantyType : 'Select'}
                       </option>
                       <option key={i} value={warrante.warrantyId} id={warrante.warrantyId}>
                         {warrante.warrantyType}
                       </option>
-                    </>
+                    </Fragment>
                   ))}
                 </Form.Select>
                 <label className="product-label mt-2">Stock</label>
@@ -1654,6 +1684,9 @@ const AdminProducts = () => {
                 <div className="d-flex justify-content-between" style={{ float: 'right' }}>
                   <button type="submit" className="save-prodcut-btn mr-2" onClick={SubmitEditProduct}>
                     Save Product
+                    {spinner?
+                    <i className="fa fa-spinner ml-4 fa-spin"></i>
+                    :""}
                   </button>
                 </div>
               </div>

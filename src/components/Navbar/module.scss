@@ -2,8 +2,10 @@
   background-color: #23334c;
   right:0;
   left: 0;
+  // max-height: 100px;
   // min-width: 100vh;
   max-width: 100vh;
+  overflow: visible;
 }
 .logo{
   margin-left: -45px;
@@ -258,7 +260,53 @@ a {
   border-radius: 12px;
   box-shadow: 0px 2px 4px 0px rgba(12, 18, 18, 0.4);
   margin-left: 40px;
-  margin-top: 10px;
+  margin-top: 10px !important;
+}
+.search-suggestion-group{
+  background-color: #fafafa;
+  width: 480px;
+  z-index: 2;
+  position: absolute;
+  border-radius: 5px;
+  padding: 5px;
+  margin-top: 3px;
+  margin-left: 40px;
+}
+.searh-suggestion-textField{
+  font-family: Roboto;
+  font-size: 16px;
+  font-style: normal;
+  line-height: 19px;
+  letter-spacing: 0em;
+  text-align: left;
+  color: #000000 !important;
+  word-wrap: break-word;
+  margin-top: 20px;
+  max-height: 25px;
+  width: 100%;
+}
+.searh-suggestion-productName{
+  font-family: Roboto;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 19px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: #000000 !important;
+    word-wrap: break-word;
+    margin-top: 10px;
+    max-height: 25px;
+    width: 100%;
+    margin-bottom: 8px;
+}
+.searh-suggestion-button{
+  width:90%;
+  background-color: #23334c;
+  color: #fafafa;
+  height: 35px;
+  border-style: none;
+  border-radius: 5px;
 }
 .dropdown-list-navbar {
   position: relative;
@@ -307,7 +355,8 @@ a {
   overflow: scroll;
 }
 @media (min-width: 1360px) {
-  .Form-group{
+  
+  .Form-group, .search-suggestion-group{
     width: 400px !important;
   }
   .Container-navbar{
@@ -315,7 +364,7 @@ a {
   }
 }
 @media (max-width: 1360px) {
-  .Form-group{
+  .Form-group, .search-suggestion-group{
     width: 350px !important;
   }
   .Container-navbar{
@@ -336,12 +385,12 @@ a {
   .navContact{
     display: none;
   }
-  .Form-group{
+  .Form-group, .search-suggestion-group{
     margin-left: 0;
   }
 }
 @media (max-width: 1100px) {
-  .Form-group{
+  .Form-group, .search-suggestion-group{
     width: 280px !important;
   }
   .Container-navbar{
@@ -349,7 +398,7 @@ a {
   }
 }
 @media (max-width: 1022px){
-  .Form-group{
+  .Form-group, .search-suggestion-group{
     width: 240px !important;
     margin-left:0;
   }
@@ -380,7 +429,7 @@ a {
 }
 @media (max-width: 990px) {
   .buttons {
-    justify-content: center;
+    // justify-content: center;
     // float: left !important;
     // margin-left: 15%;
     margin-left: 0;
@@ -388,9 +437,9 @@ a {
     text-align: center;
     align-items: center;
   }
-  .navbar {
-    overflow: scroll;
-  }
+  // .navbar {
+  //   overflow: scroll;
+  // }
   .dropDownButton{
     margin-left: 0;
   }
@@ -402,20 +451,20 @@ a {
   }
   .nav-item{
     margin-top: 10px;
-    display:block;
+    // display:block;
   }
-  .Form-group{
+  .Form-group, .search-suggestion-group{
     margin-left: 0;
   }
   .resp-search {
-    width: 320px !important;
+    width: 240px !important;
   }
 }
 
 
 @media (max-width: 780px) {
   .resp-search{
-    width: 320px !important;
+    width: 240px !important;
   }
   .fa-search {
     margin-top: 0px;
@@ -428,6 +477,20 @@ a {
     display: none;
   }
 }
+@media (max-width: 560px) {
+  .logo{
+    width: 100px;
+    margin-left: 0;
+    margin-right: 0;
+  }
+  .scrollLogo {
+    width: 100px;
+    margin-left: 0;
+  }
+  .navbar {
+    overflow: visible;
+  }
+}
 @media (max-width: 520px) {
   .resp-search{
     width: 260px !important;
@@ -437,7 +500,7 @@ a {
   // }
 }
 @media (max-width: 380px) {
-  .Form-group{
+  .Form-group, .search-suggestion-group{
     width: 250px !important;
   }
   .resp-search{
@@ -445,7 +508,7 @@ a {
   }
 }
 @media (max-width: 320px) {
-  .Form-group{
+  .Form-group, .search-suggestion-group{
     width: 230px !important;
   }
   .resp-search{

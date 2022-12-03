@@ -1,4 +1,4 @@
-import Footer from '../Footer/Footer';
+// import Footer from '../Footer/Footer';
 import './productView.scss';
 import Rating from '@mui/material/Rating';
 import Stack from '@mui/material/Stack';
@@ -21,8 +21,10 @@ import ReactPlayer from 'react-player/youtube';
 import swal from 'sweetalert';
 import { useSelector, useDispatch } from 'react-redux';
 import { cartQuantityRefresh } from '../../redux/action/index';
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 import ReactImageMagnify from 'react-image-magnify';
+import parse from 'html-react-parser';
+
 
 function ProductView({ appRefresher, setAppRefresher }) {
   const [open, setOpen] = useState(false);
@@ -56,6 +58,8 @@ function ProductView({ appRefresher, setAppRefresher }) {
   const role = useSelector((state) => state.user.currentUser && state.user.currentUser.role);
   const dispatch = useDispatch();
   const [refresh, setRefresh] = useState(true);
+  const [spinner, setSpinner] = useState(false)
+  // const { parse } = require('html-react-parser');
   const onCloseModal = () => {
     setOpen(false);
     setOpenImagePopup(false);
@@ -129,6 +133,7 @@ function ProductView({ appRefresher, setAppRefresher }) {
   const AddToWishList = (data) => {
     const productId = data.productId;
     if (IsCurrentUser != null) {
+      setSpinner(true)
       fetch(FetchUrl + `WishList/add-to-WishList/${productId}`, {
         method: 'POST',
         headers: {
@@ -138,6 +143,7 @@ function ProductView({ appRefresher, setAppRefresher }) {
         },
         body: JSON.stringify(productId),
       }).then((resp) => {
+        setSpinner(false)
         setReload(productView);
         resp.json().then((result) => {});
       });
@@ -178,6 +184,7 @@ function ProductView({ appRefresher, setAppRefresher }) {
       productQuantity,
     };
     if (IsCurrentUser != null) {
+      setSpinner(true)
       fetch(FetchUrl + `Cart/add-product-to-cart/${productId}?productQuantity=` + productQuantity, {
         method: 'POST',
         headers: {
@@ -188,6 +195,7 @@ function ProductView({ appRefresher, setAppRefresher }) {
         body: JSON.stringify(Item),
       }).then((resp) => {
         resp.json().then((result) => {
+          setSpinner(false)
           if (result.status === 'Success') {
             setReload(productView);
             dispatch(cartQuantityRefresh(!refresh));
@@ -391,15 +399,13 @@ function ProductView({ appRefresher, setAppRefresher }) {
   var myNumberWithTwoDecimalPlaces = Math.trunc(parseFloat(perDescount));
   const ShowProduct = () => {
     return (
-      
       <div className="product-view-main">
-        <Helmet>
+        {/* <Helmet>
           <meta name="description" content="✓Low Prices ✓Fast Delivery across Pakistan" />
-          <title>{productView.productName}</title>
           <meta name="og:title" property="og:title" content={productView.productName} />
           <meta name="og:description" property="og:description" content="OG ✓Low Prices ✓Fast Delivery across Pakistan" />
           <meta name="og:image" property="og:image" content={media.slice(0,1).map(img => {return img.imgUrl})} href={media.slice(0,1).map(img => {return img.imgUrl})} />
-        </Helmet>
+        </Helmet> */}
         <div className="container">
           <div className="row" style={{ minHeight: '100vh' }}>
             <div className="col-lg-8 col-md-12 col-sm-12">
@@ -426,9 +432,10 @@ function ProductView({ appRefresher, setAppRefresher }) {
                           </div>
                         </div>
                       ))} */}
-                    <Carousel className='carousel' showThumbs={media.length === 0 ? false : true} infiniteLoop>
+                    <Carousel className='carosel' showThumbs={media.length === 0 ? false : true} infiniteLoop>
                     {media.map((d, index) => (
-                        <div style={{width:"370px",height:"500px"}} key={index}>
+                        <div className="product-view-img" key={index}>
+                          {window.innerWidth >= 768 ? 
                           <ReactImageMagnify {...{
                                 smallImage: {
                                     alt: "Product Image " + d.arrangementNo,
@@ -437,10 +444,11 @@ function ProductView({ appRefresher, setAppRefresher }) {
                                 },
                                 largeImage: {
                                     src: d.imgUrl,
-                                    width: 1200,
-                                    height: 1800
+                                    width: 800,
+                                    height: 800
                                 }
                           }} />
+                          :""}
                           <img src={d.imgUrl} alt="product" style={{height:"100%",width:"100%",display:"hidden"}}/>
                         </div>
                       ))}
@@ -474,14 +482,14 @@ function ProductView({ appRefresher, setAppRefresher }) {
                       </div>
                     </div>
                     <button className="start-rating d-inline" style={{ marginLeft: '10px', textAlign: 'center', width: '35px' }}>
-                      {productView.rating} <i class="fa fa-star" aria-hidden="true" style={{ marginLeft: '3px' }}></i>
+                      {productView.rating} <i className="fa fa-star" aria-hidden="true" style={{ marginLeft: '3px' }}></i>
                     </button>
                     <p className="product-rating d-inline product-detail-padding">{productView.totalRatingCount} Ratings</p>
                     <br></br>
                     <br></br>
                     <p className="product-view-deal product-detail-padding">Detail</p>
                     <p className="product-description product-detail-padding text-line-wish c-pointer next-line" title={productView.highLight}>
-                      {productView.highLight}
+                      {parse(`${productView.highLight}`)}
                     </p>
                     <hr style={{ width: '90%' }} />
                     <div>
@@ -517,6 +525,9 @@ function ProductView({ appRefresher, setAppRefresher }) {
                         <br></br>
                         <button className="btn mb-2 btn-outline-dark me-1 d-inline add-cart" title="Add to cart" onClick={() => AddToCartByQuantity(productView)}>
                           Add to cart
+                          {spinner?
+                            <i style={{marginLeft:"3px"}} className="fa fa-spinner ml-4 fa-spin"></i>
+                            :""}
                         </button>
                         {productView.shippingStatus ? (
                           <button className="btn mb-2 btn-outline-dark d-inline buy-now" onClick={() => BuyNowProduct(productView.productId)}>
@@ -529,6 +540,9 @@ function ProductView({ appRefresher, setAppRefresher }) {
                     ) : (
                       <button className=" d-flex justify-content-center btn btn-outline-dark d-inline buy-now ml-5" onClick={() => AddToWishList(productView)}>
                         Add To Wishlist
+                        {spinner?
+                            <i style={{marginLeft:"3px"}} className="fa fa-spinner ml-4 fa-spin"></i>
+                            :""}
                       </button>
                     )}
                   </div>
@@ -540,7 +554,7 @@ function ProductView({ appRefresher, setAppRefresher }) {
                       <span className="pro-more-deatil">Product detail:</span>
                       <br></br>
                       <span className="pro-more-desc c-pointer next-line" title={productView.description}>
-                        {productView.description}
+                        {parse(`${productView.description}`)}
                       </span>
                     </div>
                     <div className="col-lg-6 col-md-6 col-sm-12">
@@ -552,7 +566,7 @@ function ProductView({ appRefresher, setAppRefresher }) {
                 </div>
                 <div className="pro-detail-desc">
                   {descMedia.map((descriptionImage, index) => (
-                    <img className="pro-detail-desc-img" src={descriptionImage.imgUrl} alt="Product Image" />
+                    <img key={index} className="pro-detail-desc-img" src={descriptionImage.imgUrl} alt="Product Image" />
                   ))}
                 </div>
               </div>
@@ -740,7 +754,7 @@ function ProductView({ appRefresher, setAppRefresher }) {
           </div>
         </div>
         <br></br>
-        <Footer />
+        {/* <Footer /> */}
       </div>
     );
   };
@@ -783,7 +797,9 @@ function ProductView({ appRefresher, setAppRefresher }) {
         </div>
         <div>
           <Modal open={openImage} onClose={onCloseModal} center>
-            <ReactPlayer width="700px" height="400px" style={{ zIndex: '2' }} url={productView.vedioUrl} title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" controls allowFullScreen></ReactPlayer>
+            <div  className="reactYTPlayer">
+            <ReactPlayer width='100%' height="100%" style={{ zIndex: '2'}} url={productView.vedioUrl} title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" controls allowFullScreen></ReactPlayer>
+            </div>
           </Modal>
         </div>
         <div>

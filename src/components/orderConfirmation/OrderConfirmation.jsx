@@ -1,52 +1,33 @@
-import { NavLink } from 'react-router-dom';
-import './orderdetails.scss';
-import { useParams } from 'react-router-dom';
-import moment from 'moment';
+import "./orderConfirmation.scss"
 import React, { useState, useEffect } from 'react';
-import { publicRequest } from '../../requestMethod';
-const OrderDetails = () => {
-  const { id } = useParams();
-  const [order, setOrder] = useState('');
-  useEffect(() => {
-    const getProducts = async () => {
-      try {
-        const res = await publicRequest.get(`Order/get-order-detail/${id}`, {
-          headers: {
-            Authorization: 'bearer ' + JSON.parse(JSON.parse(localStorage.getItem('persist:root')).user).currentUser.token,
-          },
-        });
-        setOrder(res.data.data);
-      } catch {}
-    };
-    getProducts();
-  }, []);
+const OrderConfirmation = () => {
   return (
     <div className="background">
       <div className="row">
         <div className='col-lg-3 col-md-3'></div>
         <div className='col-lg-6 col-md-6 col-sm-12'>
-          <div  className="allahdainLogo">
+          <div  className="orderConfLogo">
             <div className="d-flex justify-content-center">
               <img className="" src="./assets/allahdain.png" />
             </div>
           </div>
-          <div className=' orderRecievedHeading justify-content-center'>Order Recieved</div>
+          <div className=' orderConfirmationHeading justify-content-center'>Order Confirmation</div>
           <div className='thankYouText'><i style={{marginRight:"10px",fontSize:"16px"}} class='fa fa-check-circle'></i>Thank you. Your order has been recieved.</div>
           <div className="mt-4 orderDetailsdata row">
             <div className="col-lg-3 col-md-12  col-sm-12 mb-2">
               <span>ORDER NUMBER:</span>
               <br />
-              <span><b>{order.orderNumberWithDate}</b></span>
+              <span><b>order.orderNumberWithDate</b></span>
             </div>
             <div className="col-lg-3 col-md-12 col-sm-12 mb-2 borderLeft">
               <span>DATE:</span>
               <br />
-              <span><b>{moment(order.createAt).format("YYYY-MM-DD")}</b></span>
+              <span><b>12-12-2010</b></span>
             </div>
             <div className="col-lg-3 col-md-12 col-sm-12 mb-2 borderLeft">
               <span>TOTAL:</span>
               <br />
-              <span><b>{Math.trunc(parseFloat(order.orderTotal))}</b></span>
+              <span><b>12346</b></span>
             </div>
             <div className="col-lg-3 col-md-12 col-sm-12 mb-2 borderLeft">
               <span>PAYMENT METHOD:</span>
@@ -67,4 +48,4 @@ const OrderDetails = () => {
   );
 };
 
-export default OrderDetails;
+export default OrderConfirmation;
