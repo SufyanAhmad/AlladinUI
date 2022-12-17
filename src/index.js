@@ -9,7 +9,6 @@ import { BrowserRouter, HashRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { store, persistor } from './redux/store';
 import { PersistGate } from 'redux-persist/integration/react';
-import HttpsRedirect from 'react-https-redirect';
 import { HelmetProvider } from 'react-helmet-async';
 import { hydrate, render } from "react-dom";
 // import { render } from 'react-snapshot';
@@ -36,7 +35,6 @@ import { hydrate, render } from "react-dom";
 // }
 ReactDOM.hydrate(
     <BrowserRouter>
-    <HttpsRedirect>
     <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
           <HelmetProvider>
@@ -44,7 +42,6 @@ ReactDOM.hydrate(
           </HelmetProvider>
         </PersistGate>
     </Provider>
-  </HttpsRedirect>
   </BrowserRouter>,
   document.getElementById('root')
 );

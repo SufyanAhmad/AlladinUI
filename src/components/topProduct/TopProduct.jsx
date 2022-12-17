@@ -7,6 +7,7 @@ import { FetchUrl } from '../../requestMethod';
 import { useDispatch, useSelector } from 'react-redux';
 import swal from 'sweetalert';
 import { cartQuantityRefresh } from '../../redux/action/index';
+import parse from 'html-react-parser';
 
 const TopProduct = ({ appRefresher, setAppRefresher }) => {
   const [data, setData] = useState([]);
@@ -428,7 +429,7 @@ const TopProduct = ({ appRefresher, setAppRefresher }) => {
       <div className="model">
         <Modal open={Editopen} onClose={EditCloseModal} center>
           <br></br>
-          <div className="row modal">
+          <div className="row">
             <div className="col-lg-6 col-md-6 col-sm-12">
               {productDetail[0] == null ? (
                 <img className="product-img" src="./assets/Auth/Default-img.png" />
@@ -461,11 +462,11 @@ const TopProduct = ({ appRefresher, setAppRefresher }) => {
               </div>
               <div className="mt-2">
                 <h5>HighLight</h5>
-                <span>{productDetails.highLight}</span>
+                <span>{parse(`${productDetails.highLight}`)}</span>
               </div>
               <div className="mt-2">
                 <h5>Description</h5>
-                <span>{productDetails.description}</span>
+                <span>{parse(`${productDetails.description}`)}</span>
               </div>
             </div>
           </div>

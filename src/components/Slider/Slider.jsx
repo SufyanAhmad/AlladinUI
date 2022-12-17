@@ -13,6 +13,7 @@ import ReactWhatsapp from 'react-whatsapp';
 import TimeCounter from '../TimeCounter/TimeCounter';
 import { useDispatch, useSelector } from 'react-redux';
 import { cartQuantityRefresh } from '../../redux/action/index';
+import parse from 'html-react-parser';
 import zIndex from '@mui/material/styles/zIndex';
 
 const Slider = ({ appRefresher, setAppRefresher }) => {
@@ -52,18 +53,6 @@ const Slider = ({ appRefresher, setAppRefresher }) => {
   //   });
   // }, [reload]);
   useEffect(() => {
-    if(filterProduct != "")
-    {
-      const getProductsbyKey = async () => {
-        try {
-          const res = await publicRequest.get(`Home/get-products-by-search/${filterProduct}`);
-          setSearchSuggestions(res.data.data);
-        } catch {}
-      };
-      getProductsbyKey();
-    }
-}, [filterProduct]);
-  useEffect(() => {
     if (user === null) {
       setLoading(true);
       fetch(FetchUrl + 'Home/get-onsale-products?getTopProducts=' + true).then((result) => {
@@ -87,28 +76,17 @@ const Slider = ({ appRefresher, setAppRefresher }) => {
     }
   }, [reload]);
   useEffect(() => {
-    if (user === null) {
-      setLoading(true);
-      fetch(FetchUrl + 'Home/get-subCategories-products').then((result) => {
-        result.json().then((resp) => {
-          setSubcategoryProduct(resp.data);
-          setLoading(false);
-        });
-      });
-    } else {
-      setLoading(true);
-      fetch(FetchUrl + 'Home/get-subCategories-products', {
-        headers: {
-          Authorization: 'bearer ' + JSON.parse(JSON.parse(localStorage.getItem('persist:root')).user).currentUser.token,
-        },
-      }).then((result) => {
-        result.json().then((resp) => {
-          setSubcategoryProduct(resp.data);
-          setLoading(false);
-        });
-      });
+    if(filterProduct != "")
+    {
+      const getProductsbyKey = async () => {
+        try {
+          const res = await publicRequest.get(`Home/get-products-by-search/${filterProduct}`);
+          setSearchSuggestions(res.data.data);
+        } catch {}
+      };
+      getProductsbyKey();
     }
-  }, []);
+}, [filterProduct]);
   useEffect(() => {
     if (user === null) {
       setLoading(true);
@@ -132,6 +110,30 @@ const Slider = ({ appRefresher, setAppRefresher }) => {
       });
     }
   }, []);
+  useEffect(() => {
+    if (user === null) {
+      setLoading(true);
+      fetch(FetchUrl + 'Home/get-subCategories-products').then((result) => {
+        result.json().then((resp) => {
+          setSubcategoryProduct(resp.data);
+          setLoading(false);
+        });
+      });
+    } else {
+      setLoading(true);
+      fetch(FetchUrl + 'Home/get-subCategories-products', {
+        headers: {
+          Authorization: 'bearer ' + JSON.parse(JSON.parse(localStorage.getItem('persist:root')).user).currentUser.token,
+        },
+      }).then((result) => {
+        result.json().then((resp) => {
+          setSubcategoryProduct(resp.data);
+          setLoading(false);
+        });
+      });
+    }
+  }, []);
+  
   useEffect(() => {
     setLoading(true);
     fetch(FetchUrl + 'Home/get-slider-images').then((result) => {
@@ -711,7 +713,7 @@ const Slider = ({ appRefresher, setAppRefresher }) => {
                               <span className="text-line ml-2">{data.productName}</span>
                             </p>
                             <button className="rating d-inline" style={{ marginLeft: '10px', textAlign: 'center', width: '30px' }}>
-                              {data.rating} <i class="fa fa-star" aria-hidden="true" style={{ marginLeft: '5px' }}></i>
+                              {data.rating} <i className="fa fa-star" aria-hidden="true" style={{ marginLeft: '5px' }}></i>
                             </button>
                             <p className="d-inline charges-sold">{data.productSold} sold</p>
                             <br />
@@ -832,9 +834,9 @@ const Slider = ({ appRefresher, setAppRefresher }) => {
         <div className="row justify-content-center">{loading ? <Loading /> : 
         <>
         {window.innerWidth <= 768 ?
-              <div align="center" className="d-inline">
-                    <div style={{height:"45px"}} className="Container-navbar">
-                      <div style={{height:"42px"}} className="Form-group">
+              <div align="center" className="d-inline row">
+                    <div style={{height:"45px"}} >
+                      <div style={{height:"42px"}} className="slider-search">
                         <input 
                           onKeyPress={(e) => {
                             if (e.key === 'Enter' && filterProduct != '') {
@@ -853,8 +855,8 @@ const Slider = ({ appRefresher, setAppRefresher }) => {
                           ''
                         )}
                       </div>
-                    {searchSuggestions!= null && filterProduct!=""?
-                        <div className='search-suggestion-group'>
+                      {searchSuggestions!= null && filterProduct!=""?
+                        <div className='slider-search-suggestion-group'>
                          {searchSuggestions.slice(0,3).map((product, i)=> (
                           <NavLink key={i} to={`/product/view/${product.productId}`}>
                             <div style={{height:"100px"}} className='d-flex'>
@@ -879,6 +881,7 @@ const Slider = ({ appRefresher, setAppRefresher }) => {
                                 <br />
                                 <hr />
                             </div>
+                            <br />
                           </NavLink>
                          ))}
                          {/* <NavLink to={`/searchProduct/${filterProduct}`}> */}
@@ -927,11 +930,11 @@ const Slider = ({ appRefresher, setAppRefresher }) => {
                 )}
                 <div className="mt-2">
                   <h5>HighLight</h5>
-                  <span>{productDetails.highLight}</span>
+                  <span>{parse(`${productDetails.highLight}`)}</span>
                 </div>
                 <div className="mt-2">
                   <h5>Description</h5>
-                  <span>{productDetails.description}</span>
+                  <span>{parse(`${productDetails.description}`)}</span>
                 </div>
               </div>
             </div>

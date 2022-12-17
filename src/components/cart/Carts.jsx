@@ -9,6 +9,7 @@ import { publicRequest } from '../../requestMethod';
 import { FetchUrl } from '../../requestMethod';
 import swal from 'sweetalert';
 import { cartQuantityRefresh } from '../../redux/action/index';
+import parse from 'html-react-parser';
 
 const Carts = ({ appRefresher, setAppRefresher }) => {
   // const state = useSelector((state) => state.handleCart);
@@ -257,7 +258,7 @@ const Carts = ({ appRefresher, setAppRefresher }) => {
                       <div className="cart-product-price mt-1">{Math.trunc(parseFloat(order.discount / order.quantity))}</div>}
                       <div className="cart-product-detail mt-3">Detail</div>
                       <div className="cart-product-desc mt-1 text-line" title={order.highLight}>
-                        {order.highLight}
+                        {parse(`${order.highLight}`)}
                       </div>
                       <div className="d-flex justify-content-center cart-product-qty mt-2">Quantity</div>
                       <div className="d-flex justify-content-center mt-3">

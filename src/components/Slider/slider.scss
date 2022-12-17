@@ -334,6 +334,26 @@
     text-align: left;
 
 }
+.slider-search {
+    background-color: #ffffff;
+    // display: flex;
+    height: 39px;
+    padding: 10px;
+    box-shadow: 0px 2px 4px 0px rgba(12, 18, 18, 0.4);
+    // margin-top: 10px !important;
+    margin: 10px -2px 0px -2px !important;
+  }
+  .slider-search-suggestion-group{
+    background-color: #fafafa;
+    // width: 480px;
+    z-index: 2;
+    position: absolute;
+    border-radius: 5px;
+    padding: 5px;
+    margin-top: 3px;
+    margin-right: 10px;
+    // margin-left: 40px;
+  }
 
 //super deal
 .super-deal {
@@ -798,6 +818,10 @@ a {
     //     height: fit-content;
     // }
     
+    // .slider-search{
+    //     width: 96% !important;
+    //     margin-left: 2px !important;
+    //   }
     .deal-cards{
         display: flex;
         overflow: scroll;
@@ -838,6 +862,29 @@ a {
     // .subcategoryProductSlider{
     //     margin-top: -350px;
     // }
+
+
+    .sidebar-right {
+        display: none;
+    }
+    .slider-container{
+        padding-left: 10px;
+        padding-right: 10px;
+        // margin-top: -10px;
+    }
+    .sidebar-items {
+        display: none
+    }
+    .sale-product-img{
+        height: 100% !important;
+    }
+    .product-img{
+        height: 100% !important;
+        width: 100% !important;
+    }
+    .popup-product-img {
+        width: 100% !important;
+    }
 }
 @media (max-width:560px) {
     .product-price-slider, .price-with-discount{
@@ -860,11 +907,7 @@ a {
     .deal-text {
         margin-right:0px;
     }
-    .slider-container{
-        padding-left: 10px;
-        padding-right: 10px;
-        // margin-top: -10px;
-    }
+    
     .navbar-container{
         padding-left: 0px;
         padding-right: 0px;
@@ -881,27 +924,6 @@ a {
     }
 }
 
-@media (max-width:768px) {
-    // .modal{
-    //     margin-top: 300px !important;
-    // }
-    .sidebar-right {
-        display: none;
-    }
-    .sidebar-items {
-        display: none
-    }
-    .sale-product-img{
-        height: 100% !important;
-    }
-    .product-img{
-        height: 100% !important;
-        width: 100% !important;
-    }
-    .popup-product-img {
-        width: 100% !important;
-    }
-}
 
 @media (max-width:1024px) {
     .sidebar-img-buttom {

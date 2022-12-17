@@ -31,7 +31,7 @@ const OrderDetails = () => {
             </div>
           </div>
           <div className=' orderRecievedHeading justify-content-center'>Order Recieved</div>
-          <div className='thankYouText'><i style={{marginRight:"10px",fontSize:"16px"}} class='fa fa-check-circle'></i>Thank you. Your order has been recieved.</div>
+          <div className='thankYouText'><i style={{marginRight:"10px",fontSize:"16px"}} className='fa fa-check-circle'></i>Thank you. Your order has been recieved.</div>
           <div className="mt-4 orderDetailsdata row">
             <div className="col-lg-3 col-md-12  col-sm-12 mb-2">
               <span>ORDER NUMBER:</span>

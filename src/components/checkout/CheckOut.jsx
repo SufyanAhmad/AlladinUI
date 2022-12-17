@@ -7,16 +7,7 @@ import { FetchUrl } from '../../requestMethod';
 import { useDispatch } from 'react-redux';
 import { cartQuantityRefresh } from '../../redux/action/index';
 
-async function AddOrder(credentials) {
-  return fetch(FetchUrl + 'Order/add-new-order-by-cart', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: 'bearer ' + JSON.parse(JSON.parse(localStorage.getItem('persist:root')).user).currentUser.token,
-    },
-    body: JSON.stringify(credentials),
-  }).then((data) => data.json());
-}
+
 const CheckOut = ({ appRefresher, setAppRefresher }) => {
   const [cartSummary, setCartSummary] = useState('');
   const [orderProduct, setorderProduct] = useState([]);
@@ -33,6 +24,7 @@ const CheckOut = ({ appRefresher, setAppRefresher }) => {
   const dispatch = useDispatch();
   const [refresh, setRefresh] = useState(true);
   const [reload, setReload] = useState([orderProduct]);
+  const [orderButtonFlag, setOrderButtonFlag] = useState(true);
   let history = useHistory();
   let IsCurrentUser = JSON.parse(JSON.parse(localStorage.getItem('persist:root')).user).currentUser;
   useEffect(() => {
@@ -85,7 +77,18 @@ const CheckOut = ({ appRefresher, setAppRefresher }) => {
       history.push('/login');
     }
   }, [reload]);
+  async function AddOrder(credentials) {
+    return fetch(FetchUrl + 'Order/add-new-order-by-cart', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'bearer ' + JSON.parse(JSON.parse(localStorage.getItem('persist:root')).user).currentUser.token,
+      },
+      body: JSON.stringify(credentials),
+    }).then((data) => data.json());
+  }
   const handleSubmit = async (e) => {
+    setOrderButtonFlag(false)
     if (IsCurrentUser != null) {
       e.preventDefault();
       if (_default === 'True') {
@@ -104,6 +107,7 @@ const CheckOut = ({ appRefresher, setAppRefresher }) => {
               buttons: false,
               timer: 2000,
             }).then((value) => {
+              setOrderButtonFlag(true)
               let id = response.data.orderId;
               setRefresh(!refresh);
               dispatch(cartQuantityRefresh(refresh));
@@ -112,9 +116,11 @@ const CheckOut = ({ appRefresher, setAppRefresher }) => {
               history.push(`/orderdetail/${id}`);
             });
           } else {
+            setOrderButtonFlag(true)
             swal('Failed', response.message, 'error');
           }
         } else {
+          setOrderButtonFlag(true)
         }
       } else {
         if (city && address && phoneNo && firstName) {
@@ -127,11 +133,12 @@ const CheckOut = ({ appRefresher, setAppRefresher }) => {
             email,
             shippedOnDefaultAddress: false,
           });
-          if ('status' in response) {
+          if (response.status==="Success") {
             swal('Success', response.message, 'success', {
               buttons: false,
               timer: 2000,
             }).then((value) => {
+              setOrderButtonFlag(true)
               let id = response.data.orderId;
               setRefresh(!refresh);
               dispatch(cartQuantityRefresh(refresh));
@@ -140,9 +147,11 @@ const CheckOut = ({ appRefresher, setAppRefresher }) => {
               history.push(`/orderdetail/${id}`);
             });
           } else {
+            setOrderButtonFlag(true)
             swal('Failed', response.message, 'error');
           }
         } else {
+          setOrderButtonFlag(true)
         }
       }
     } else {
@@ -277,7 +286,6 @@ const CheckOut = ({ appRefresher, setAppRefresher }) => {
                       <div className="d-flex justify-content-start mt-2 your-order"></div>
                       {orderProduct.map((order, i) => (
                         <span key={i}>
-                          {/* {order.status === true ? ( */}
                             <div className="row">
                               <div className="col-4">
                                 {order.image !== null?
@@ -292,9 +300,6 @@ const CheckOut = ({ appRefresher, setAppRefresher }) => {
                                 <div className="product-checkout-price mt-1">Quantity:{order.quantity}</div>
                               </div>
                             </div>
-                          {/* ) : (
-                            <div></div>
-                          )} */}
                         </span>
                       ))}
                       <hr className="mt-2" style={{ width: '95%', marginLeft: '10px' }} />
@@ -313,8 +318,12 @@ const CheckOut = ({ appRefresher, setAppRefresher }) => {
                         <span className="subtotal">{Math.trunc(parseFloat(cartSummary.total))}</span>
                       </div>
                       <div className="d-flex justify-content-center">
-                        <button className="place-order-btn" type="submit">
+                        <button disabled={!orderButtonFlag} className="place-order-btn" type="submit">
                           Place your order
+                          {orderButtonFlag? ""
+                            :
+                              <i style={{marginLeft:"5px"}} className="fa fa-spinner ml-4 fa-spin"></i>
+                            }
                         </button>
                       </div>
                     </div>

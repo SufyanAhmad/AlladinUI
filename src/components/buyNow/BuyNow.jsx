@@ -4,9 +4,13 @@ import React, { useState, useEffect } from "react";
 import swal from 'sweetalert';
 import { useHistory,useParams} from "react-router-dom";
 import {FetchUrl} from "../../requestMethod";
+import { useDispatch,useSelector } from 'react-redux';
+import { login } from '../../redux/apiCalls';
 
 const BuyNow = ({reloadPage,setReloadPage}) => {
     const { id } = useParams();
+    const dispatch = useDispatch();
+    const [invalidLogin, setInvalidLogin] = useState(false);
     const [city, setCity] = useState();
     const [address, setAddress] = useState();
     const [phoneNo, setPhoneNo] = useState();
@@ -23,15 +27,13 @@ const BuyNow = ({reloadPage,setReloadPage}) => {
     const [subtotal, setSubtotal] = useState([]);
     const [shippingCharges, setShippingCharges] = useState([]);
     const [total, setTotal] = useState([]);
+    const [orderButtonFlag, setOrderButtonFlag] = useState(true);
 
 
     let history = useHistory();
     let IsCurrentUser=JSON.parse(JSON.parse(localStorage.getItem("persist:root")).user).currentUser
     useEffect(() => {
           fetch(FetchUrl+`Home/get-product/${id}`,{
-            headers:{
-              Authorization : 'bearer '+ JSON.parse(JSON.parse(localStorage.getItem("persist:root")).user).currentUser.token
-            }
           }).then((result)=>{
             result.json().then((resp)=>{
               setProductView(resp.data)
@@ -61,15 +63,15 @@ const BuyNow = ({reloadPage,setReloadPage}) => {
           }catch{}
         }
         getDefaultShippingAddress()
-      }else{
-        history.push("/login")
       }
     },[])
+    const role = useSelector((state) => state.user.currentUser && state.user.currentUser.role);
+    
     const handleSubmit = async e => {
+      setOrderButtonFlag(false)
       var loginForm = document.querySelector('form');
       loginForm.addEventListener('submit', (e)=>{e.preventDefault();}); 
       e.preventDefault();
-      if(IsCurrentUser !=null){
         if(_default === "True"){
         if(defaultAddress.city && defaultAddress.address && defaultAddress.phoneNo && defaultAddress.firstName){
           let quantity = productQuantity;
@@ -90,20 +92,22 @@ const BuyNow = ({reloadPage,setReloadPage}) => {
           })
           .then((value) => {
             let id = response.data.orderId
+            setOrderButtonFlag(true)
             history.push(`/orderdetail/${id}`);
-           
           });
           setReloadPage(reloadPage + 1)
         } else {
+          setOrderButtonFlag(true)
           swal("Failed", response.message, "error");
         }
       }else{
+        setOrderButtonFlag(true)
         alert("Please Fill all the fields")
       }
     }else{
       if(city && address && phoneNo && firstName){
         let quantity = productQuantity;
-        const response = await AddOrder({
+        const response = (role =="Customer"? await AddOrder({
             quantity,
             comment:"",
             city,
@@ -111,28 +115,46 @@ const BuyNow = ({reloadPage,setReloadPage}) => {
             phoneNo,
             firstName,
             email,
-            shippedOnDefaultAddress:false
-        });
-        if ('status' in response) {
+            shippedOnDefaultAddress: false
+        })
+        :
+        await OrderWithoutAuthentication({
+          quantity,
+          comment:"",
+          city,
+          address,
+          phoneNo,
+          firstName,
+          email,
+          shippedOnDefaultAddress: false
+      }));
+      debugger
+        if (response.status === 'Success') {
           swal("Success", response.message, "success", {
             buttons: false,
             timer: 2000,
           })
           .then((value) => {
             let id = response.data.orderId
+            setOrderButtonFlag(true)
+            if(role !=="Customer"){
+                  let password = firstName + "@4321A";
+                  let phone = phoneNo;
+                  login(dispatch, { phone, password }, setInvalidLogin);
+                }
             history.push(`/orderdetail/${id}`);
           });
           setReloadPage(reloadPage + 1)
         } else {
+          setOrderButtonFlag(true)
           swal("Failed", response.message, "error");
         }
       }else{
+        setOrderButtonFlag(true)
         alert("Please Fill all the fields")
       }
     }
-  }else{
-    history.push("/login")
-  }
+ 
   }
   async function AddOrder(credentials) {
     return fetch(FetchUrl+`Order/add-new-order/${id}`, {
@@ -145,6 +167,16 @@ const BuyNow = ({reloadPage,setReloadPage}) => {
     })
       .then(data => data.json())
    }
+async function OrderWithoutAuthentication(credentials) {
+  return fetch(FetchUrl+`Order/add-new-order-without-authentication/${id}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+     },
+    body: JSON.stringify(credentials)
+  })
+    .then(data => data.json())
+ }
     const GetDefaultAddress = e => {
       if(IsCurrentUser !=null){
       e.preventDefault();
@@ -159,8 +191,6 @@ const BuyNow = ({reloadPage,setReloadPage}) => {
         setDefaultAddress(result.data)
       })
     })
-  }else{
-    history.push("/login")
   }
   };
   useEffect(()=>{
@@ -170,12 +200,8 @@ const BuyNow = ({reloadPage,setReloadPage}) => {
         productId,
         quantity,
       };
-      if (IsCurrentUser != null) {
         fetch(FetchUrl + `Order/get-product-order-summary/${id}?quantity=` + quantity, {
           method: 'GET',
-          headers: {
-            Authorization: 'bearer ' + JSON.parse(JSON.parse(localStorage.getItem('persist:root')).user).currentUser.token,
-          },
           body: JSON.stringify(),
         }).then((resp) => {
           resp.json().then((result) => {
@@ -187,9 +213,6 @@ const BuyNow = ({reloadPage,setReloadPage}) => {
             }
           });
         });
-      } else {
-        history.push('/login');
-      }
   },[productQuantity])
   
   useEffect(() => {
@@ -232,7 +255,7 @@ const BuyNow = ({reloadPage,setReloadPage}) => {
                             <div className='billing-detail d-flex justify-content-between'>
                               <span className='billing-detail'>Billing Details</span>
                              {
-                              _defaultAddress !==null ?
+                              _defaultAddress !==null && IsCurrentUser !=null?
                               <div onChange={e => setDefault(e.target.value)}>
                                 {_default ==="false"?
                                   <>
@@ -241,8 +264,7 @@ const BuyNow = ({reloadPage,setReloadPage}) => {
                                   :
                                   <>
                                     <input type="radio" value="True" name="selectAddress" id="selectAddress" checked/> default
-                                  </>
-                                }
+                                  </>}
                               </div>
                               :
                               ""
@@ -359,8 +381,6 @@ const BuyNow = ({reloadPage,setReloadPage}) => {
                                     </div>
                                 </div>
                                 </div>
-                                {/* {productView.discountPrice ===0?
-                                <> */}
                                 <hr className="mt-2" style={{width:"95%",marginLeft:"10px"}}/>
                                 <div className="d-flex justify-content-between padding">
                                     <span className="subtotal">Subtotal</span>
@@ -376,29 +396,14 @@ const BuyNow = ({reloadPage,setReloadPage}) => {
                                     <span className="subtotal">Total</span>
                                     <span className="subtotal">{total}</span>
                                 </div>
-                                {/* </>
-                                :
-                                <>
-                                <hr className="mt-2" style={{width:"95%",marginLeft:"10px"}}/>
-                                <div className="d-flex justify-content-between padding">
-                                    <span className="subtotal">Subtotal</span>
-                                    <span className="subtotal">{Math.trunc(parseFloat(Math.trunc(productView.discountPrice)))*quantity}</span>
-                                </div>
-                                <hr className="mt-2" style={{width:"95%",marginLeft:"10px"}}/>
-                                <div className="d-flex justify-content-between padding">
-                                    <span className="subtotal">Shipping</span>
-                                    <span className="subtotal">{productView.manualShippingCharges}</span>
-                                </div>
-                                <hr className="mt-2" style={{width:"95%",marginLeft:"10px"}}/>
-                                <div className="d-flex justify-content-between padding">
-                                    <span className="subtotal">Total</span>
-                                    <span className="subtotal">{(Math.trunc(parseFloat(Math.trunc(productView.discountPrice)))*quantity)+(productView.manualShippingCharges)}</span>
-                                </div>
-                                </>
-                                 } */}
                                 <div className="d-flex justify-content-center">
-                                  <button className="place-order-btn" type="submit">
+                                  <button disabled={!orderButtonFlag} className="place-order-btn" type="submit">
                                     Place your order
+                                    {orderButtonFlag?
+                                    ""
+                                    :
+                                    <i style={{marginLeft:"5px"}} className="fa fa-spinner ml-4 fa-spin"></i>
+                                    }
                                   </button>
                                 </div>
                         </div>

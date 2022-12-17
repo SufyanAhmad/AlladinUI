@@ -8,6 +8,7 @@ import { useHistory } from 'react-router-dom';
 import swal from 'sweetalert';
 import { useDispatch } from 'react-redux';
 import { cartQuantityRefresh } from '../../redux/action/index';
+import parse from 'html-react-parser';
 
 const Wishlist = ({ appRefresher, setAppRefresher }) => {
   const [wishLists, setWishList] = useState([]);
@@ -182,12 +183,12 @@ const Wishlist = ({ appRefresher, setAppRefresher }) => {
                               <span className="text-line">Detail</span>
                             </div>
                             <div className="wish-product-desc mt-1 text-line-wish c-pointer text-line" title={wishList.highLight}>
-                              {wishList.highLight}
+                              {parse(`${wishList.highLight}`)}
                             </div>
                           </div>
                           <div className=" mt-4 d-flex justify-content-between mb-4">
                             <button className="wish-product-rating" style={{ marginLeft: '10px', textAlign: 'center', width: '30px' }}>
-                              {wishList.productRatting} <i class="fa fa-star" aria-hidden="true" style={{ marginLeft: '5px' }}></i>
+                              {wishList.productRatting} <i className="fa fa-star" aria-hidden="true" style={{ marginLeft: '5px' }}></i>
                             </button>
 
                             {wishList.isInCart ? (

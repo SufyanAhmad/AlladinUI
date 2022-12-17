@@ -261,7 +261,7 @@ function SearchProducts({ appRefresher, setAppRefresher }) {
                         </div>
                         <div className="d-flex align-content-center justify-content-center">
                           <button className="flip-card-rating d-inline" style={{ marginLeft: '10px', textAlign:"center",width:"30px" }}>
-                            {product.rating} <i class="fa fa-star" aria-hidden="true" style={{marginLeft:"5px"}}></i>
+                            {product.rating} <i className="fa fa-star" aria-hidden="true" style={{marginLeft:"5px"}}></i>
                           </button>
                           <p className="d-inline fc-charges-sold ml-2">{product.productSold} sold</p>
                         </div>

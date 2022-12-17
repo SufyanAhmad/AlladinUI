@@ -1,16 +1,15 @@
 import React, { useState, useRef } from 'react';
 import './auth.css';
-import styled from 'styled-components';
-import { NavLink } from 'react-router-dom';
+import { NavLink,useHistory } from 'react-router-dom';
 import { login } from '../../redux/apiCalls';
 import { useDispatch } from 'react-redux';
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
-import { GoogleLogout,GoogleLogin } from 'react-google-login';
 import { gapi } from "gapi-script";
 import { useEffect } from 'react';
+import { FetchUrl } from '../../requestMethod';
+import { loginSuccess } from "../../redux/userRedux";
 import {UserScript} from "./userScript";
-import jwtDecode from 'jwt-decode';
 
 const Login = ({ reloadPage, setReloadPage }) => {
   const [phone, setphone] = useState('');
@@ -23,7 +22,10 @@ const Login = ({ reloadPage, setReloadPage }) => {
   const [spinner, setSpinner] = useState(false);
   const [guser, setGuser] = useState();
   const googlebuttonref = useRef();
-
+  let history = useHistory();
+  // if (sampleLocation.pathname !== '/login' && sampleLocation.pathname !== '/register') {
+  //   localStorage.setItem('currentURL', sampleLocation.pathname);
+  // }
 
   const handleClick = () => {
     // e.preventDefault();
@@ -46,7 +48,10 @@ const Login = ({ reloadPage, setReloadPage }) => {
 //   }
 //   UserScript("https://accounts.google.com/gsi/client", () => {
 //     window.google.accounts.id.initialize({
-//       client_id: "385908927810-l5ggnace1t2cee0ba33bpjcr3ibp5ice.apps.googleusercontent.com",
+//       // client_id: "385908927810-l5ggnace1t2cee0ba33bpjcr3ibp5ice.apps.googleusercontent.com",
+
+//       // Alladin
+//       client_id: "893508487577-56qfega286ebtalkq71kmhvi1nskcfho.apps.googleusercontent.com",
 //       callback: onGoogleSignIn,
 //       auto_select: false
 //     });
@@ -54,23 +59,50 @@ const Login = ({ reloadPage, setReloadPage }) => {
 //   size: "large"
 // })
 //   })
-  // useEffect(()=>{
-  //   gapi.load("client:auth2", () => {
-  //     gapi.client.init({
-  //       clientId:
-  //         "385908927810-l5ggnace1t2cee0ba33bpjcr3ibp5ice.apps.googleusercontent.com",
-  //       plugin_name: "chat",
-  //     });
-  //   });
-  // },[])
+//   useEffect(()=>{
+//     gapi.load("client:auth2", () => {
+//       gapi.client.init({
+//         clientId:
+//           // "385908927810-l5ggnace1t2cee0ba33bpjcr3ibp5ice.apps.googleusercontent.com",
+
+//           // Alladin
+//           "893508487577-56qfega286ebtalkq71kmhvi1nskcfho.apps.googleusercontent.com",
+//         plugin_name: "chat",
+//       });
+//     });
+//   },[])
+
   function handleCallBackResponse (response){
-    console.log(jwtDecode(response.credential))
+    const object = {
+      provider:"GOOGLE",
+      idToken: response.credential
+    }
+      fetch(FetchUrl + 'Authenticate/ExternalLogin', {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(object),
+      }).then((resp)=>{
+        resp.json().then((result)=>{
+         if(result.token &&result.userId)
+         {
+          localStorage.setItem("token",result.token)
+          dispatch(loginSuccess(result))
+          window.location.reload();
+         }
+        })
+      })
   }
   useEffect(() => {
     window.google.accounts.id.initialize({
-      client_id:"874597877760-pkuomdj63c2dk7k04e2l98oevjn4s02s.apps.googleusercontent.com",
+      // client_id:"874597877760-pkuomdj63c2dk7k04e2l98oevjn4s02s.apps.googleusercontent.com",
+      client_id:"893508487577-56qfega286ebtalkq71kmhvi1nskcfho.apps.googleusercontent.com",
       callback: handleCallBackResponse
     })
+
+    
 
     window.google.accounts.id.renderButton(
       document.getElementById("googleSignIn"),
@@ -80,15 +112,17 @@ const Login = ({ reloadPage, setReloadPage }) => {
       }
     )
   },[]);
-  const responseGoogle = (response) => {
-    console.log(response);
-  }
-  const responseGoogleSuccess = (response) => {
-    console.log(response);
-  }
-  const logout = (response) => {
-    console.log(response);
-  }
+  useEffect(() => {
+    fetch(FetchUrl + `User/get-user-profile`, {
+      headers: {
+        Authorization: 'bearer ' + localStorage.getItem('token'),
+      },
+    }).then((result) => {
+      result.json().then((resp) => {
+        console.log(resp.data);
+      });
+    });
+  }, []);
   const showPassword = () => {
     var x = document.getElementById('password');
     x.type === 'password' ? (x.type = 'text') : (x.type = 'password');
@@ -193,6 +227,8 @@ const Login = ({ reloadPage, setReloadPage }) => {
               </div>
               <div className="col-xs-12 col-sm-12 col-md-6 col-lg-6" style={{ marginTop: '6px' }}>
                 <br></br>
+                <div style={{marginTop:"14px" ,marginBottom:"31px"}} id="googleSignIn"></div>
+
                 {phone.length >= 11 && password ? (
                   <button style={{ marginTop: '14px' }} onClick={handleClick} className="signup-btn">
                     Login
@@ -206,15 +242,10 @@ const Login = ({ reloadPage, setReloadPage }) => {
                   </button>
                 )}
                 {/* 658977310896-knrl3gka66fldh83dao2rhgbblmd4un9.apps.googleusercontent.com */}
-
-
-
-
-
-                {/* <div id="googleSignIn"></div> */}
+                  <br />
+                  <br />
+                  <br />
                 
-
-
                 
                 {/* <div ref={googlebuttonref}>helo</div>
                 {guser && 
@@ -223,19 +254,6 @@ const Login = ({ reloadPage, setReloadPage }) => {
                   <img src={guser.picture} alt="" />
                   <p>{guser.email}</p>
                 </div>} */}
-                {/* <GoogleLogin
-                  clientId="874597877760-pkuomdj63c2dk7k04e2l98oevjn4s02s.apps.googleusercontent.com"
-                  buttonText="Login with Google"
-                  onSuccess={responseGoogleSuccess}
-                  onFailure={responseGoogle}
-                  cookiePolicy={'single_host_origin'}
-                />
-                <GoogleLogout
-                  clientId="874597877760-pkuomdj63c2dk7k04e2l98oevjn4s02s.apps.googleusercontent.com"
-                  buttonText="Logout"
-                  onLogoutSuccess={logout}
-                >
-                </GoogleLogout> */}
               </div>
             </div>
           </div>

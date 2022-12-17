@@ -8,6 +8,7 @@ import { FetchUrl } from '../../requestMethod';
 import swal from 'sweetalert';
 import { useDispatch } from 'react-redux';
 import { cartQuantityRefresh } from '../../redux/action/index';
+import parse from 'html-react-parser';
 
 function ProductList({ appRefresher, setAppRefresher }) {
   const { id } = useParams();
@@ -503,7 +504,7 @@ function ProductList({ appRefresher, setAppRefresher }) {
                       <div className="title pt-4 pb-2 text-line mb-1">{product.productName}</div>
                       <div className="d-flex align-content-center justify-content-center">
                         <button className="flip-card-rating d-inline" style={{ marginLeft: '10px', textAlign:"center",width:"30px" }}>
-                          {product.rating}<i class="fa fa-star" aria-hidden="true" style={{marginLeft:"5px"}}></i>
+                          {product.rating}<i className="fa fa-star" aria-hidden="true" style={{marginLeft:"5px"}}></i>
                         </button>
                         <p className="d-inline fc-charges-sold ml-2">{product.productSold} sold</p>
                       </div>
@@ -559,11 +560,11 @@ function ProductList({ appRefresher, setAppRefresher }) {
               </div>
               <div className="mt-2">
                 <h5>HighLight</h5>
-                <span>{productDetails.highLight}</span>
+                <span>{parse(`${productDetails.highLight}`)}</span>
               </div>
               <div className="mt-2">
                 <h5>Description</h5>
-                <span>{productDetails.description}</span>
+                <span>{parse(`${productDetails.description}`)}</span>
               </div>
             </div>
           </div>
