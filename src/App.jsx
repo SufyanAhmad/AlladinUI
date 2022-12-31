@@ -120,7 +120,7 @@ const App = () => {
   const pendings = ordersnumber.filter((item) => item.orderStatusType === 'Pending');
   const reviews = reviewsnumber.filter((item) => item.replyStatus === false);
   return (
-    <>
+    <div className='app'>
     <HelmetProvider>
       <Navbar cartLength={cartLength} orderLength={pendings.length} reviewLength={reviews.length} />
       <Switch>
@@ -196,7 +196,7 @@ const App = () => {
       </Switch>
       <Footer />
       </HelmetProvider>
-    </>
+    </div>
   );
 };
 export default App;

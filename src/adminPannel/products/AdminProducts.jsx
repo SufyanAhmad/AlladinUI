@@ -94,6 +94,8 @@ const AdminProducts = () => {
   const [sort, setSort] = useState('ASC');
   const [open, setOpen] = useState(false);
   const [spinner, setSpinner] = useState(false);
+  const [buttonSpinner, setButtonSpinner] = useState(false);
+
   const [ImgArrangementNo, setImgArrangementNo] = useState();
 
   const onOpenModal = () => {
@@ -254,6 +256,7 @@ const AdminProducts = () => {
     getOnline();
   }, [reload]);
   const onFormSubmit = (e) => {
+    setButtonSpinner(true)
     e.preventDefault();
     const formData = new FormData();
     formData.append('Images', formFile);
@@ -269,6 +272,7 @@ const AdminProducts = () => {
       .post(url, formData, config)
       .then((response) => {
         setReload(mainCategories, online, outOfStock);
+        setButtonSpinner(false)
         setSelectedImage(null);
         setSelectedImageDesc(null);
         setAddImageModel(false);
@@ -339,7 +343,7 @@ const AdminProducts = () => {
     setWarranty(product.warrantyId);
   }
   const SubmitProduct = async (e) => {
-    setSpinner(true)
+    setButtonSpinner(true)
     if ((productName && highLight && description && hight && width && length && SubCategory) && (_categoryId && weight && price && _brandId && _warrantyId && typeof freeShippingLabels === 'boolean' && typeof shippingStatuses === 'boolean' && typeof isPapulars === 'boolean')) {
       var freeShippingLabel = freeShippingLabels;
       var shippingStatus = true;
@@ -397,13 +401,13 @@ const AdminProducts = () => {
           //   buttons: false,
           //   timer: 2000,
           // }).then((value) => {
-            setSpinner(false);
+            setButtonSpinner(false);
             setOpen(false);
             setReload(online, subCategories);
             setFillFields(false);
           // });
         } else {
-          setSpinner(false)
+          setButtonSpinner(false)
           swal('Failed', result.message, 'error');
         }
       });
@@ -452,7 +456,7 @@ const AdminProducts = () => {
           //   buttons: false,
           //   timer: 2000,
           // }).then((value) => {
-            setSpinner(false)
+            setButtonSpinner(false)
             setEditOpen(false);
             setReload(online);
             setOldCatID(null);
@@ -463,14 +467,14 @@ const AdminProducts = () => {
             setEditSubCat(null);
           // });
         } else {
-          setSpinner(false)
+          setButtonSpinner(false)
           swal('Failed', result.message, 'error');
         }
       });
     });
   }
   const SubmitEditProduct = async (e) => {
-    setSpinner(true)
+    setButtonSpinner(true)
     var discountStart = discountStartVar === '' || price === discount ? null : discountStartVar;
     var discountEnd = discountEndVar === '' || price === discount ? null : discountEndVar;
     var freeShippingLabel = freeShippingLabels;
@@ -511,6 +515,7 @@ const AdminProducts = () => {
         manualShippingCharges,
         arrangementNo,
       });
+      setButtonSpinner(false)
       setHashTag([]);
       setEditMainCat(null);
       setEditCat(null);
@@ -519,6 +524,7 @@ const AdminProducts = () => {
       setOldCatID(null);
       setOldSubCatID(null);
     } else {
+      setButtonSpinner(false)
       setFillFields(true);
     }
   };
@@ -1394,7 +1400,7 @@ const AdminProducts = () => {
                 <div className="d-flex justify-content-between" style={{ float: 'right' }}>
                   <button type="submit" className="save-prodcut-btn mr-2" onClick={SubmitProduct}>
                     Save Product
-                    {spinner?
+                    {buttonSpinner?
                     <i className="fa fa-spinner ml-4 fa-spin"></i>
                     :""}
                   </button>
@@ -1684,7 +1690,7 @@ const AdminProducts = () => {
                 <div className="d-flex justify-content-between" style={{ float: 'right' }}>
                   <button type="submit" className="save-prodcut-btn mr-2" onClick={SubmitEditProduct}>
                     Save Product
-                    {spinner?
+                    {buttonSpinner?
                     <i className="fa fa-spinner ml-4 fa-spin"></i>
                     :""}
                   </button>
@@ -1734,8 +1740,11 @@ const AdminProducts = () => {
                 <br></br>
                 <br></br>
                 
-                <button disabled={formFile?ImgArrangementNo?false:true:false} type="submit" style={{width:"100px",marginTop:"10px",float:"right"}} className='add-product-btn'>
+                <button disabled={formFile?(ImgArrangementNo)?false:true:false} type="submit" style={{width:"100px",marginTop:"10px",float:"right"}} className='add-product-btn'>
                   Save
+                  {/* {buttonSpinner?
+                    <i className="fa fa-spinner ml-4 fa-spin"></i>
+                    :""} */}
                 </button>
               </form>
             </div>
@@ -1835,8 +1844,11 @@ const AdminProducts = () => {
                 </div>
                 <br></br>
                 <br></br>
-                <button disabled={formFile?ImgArrangementNo?false:true:false} type="submit" style={{width:"100px",marginTop:"10px",float:"right"}} className='add-product-btn'>
+                <button disabled={formFile?(ImgArrangementNo)?false:true:false} type="submit" style={{width:"100px",marginTop:"10px",float:"right"}} className='add-product-btn'>
                   Save
+                  {/* {buttonSpinner?
+                    <i className="fa fa-spinner ml-4 fa-spin"></i>
+                    :""} */}
                 </button>
               </form>
             </div>

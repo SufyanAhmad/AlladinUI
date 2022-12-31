@@ -24,6 +24,7 @@ function MyProfile() {
   const [loading, setLoading] = useState(false);
   const [fillFields, setFillFields] = useState(false);
   const [reload, setReload] = useState(userProfile);
+  const [isPassword, setIsPassword] = useState();
   const EditCloseModal = () => {
     setEditOpen(false);
     setNetworkError('');
@@ -38,6 +39,7 @@ function MyProfile() {
     }).then((result) => {
       result.json().then((resp) => {
         setUserProfile(resp.data);
+        setIsPassword(resp.data.havePassword)
         setLoading(false);
       });
     });
@@ -89,17 +91,32 @@ function MyProfile() {
       body: JSON.stringify(credentials),
     }).then((data) => data.json());
   }
+  async function CreatePassword(credentials) {
+    return fetch(FetchUrl + 'Authenticate/create-password', {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'bearer ' + JSON.parse(JSON.parse(localStorage.getItem('persist:root')).user).currentUser.token,
+      },
+      body: JSON.stringify(credentials),
+    }).then((data) => data.json());
+  }
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (newPassword !== confirmPassword) {
       setPasswordError(true);
     }
-    if (currentPassword && newPassword && newPassword === confirmPassword) {
-      const response = await ChangePassword({
+    if (newPassword && newPassword === confirmPassword) {
+      const response = await ((currentPassword && isPassword) ? ChangePassword({
         currentPassword,
         newPassword,
         confirmPassword,
-      });
+      })
+      :
+      CreatePassword({
+        newPassword,
+        confirmPassword,
+      }));
 
       if (response.status === 'Success') {
         swal('Success', response.message, 'success', {
@@ -115,7 +132,8 @@ function MyProfile() {
       } else {
         swal('Error', response.message, 'error');
       }
-    } else {
+    }
+     else {
       setError('Please Fill all the fields');
     }
   };
@@ -161,12 +179,16 @@ function MyProfile() {
                     </div>
                     <form className="col-lg-6 col-md-6 col-sm-12" onSubmit={handleSubmit}>
                       <div style={{ width: '100%' }}>
-                        <div className="labels">
-                          <p className="labelInput secondLabel">Old Password</p>
-                        </div>
-                        <div className="usersInputFields passwordFields">
-                          <input type="password" required placeholder="Enter Old password" onChange={(e) => setCurrentPassword(e.target.value)}></input>
-                        </div>
+                        {isPassword?
+                        <>
+                          <div className="labels">
+                            <p className="labelInput secondLabel">Old Password</p>
+                          </div>
+                          <div className="usersInputFields passwordFields">
+                            <input type="password" required placeholder="Enter Old password" onChange={(e) => setCurrentPassword(e.target.value)}></input>
+                          </div>
+                        </>
+                        :""}
                         <div className="labels">
                           <p className="labelInput secondLabel">New Password</p>
                         </div>
@@ -179,7 +201,8 @@ function MyProfile() {
                         <div className="usersInputFields passwordFields">
                           <input type="password" required minLength="8" placeholder="Enter Confirm password" onChange={(e) => setConfirmPassword(e.target.value)}></input>
                         </div>
-                        {passwordError ? <p style={{ color: 'red' }}>Error: New Password and Confirm Password do not match.</p> : ''}
+                        <br />
+                        {passwordError ? <p style={{ color: 'red' , fontSize:"14px", fontWeight:"500"}}>Error: New Password and Confirm Password do not match.</p> : ''}
                         <div
                           style={{
                             width: '75%',

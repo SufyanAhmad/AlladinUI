@@ -32,7 +32,6 @@
     margin-bottom: 30px;
     min-width: fit-content;
     width: 800px;
-    overflow: scroll;
 }
 .inputFields{
     height: 40px;
@@ -143,5 +142,6 @@ font-size: 18px;
     }
     .profileBody{
         margin-left: 0;
+        overflow: scroll;
     }
 }

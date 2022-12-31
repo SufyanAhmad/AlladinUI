@@ -21,7 +21,7 @@ import ReactPlayer from 'react-player/youtube';
 import swal from 'sweetalert';
 import { useSelector, useDispatch } from 'react-redux';
 import { cartQuantityRefresh } from '../../redux/action/index';
-import { Helmet } from "react-helmet-async";
+import { Helmet } from "react-helmet";
 import ReactImageMagnify from 'react-image-magnify';
 import parse from 'html-react-parser';
 
@@ -403,9 +403,9 @@ function ProductView({ appRefresher, setAppRefresher }) {
         <Helmet>
           <meta name="description" content="✓Low Prices ✓Fast Delivery across Pakistan" />
           <meta name="kewords" content={`${productView.productName}, online shopping, alladin`} />
-          <meta name="og:title" property="og:title" content={productView.productName} />
-          <meta name="og:description" property="og:description" content="OG ✓Low Prices ✓Fast Delivery across Pakistan" />
-          <meta name="og:image" property="og:image" content={media.slice(0,1).map(img => {return img.imgUrl})} href={media.slice(0,1).map(img => {return img.imgUrl})} />
+          <meta property="og:title" content={productView.productName} />
+          <meta property="og:description" content="OG ✓Low Prices ✓Fast Delivery across Pakistan" />
+          <meta property="og:image" content={media.slice(0,1).map(img => {return img.imgUrl})} />
         </Helmet>
         <div className="container">
           <div className="row" style={{ minHeight: '100vh' }}>

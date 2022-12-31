@@ -1,4 +1,4 @@
-import { NavLink, useParams, Link } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 import './module.scss';
 import { useLocation, useHistory } from 'react-router-dom';
 import React, { useState, useEffect, useRef } from 'react';
@@ -93,7 +93,6 @@ function Navbar({ cartLength, orderLength, reviewLength }) {
   },[window.location.pathname])
   const UserNavbar = () => {
     const dispatch = useDispatch();
-    const { key } = useParams();
     const [orders, setOrder] = useState([]);
     const [mainCategories, setMainCategories] = useState([]);
     const [subCatShow, setSubCatShow] = useState();

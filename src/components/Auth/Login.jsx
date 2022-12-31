@@ -171,7 +171,7 @@ const Login = ({ reloadPage, setReloadPage }) => {
                   type="tel"
                   className="assign-input "
                   style={{paddingLeft:"5px"}}
-                  placeholder="Please enter your phone number here"
+                  placeholder="Please enter your phone number or Email here"
                   minLength={11}
                   pattern="[0-9]+"
                   onChange={(e) => setphone(e.target.value)}
