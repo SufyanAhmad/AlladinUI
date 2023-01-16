@@ -441,7 +441,7 @@ function ProductView({ appRefresher, setAppRefresher }) {
                                 smallImage: {
                                     alt: "Product Image " + d.arrangementNo,
                                     isFluidWidth: true,
-                                    src: d.imgUrl
+                                    src: d.imgUrl,
                                 },
                                 largeImage: {
                                     src: d.imgUrl,
@@ -450,15 +450,18 @@ function ProductView({ appRefresher, setAppRefresher }) {
                                 }
                           }} />
                           :""}
+                          <br/><br/><br/>
                           <img src={d.imgUrl} alt="product" style={{height:"100%",width:"100%",display:"hidden"}}/>
                         </div>
                       ))}
                       {productView.vedioUrl !== null && productView.vedioUrl !== '' ? (
                         <div>
                           {media.slice(0, 1).map((d, index) => (
+                            <div className='youtube-image-container justify-content-left'>
                             <div key={index} className="image d-flex justify-content-center c-pointer cnt" onClick={onOpenImageModal}>
-                              <img src={d.imgUrl} className="Youtube-icon-img-main" alt="product" style={{ position: 'relative', width:"max-content", height:"100%" }} />
+                              <img src={d.imgUrl} className="Youtube-icon-img-main" alt="product" style={{ position: 'relative', width:"100%", height:"100%" }} />
                               <img src="./assets/AdminPannel/yt.png" className="Youtube-icon-img" alt="video" style={{ position: 'absolute' }} />
+                            </div>
                             </div>
                           ))}
                           <img src="./assets/youtube-icon.png" alt="video" style={{ zIndex: '-2', marginTop: '15px' }} />
@@ -655,7 +658,7 @@ function ProductView({ appRefresher, setAppRefresher }) {
                 </div>
                 <hr />
                 {/* product view section */}
-                <p style={{paddingLeft:"5px"}} className="product-view">Product views</p>
+                <p style={{paddingLeft:"5px"}} className="product-view">Product Reviews</p>
                 <hr />
                 {reviews.length != [] ? (
                   <>

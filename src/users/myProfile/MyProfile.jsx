@@ -49,6 +49,7 @@ function MyProfile() {
     setLastName(userId.lastName);
   }
   const onEditFormSubmit = (e) => {
+    debugger
     e.preventDefault();
     if (FirstName && LastName) {
       const formData = new FormData();
