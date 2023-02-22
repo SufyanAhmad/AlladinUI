@@ -15,6 +15,7 @@ const CheckOut = ({ appRefresher, setAppRefresher }) => {
   const [address, setAddress] = useState();
   const [allAddress, setAllAddress] = useState([]);
   const [phoneNo, setPhoneNo] = useState();
+  const [comment, setComment] = useState('');
   const [firstName, setFirstName] = useState();
   const [email, setEmail] = useState();
   const [_default, setDefault] = useState('false');
@@ -94,7 +95,7 @@ const CheckOut = ({ appRefresher, setAppRefresher }) => {
       if (_default === 'True') {
         if (defaultAddress.city && defaultAddress.address && defaultAddress.phoneNo && defaultAddress.firstName) {
           const response = await AddOrder({
-            comment: '',
+            comment: comment,
             city: defaultAddress.city,
             address: defaultAddress.address,
             phoneNo: defaultAddress.phoneNo,
@@ -125,7 +126,7 @@ const CheckOut = ({ appRefresher, setAppRefresher }) => {
       } else {
         if (city && address && phoneNo && firstName) {
           const response = await AddOrder({
-            comment: '',
+            comment,
             city,
             address,
             phoneNo,
@@ -277,6 +278,9 @@ const CheckOut = ({ appRefresher, setAppRefresher }) => {
                           <label className="checkout-label">Shipping Phone No</label>
                           <br />
                           <input type="text" className="checkout-input" placeholder="In case question arise" required defaultValue={defaultAddress.phoneNo} onChange={(e) => setPhoneNo(e.target.value)} />
+                          <label className="checkout-label">Instructions</label>
+                          <br/>
+                          <textarea type="text"  className="checkout-input instruction-textarea" placeholder="enter instructions you want to mention...." onChange={e => setComment(e.target.value)} />
                         </div>
                       </div>
                     </div>

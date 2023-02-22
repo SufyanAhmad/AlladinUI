@@ -91,10 +91,12 @@ const App = () => {
           },
         });
         setCartLength(res.data.data);
+      } else {
+        setCartLength(0);
       }
     };
     getQuantity();
-  }, [appRefresher, refresh]);
+  }, [appRefresher,user]);
   useEffect(() => {
     if (role === 'Admin') {
       const getOrdersNum = async () => {

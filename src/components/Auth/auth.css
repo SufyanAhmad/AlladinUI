@@ -211,6 +211,9 @@ input[type=button]:active, input[type=submit]:active, input[type=reset]:active  
   color:#5E5E5E;
   margin-top: 26px;
 }
+.login-label{
+  margin-top: 30px;
+}
 .labels{
   font-family: Montserrat;
   font-size: 13px;
@@ -339,9 +342,6 @@ form {
   color: black !important;
 }
 @media (max-width:767px) {
-  /* .registPassword{
-    margin-top: -70px !important;
-  } */
   .already-user-btn{
     width: 134px;
   }

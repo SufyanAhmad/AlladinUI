@@ -46,8 +46,9 @@
     letter-spacing: 0em;
 }
 .page-footer{
-    height: 200px !important;
+    height: max-content !important;
     bottom:0 !important;
+    padding-bottom: 10px;
 }
 .sub-footer{
     height: 260px !important;

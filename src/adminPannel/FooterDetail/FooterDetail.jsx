@@ -162,8 +162,7 @@ const AdminFooter = () => {
         Accept: 'application/json',
         'Content-Type': 'application/json',
         Authorization: 'bearer ' + JSON.parse(JSON.parse(localStorage.getItem('persist:root')).user).currentUser.token,
-      },
-      body: JSON.stringify(id),
+      }
     }).then((resp) => {
       resp
         .json()
@@ -175,7 +174,6 @@ const AdminFooter = () => {
         });
     });
   };
-
   return (
     <div className="Section">
       <div className="p-5">

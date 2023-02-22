@@ -14,6 +14,7 @@ const BuyNow = ({reloadPage,setReloadPage}) => {
     const [city, setCity] = useState();
     const [address, setAddress] = useState();
     const [phoneNo, setPhoneNo] = useState();
+    const [comment, setComment] = useState('');
     const [firstName, setFirstName] = useState();
     const [email, setEmail] = useState();
     const [_default, setDefault] = useState("false");
@@ -77,7 +78,7 @@ const BuyNow = ({reloadPage,setReloadPage}) => {
           let quantity = productQuantity;
         const response = await AddOrder({
             quantity,
-            comment:"",
+            comment:comment,
             city:defaultAddress.city,
             address:defaultAddress.address,
             phoneNo:defaultAddress.phoneNo,
@@ -109,7 +110,7 @@ const BuyNow = ({reloadPage,setReloadPage}) => {
         let quantity = productQuantity;
         const response = (role =="Customer"? await AddOrder({
             quantity,
-            comment:"",
+            comment,
             city,
             address,
             phoneNo,
@@ -120,7 +121,7 @@ const BuyNow = ({reloadPage,setReloadPage}) => {
         :
         await OrderWithoutAuthentication({
           quantity,
-          comment:"",
+          comment,
           city,
           address,
           phoneNo,
@@ -338,6 +339,12 @@ async function OrderWithoutAuthentication(credentials) {
                                 required
                                 defaultValue={defaultAddress.phoneNo}
                                 onChange={e => setPhoneNo(e.target.value)}
+                                />
+                                <label className="checkout-label">Instructions</label>
+                                <br/>
+                                <textarea type="text"  className="checkout-input instruction-textarea" 
+                                placeholder="enter instructions you want to mention...."
+                                onChange={e => setComment(e.target.value)}
                                 />
                               </div>
                             </div>

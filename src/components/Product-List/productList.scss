@@ -249,6 +249,9 @@ color: #23334C;
     text-decoration: line-through;
 }
 @media (max-width: 767.5px) {
+    .hide-warr-brand{
+        display: none;
+    }
     .form-check{
         width: fit-content;
         margin-right: 15px;

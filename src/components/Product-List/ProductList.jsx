@@ -32,18 +32,22 @@ function ProductList({ appRefresher, setAppRefresher }) {
   const [reload, setReload] = useState([products]);
   let IsCurrentUser = JSON.parse(JSON.parse(localStorage.getItem('persist:root')).user).currentUser;
   useEffect(() => {
-    fetch(FetchUrl + `Home/get-brands`).then((result) => {
-      result.json().then((resp) => {
-        setbrand(resp.data);
+    if(window.innerWidth>=768){
+      fetch(FetchUrl + `Home/get-brands`).then((result) => {
+        result.json().then((resp) => {
+          setbrand(resp.data);
+        });
       });
-    });
+    }
   }, []);
   useEffect(() => {
-    fetch(FetchUrl + `Home/get-Warranties`).then((result) => {
-      result.json().then((resp) => {
-        setWarranty(resp.data);
+    if(window.innerWidth>=768){
+      fetch(FetchUrl + `Home/get-Warranties`).then((result) => {
+        result.json().then((resp) => {
+          setWarranty(resp.data);
+        });
       });
-    });
+    }
   }, []);
   useEffect(() => {
     if (IsCurrentUser != null) {
@@ -411,8 +415,8 @@ function ProductList({ appRefresher, setAppRefresher }) {
                   }}
                 ></input>
               </div>
-              <hr style={{ width: '100%' }}></hr>
-              <div>
+              <hr className='hide-warr-brand' style={{ width: '100%' }}></hr>
+              <div className='hide-warr-brand'>
                 <h1 style={{ fontWeight: '500', fontSize: '16px' }}>Brand</h1>
                 <div style={window.innerWidth <=768?{display:"flex",overflow:"scroll"}:{}}>
                   {brand.map((Brand) => (
@@ -435,8 +439,8 @@ function ProductList({ appRefresher, setAppRefresher }) {
                   ))}
                 </div>
               </div>
-              <hr style={{ width: '100%' }}></hr>
-              <div>
+              <hr className='hide-warr-brand' style={{ width: '100%' }}></hr>
+              <div className='hide-warr-brand'>
                 <h1 style={{ fontWeight: '500', fontSize: '16px' }}>Warenty</h1>
                 <div style={window.innerWidth <=768?{display:"flex",overflow:"scroll"}:{}}>
                 {Warranty.map((warranty) => (

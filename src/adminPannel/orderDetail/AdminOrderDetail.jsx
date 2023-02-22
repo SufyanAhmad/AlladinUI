@@ -239,10 +239,16 @@ export const AdminOrderDetail = () => {
                            <div className="create-phnone-no mt-2">{order.customerName}</div>
                          </div>
                          <div className="col-lg-4 col-md-4 col-sm-12">
-                            <div className="general">Shipping</div>
-                            <div className="create-phnone-no mt-2">Address: {order.address}</div>
-                            <div className="create-phnone-no mt-1">City: {order.city}</div>
-                          </div>
+                          <div className="general">Shipping</div>
+                          <div className="create-phnone-no mt-2">Address: {order.address}</div>
+                          <div className="create-phnone-no mt-1">City: {order.city}</div>
+                          {order.comment?
+                          <>
+                            <div className="general mt-1">Customer Instructions:</div>
+                            <div className="create-phnone-no order-instruction">{order.comment}</div>
+                          </>
+                          :<></>}
+                        </div>
                      </div>
                 </div>
                 <br></br><br></br>

@@ -97,13 +97,11 @@ const Login = ({ reloadPage, setReloadPage }) => {
   }
   useEffect(() => {
     window.google.accounts.id.initialize({
+      // client_id: "385908927810-l5ggnace1t2cee0ba33bpjcr3ibp5ice.apps.googleusercontent.com",
       // client_id:"874597877760-pkuomdj63c2dk7k04e2l98oevjn4s02s.apps.googleusercontent.com",
       client_id:"893508487577-56qfega286ebtalkq71kmhvi1nskcfho.apps.googleusercontent.com",
       callback: handleCallBackResponse
     })
-
-    
-
     window.google.accounts.id.renderButton(
       document.getElementById("googleSignIn"),
       {
@@ -164,9 +162,8 @@ const Login = ({ reloadPage, setReloadPage }) => {
             <br />
             <div className="row bgColor" style={{ height: '100%' }}>
               <div className="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                <label className="label">Phone Number</label>
+                <label className="label login-label">Phone Number</label>
                 <br />
-
                 <input
                   type="tel"
                   className="assign-input "
@@ -181,72 +178,59 @@ const Login = ({ reloadPage, setReloadPage }) => {
                     }
                   }}
                 />
-
-                <label className="label">Password</label>
+                <label className="label login-label">Password</label>
                 <br />
                 <div className="assign-input">
-                <div className="row ">
-                  <div className='col-9'>
-                    <input
-                      type="password"
-                      className="passwordInputField"
-                      placeholder="Password"
-                      minLength="8"
-                      id="password"
-                      onChange={(e) => setpassword(e.target.value)}
-                      onKeyPress={(e) => {
-                        if (e.key === 'Enter') {
-                          handleClick();
-                        }
-                      }}
-                    />
-                  </div>
-                  <div className='col-3'>
-                    {eyeToggle?
-                      <i style={{fontSize:"25px",float:"right",marginRight:"10px",marginTop:"5px",cursor:"pointer"}} onClick={() => {showPassword(); setEyeToggle(false)}} className="fa fa-eye"></i>
-                      :
-                      <i style={{fontSize:"25px",float:"right",marginRight:"10px",marginTop:"5px",cursor:"pointer"}} onClick={() => {showPassword(); setEyeToggle(true)}} className="fa fa-eye-slash"></i>
-                    }
+                  <div className="row ">
+                    <div className='col-9'>
+                      <input
+                        type="password"
+                        className="passwordInputField"
+                        placeholder="Password"
+                        minLength="8"
+                        id="password"
+                        onChange={(e) => setpassword(e.target.value)}
+                        onKeyPress={(e) => {
+                          if (e.key === 'Enter') {
+                            handleClick();
+                          }
+                        }}
+                      />
+                    </div>
+                    <div className='col-3'>
+                      {eyeToggle?
+                        <i style={{fontSize:"25px",float:"right",marginRight:"10px",marginTop:"5px",cursor:"pointer"}} onClick={() => {showPassword(); setEyeToggle(false)}} className="fa fa-eye"></i>
+                        :
+                        <i style={{fontSize:"25px",float:"right",marginRight:"10px",marginTop:"5px",cursor:"pointer"}} onClick={() => {showPassword(); setEyeToggle(true)}} className="fa fa-eye-slash"></i>
+                      }
+                    </div>
                   </div>
                 </div>
-                </div>
-                {/* <div className="code-by-sms">
-                              </div> */}
                 <br></br>
-                <span style={{ width: '100%' }} className="d-flex mt-4">
-                  New member?&nbsp;
-                  <NavLink style={{ marginLeft: 'auto', order: '2' }} to="/register">
-                    <button className="already-user-btn">Register here</button>
-                  </NavLink>
-                </span>
                 <NavLink to="/forgotPassword">
                   <span style={{ color: 'blue' }} className="d-flex">
                     Forgot Password?
                   </span>
                 </NavLink>
               </div>
-              <div className="col-xs-12 col-sm-12 col-md-6 col-lg-6" style={{ marginTop: '6px' }}>
-                <br></br>
-                <div style={{marginTop:"14px" ,marginBottom:"31px"}} id="googleSignIn"></div>
-
+              <div className="col-xs-12 col-sm-12 col-md-6 col-lg-6" >
+                <div style={window.innerWidth>=768?{marginTop:"45px" }:{}} id="googleSignIn"></div>
                 {phone.length >= 11 && password ? (
-                  <button style={{ marginTop: '14px' }} onClick={handleClick} className="signup-btn">
+                  <button style={{ marginTop: '5px' }} onClick={handleClick} className="signup-btn">
                     Login
                     {spinner?
                           <i style={{marginLeft:"5px"}} className="fa fa-spinner ml-4 fa-spin"></i>
                           :""}
                   </button>
                 ) : (
-                  <button style={{ backgroundColor: 'gray', marginTop: '14px' }} disabled className="signup-btn">
+                  <button style={{ backgroundColor: 'gray', marginTop: '5px' }} disabled className="signup-btn">
                     Login
                   </button>
                 )}
+                <NavLink className="signup-btn" style={{ order: '2', marginTop: '5px' }} to="/register">
+                  <button className="signup-btn">Register here</button>
+                </NavLink>
                 {/* 658977310896-knrl3gka66fldh83dao2rhgbblmd4un9.apps.googleusercontent.com */}
-                  <br />
-                  <br />
-                  <br />
-                
-                
                 {/* <div ref={googlebuttonref}>helo</div>
                 {guser && 
                 <div>

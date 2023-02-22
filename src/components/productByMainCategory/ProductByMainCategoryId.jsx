@@ -63,7 +63,9 @@ function ProductByMainCategoryId({ appRefresher, setAppRefresher }) {
         setBrands(res.data.data);
       } catch {}
     };
-    getbrands();
+    if(window.innerWidth>=768){
+      getbrands();
+    }
   }, []);
   useEffect(() => {
     const getwarranty = async () => {
@@ -72,7 +74,9 @@ function ProductByMainCategoryId({ appRefresher, setAppRefresher }) {
         setWarranty(res.data.data);
       } catch {}
     };
-    getwarranty();
+    if(window.innerWidth>=768){
+      getwarranty();
+    }
   }, []);
   const AddToCart = (data) => {
     const productId = data.productId;
@@ -368,8 +372,8 @@ function ProductByMainCategoryId({ appRefresher, setAppRefresher }) {
                   }}
                 ></input>
               </div>
-              <hr style={{ width: '100%' }}></hr>
-              <div>
+              <hr className='hide-warr-brand' style={{ width: '100%' }}></hr>
+              <div className='hide-warr-brand'>
                 <h1 style={{ fontWeight: '500', fontSize: '16px' }}>Brand</h1>
                 {brands.map((brand, key) => (
                   <div className="form-check" key={key}>
@@ -389,8 +393,8 @@ function ProductByMainCategoryId({ appRefresher, setAppRefresher }) {
                   </div>
                 ))}
               </div>
-              <hr style={{ width: '100%' }}></hr>
-              <div>
+              <hr className='hide-warr-brand' style={{ width: '100%' }}></hr>
+              <div className='hide-warr-brand'>
                 <h1 style={{ fontWeight: '500', fontSize: '16px' }}>Warenty</h1>
                 {warranty.map((warranty) => (
                   <div className="form-check" key={warranty.warrantyId}>

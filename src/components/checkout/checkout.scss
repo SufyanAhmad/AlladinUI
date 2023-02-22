@@ -191,14 +191,13 @@ input[type=button]:active, input[type=submit]:active, input[type=reset]:active  
 }
 .addressesBox{
   height: 350px;
-  // width: 195px;
-  // margin-right:10px;
-  margin-top: 8px;
+  margin-top: 12px;
+  padding-top: 8px;
+  overflow: scroll;
 }
 .selectAddress{
   border: 1px solid #d3cdcd;
   border-bottom: 0;
-  // width: 195px;
   width: 100%;
   padding: 5px;
   min-height: 35px;
@@ -249,6 +248,10 @@ input[type=button]:active, input[type=submit]:active, input[type=reset]:active  
   -ms-transition: all 0.5s ease-in-out;
   -o-transition: all 0.5s ease-in-out;
   transition: all 0.5s ease-in-out;
+}
+.instruction-textarea{
+  resize: none;
+  height: 60px;
 }
 .textarea-input{
     width: 100%;
