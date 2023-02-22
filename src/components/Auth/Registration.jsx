@@ -90,7 +90,6 @@ const Registration = () => {
     }).then((data) => data.json());
   }
   const submitOTP = async (e) => {
-    // e.preventDefault();
     if (phoneNumber) {
       const response = await sendOTP(
         phoneNumber
@@ -205,171 +204,162 @@ const Registration = () => {
                   <div className="row">{loading ? <Loading /> 
                 : 
                   <div className='row'>
-                  <div className='col-lg-2 col-md-1 col-sm-1'></div>
-                  <div className='col-lg-8 col-md-11 col-sm-11 display-cell'>
-                      <div className='d-flex justify-content-between'>
-                        <span className='create-account d-inline'>Create your Alladin.pk Account</span>
-                        {fillFields?<><br /><span style={{color:"red"}}>Error: please fill all the fields.</span></> :""}
-                      </div>
-                      <br></br>
-                      <div className='bgColor' style={{height:"100%"}}>
-                        <form>
-                          <div>
-                          <div className='row bgColor' style={{height:"100%"}}> 
-                                  <div className='col-xs-12 col-sm-12 col-md-6 col-lg-6 p-1'>
-                                      <label className="label">First Name</label>
-                                      <br/>
+                    <div className='col-lg-2 col-md-1 col-sm-1'></div>
+                    <div className='col-lg-8 col-md-11 col-sm-11 display-cell'>
+                        <div className='d-flex justify-content-between'>
+                          <span className='create-account d-inline'>Create your Alladin.pk Account</span>
+                          {fillFields?<><br /><span style={{color:"red"}}>Error: please fill all the fields.</span></> :""}
+                        </div>
+                        <br></br>
+                        <div className='bgColor' style={{height:"100%"}}>
+                          <form>
+                            <div>
+                            <div className='row bgColor' style={{height:"100%"}}> 
+                              <div className='col-xs-12 col-sm-12 col-md-6 col-lg-6 p-1'>
+                                <label className="label">First Name</label>
+                                <br/>
+                                <input 
+                                type="text"  
+                                className="assign-input "
+                                style={{paddingLeft:"5px"}} 
+                                placeholder="Enter your first name"
+                                id="fname"
+                                name="username"
+                                required
+                                onChange={e => setFirstname(e.target.value)}
+                                />
+                                <label className="label">Last Name</label>
+                                <br/>
+                                <input type="text"
+                                className="assign-input "
+                                style={{paddingLeft:"5px"}} 
+                                placeholder="Enter your last name"
+                                id="lname"
+                                name="username"
+                                required
+                                onChange={e => setLastname(e.target.value)}
+                                />
+                                <label className="label">Phone Number</label>
+                                <br/>
+                                <input 
+                                type="text"
+                                style={{paddingLeft:"5px"}}
+                                className="assign-input " 
+                                placeholder="Please enter your phone number here"
+                                id="phoneNumber"
+                                name="phoneNumber" 
+                                minLength="10"
+                                required
+                                onChange={e => setPhoneNumber(e.target.value)}
+                                />
+                              </div>
+                              <div className='registPassword col-xs-12 col-sm-12 col-md-6 col-lg-6 p-1'>
+                                <label label className="label">Password</label>
+                                <br/>
+                                <div className='assign-input'>
+                                  <div className="row " >
+                                    <div className='col-10 '>
                                       <input 
-                                      type="text"  
-                                      className="assign-input "
-                                      style={{paddingLeft:"5px"}} 
-                                      placeholder="Enter your first name"
-                                      id="fname"
-                                      name="username"
+                                      type="password"  
+                                      className="passwordInputField "
+                                      placeholder="Password must be a minimum length of 8 characters and contain uppercase and lowercase letters, a number and a symbol"
+                                      id="password"
+                                      name="password"
+                                      minLength="8"
                                       required
-                                      onChange={e => setFirstname(e.target.value)}
+                                      onChange={e => setPassword(e.target.value)}
                                       />
-                                      <label className="label">Last Name</label>
-                                      <br/>
-                                      <input type="text"
-                                      className="assign-input "
-                                      style={{paddingLeft:"5px"}} 
-                                      placeholder="Enter your last name"
-                                      id="lname"
-                                      name="username"
-                                      required
-                                      onChange={e => setLastname(e.target.value)}
-                                      />
-                                      <label className="label">Phone Number</label>
-                                      <br/>
+                                    </div>
+                                    <div className='col-2'>
+                                      {eyeToggle?
+                                        <i style={{fontSize:"25px",float:"right",marginRight:"10px",marginTop:"5px",cursor:"pointer"}} onClick={() => {showPassword(); setEyeToggle(false)}} className="fa fa-eye"></i>
+                                        :
+                                        <i style={{fontSize:"25px",float:"right",marginRight:"10px",marginTop:"5px",cursor:"pointer"}} onClick={() => {showPassword(); setEyeToggle(true)}} className="fa fa-eye-slash"></i>
+                                      }
+                                    </div>
+                                  </div>
+                                </div>
+                                <label className="label">Confirm Password</label>
+                                <br/>
+                                <div className='assign-input'>
+                                  <div className="row" >
+                                    <div className='col-10'>
                                       <input 
-                                      type="text"
-                                      style={{paddingLeft:"5px"}}
-                                      className="assign-input " 
-                                      placeholder="Please enter your phone number here"
-                                      id="phoneNumber"
-                                      name="phoneNumber" 
-                                      minLength="10"
+                                      type="password"  
+                                      className="passwordInputField"
+                                      placeholder="Password must be a minimum length of 8 characters"
+                                      id="confirmPassword"
+                                      name="password"
+                                      minLength="8"
                                       required
-                                      onChange={e => setPhoneNumber(e.target.value)}
+                                      onChange={e => setConfirmPassword(e.target.value)}
                                       />
-                                      {/* <br></br> */}
-                                      
-                                  </div>
-                                  <div className='registPassword col-xs-12 col-sm-12 col-md-6 col-lg-6 p-1'>
-                                      <label label className="label">Password</label>
-                                      <br/>
-                                      <div className='assign-input'>
-                                        <div className="row " >
-                                            <div className='col-10 '>
-                                              <input 
-                                              type="password"  
-                                              className="passwordInputField "
-                                              placeholder="Password must be a minimum length of 8 characters and contain uppercase and lowercase letters, a number and a symbol"
-                                              id="password"
-                                              name="password"
-                                              minLength="8"
-                                              required
-                                              onChange={e => setPassword(e.target.value)}
-                                              />
-                                            </div>
-                                            <div className='col-2'>
-                                              {eyeToggle?
-                                                <i style={{fontSize:"25px",float:"right",marginRight:"10px",marginTop:"5px",cursor:"pointer"}} onClick={() => {showPassword(); setEyeToggle(false)}} className="fa fa-eye"></i>
-                                                :
-                                                <i style={{fontSize:"25px",float:"right",marginRight:"10px",marginTop:"5px",cursor:"pointer"}} onClick={() => {showPassword(); setEyeToggle(true)}} className="fa fa-eye-slash"></i>
-                                              }
-                                            </div>
-                                        </div>
-                                      </div>
-                                      <label className="label">Confirm Password</label>
-                                      <br/>
-                                      <div className='assign-input'>
-                                        <div className="row" >
-                                          <div className='col-10'>
-                                            <input 
-                                            type="password"  
-                                            className="passwordInputField"
-                                            placeholder="Password must be a minimum length of 8 characters"
-                                            id="confirmPassword"
-                                            name="password"
-                                            minLength="8"
-                                            required
-                                            onChange={e => setConfirmPassword(e.target.value)}
-                                            />
-                                          </div>
-                                          <div className='col-2'>
-                                            {eyeConfirmToggle?
-                                              <i style={{fontSize:"25px",float:"right",marginRight:"10px",marginTop:"5px",cursor:"pointer"}} onClick={() => {showConfirmPassword(); setConfirmEyeToggle(false)}} className="fa fa-eye"></i>
-                                              :
-                                              <i style={{fontSize:"25px",float:"right",marginRight:"10px",marginTop:"5px",cursor:"pointer"}} onClick={() => {showConfirmPassword(); setConfirmEyeToggle(true)}} className="fa fa-eye-slash"></i>
-                                            }
-                                          </div>
-                                        </div>
-                                      </div>
-                                      {/* {sentOTP?<>
-                                        <label className="label">Enter OTP</label>
-                                        <br/>
-                                        <input type="text"
-                                        className="assign-input " 
-                                        placeholder="Enter OTP sent via sms"
-                                        id="lname"
-                                        name="username"
-                                        required
-                                        onChange={(e)=> setOTP(e.target.value)}
-                                        />
-                                      </>
-                                      :<></>} */}
-                                      {passwordError?<div className='required justify-content-start'>Password and Confirm Password do not match</div>:""}
-                                      <div className="form-check" style={{marginTop:"42px"}}>
-                                      <input className="form-check-input" type="checkbox" value="" id="flexCheckDefault"/>
-                                      <span className='term-condition'>I want to receive exclusive offers and promotions from Alladin.pk.</span>
-                                      </div>
-                                      <br/>
-                                      {/* {!sentOTP?
-                                      <button className="signup-btn" onClick={()=>submitOTP(phoneNumber)}>Send OTP</button>
-                                      :
-                                      verfiyOTPToggle?
-                                      <button type='submit' onClick={handleSubmit} className="signup-btn">Signup</button>
-                                      :
-                                      <button className="signup-btn" onClick={()=>verifyOTP({phoneNumber,oTP})}>Verify OTP</button>
-                                    } */}
-                                      {/* <div align="center" style={{width:"300px"}} >
-                                        <button onClick={handleSubmit} type='submit' className="signup-btn">Signup</button>
-                                      </div> */}
-                                  </div>
-                          </div>
-                          <div className='row bgColor' style={{height:"fit-content",marginTop:"-40px", paddingBottom:"15px"}}>
-                                    <div className='col-lg-6 col-md-6 col-sm-12 mt-3'>
-                                        <span className='d-flex justify-content-start'>Already member?&nbsp; 
-                                          <NavLink to="/login">
-                                            <button className="already-user-btn">Login here</button>
-                                          </NavLink>
-                                        </span>
                                     </div>
-                                    <div className='col-lg-6 col-md-6 col-sm-12 mt-3'>
-                                      <div align="center" style={{width:"300px"}} >
-                                        <button onClick={handleSubmit} type='button' className="signup-btn">Signup
-                                        {spinner?
-                                          <i style={{marginLeft:"5px"}} className="fa fa-spinner ml-4 fa-spin"></i>
-                                          :""}
-                                        </button>
-                                      </div>
+                                    <div className='col-2'>
+                                      {eyeConfirmToggle?
+                                        <i style={{fontSize:"25px",float:"right",marginRight:"10px",marginTop:"5px",cursor:"pointer"}} onClick={() => {showConfirmPassword(); setConfirmEyeToggle(false)}} className="fa fa-eye"></i>
+                                        :
+                                        <i style={{fontSize:"25px",float:"right",marginRight:"10px",marginTop:"5px",cursor:"pointer"}} onClick={() => {showConfirmPassword(); setConfirmEyeToggle(true)}} className="fa fa-eye-slash"></i>
+                                      }
                                     </div>
-                          </div>
-                          </div>
-                        </form>
-                      </div>
-                  </div>
-                  <div className='col-lg-2 col-md-1 col-sm-1'></div>
+                                  </div>
+                                </div>
+                                {/* {sentOTP?<>
+                                  <label className="label">Enter OTP</label>
+                                  <br/>
+                                  <input type="text"
+                                  className="assign-input " 
+                                  placeholder="Enter OTP sent via sms"
+                                  id="lname"
+                                  name="username"
+                                  required
+                                  onChange={(e)=> setOTP(e.target.value)}
+                                  />
+                                </>
+                                :<></>} */}
+                                {passwordError?<div className='required justify-content-start'>Password and Confirm Password do not match</div>:""}
+                                <div className="form-check" style={{marginTop:"42px"}}>
+                                <input className="form-check-input" type="checkbox" value="" id="flexCheckDefault"/>
+                                <span className='term-condition'>I want to receive exclusive offers and promotions from Alladin.pk.</span>
+                                </div>
+                                <br/>
+                                {/* {!sentOTP?
+                                <button className="signup-btn" onClick={()=>submitOTP(phoneNumber)}>Send OTP</button>
+                                :
+                                verfiyOTPToggle?
+                                <button type='submit' onClick={handleSubmit} className="signup-btn">Signup</button>
+                                :
+                                <button className="signup-btn" onClick={()=>verifyOTP({phoneNumber,oTP})}>Verify OTP</button>
+                                } */}
+                                {/* <div align="center" style={{width:"300px"}} >
+                                  <button onClick={handleSubmit} type='submit' className="signup-btn">Signup</button>
+                                </div> */}
+                              </div>
+                            </div>
+                            <div className='row bgColor' style={{height:"fit-content",marginTop:"-40px", paddingBottom:"15px"}}>
+                              <div className='col-lg-6 col-md-6 col-sm-12 mt-3'>
+                                <NavLink className="signup-btn" to="/login">
+                                  <button className="signup-btn">Login here</button>
+                                </NavLink>
+                              </div>
+                              <div className='col-lg-6 col-md-6 col-sm-12 mt-3'>
+                                <button onClick={handleSubmit} type='button' className="signup-btn">Signup
+                                {spinner?
+                                  <i style={{marginLeft:"5px"}} className="fa fa-spinner ml-4 fa-spin"></i>
+                                  :""}
+                                </button>
+                              </div>
+                            </div>
+                            </div>
+                          </form>
+                        </div>
+                    </div>
+                    <div className='col-lg-2 col-md-1 col-sm-1'></div>
                   </div>
                   }
                 </div>
-                
-                {/* } */}
             </div>
           </div>
-        {/* </form> */}
       <br></br><br></br><br></br>
     </div>
   );
