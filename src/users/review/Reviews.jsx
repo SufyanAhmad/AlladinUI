@@ -62,7 +62,6 @@ export default function Reviews() {
     setproductId(Id);
   }
   const onFormSubmit = (e) => {
-    debugger;
     e.preventDefault();
     {
       const formData = new FormData();

@@ -129,7 +129,6 @@ const BuyNow = ({reloadPage,setReloadPage}) => {
           email,
           shippedOnDefaultAddress: false
       }));
-      debugger
         if (response.status === 'Success') {
           swal("Success", response.message, "success", {
             buttons: false,

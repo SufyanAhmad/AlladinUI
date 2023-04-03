@@ -105,6 +105,7 @@ const AdminSlider = () => {
                   multiple
                   type="file"
                   name="myImage"
+                  className='choose-file'
                   style={{ float: "right" }}
                   onChange={(event) => {
                     setSelectedImage(event.target.files[0]);
@@ -118,7 +119,7 @@ const AdminSlider = () => {
                       src={URL.createObjectURL(formFile)}
                     />
                     <br />
-                    <button onClick={() => setSelectedImage(null)}>
+                    <button className='remove-button' onClick={() => setSelectedImage(null)}>
                       Remove
                     </button>
                   </div>

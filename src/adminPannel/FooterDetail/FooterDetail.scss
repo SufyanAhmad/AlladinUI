@@ -1,14 +1,23 @@
 .head {
     margin-left: 20px!important;
 }
-
 .detail-txt {
     margin-left: 25%;
     margin-top: -1%;
     border-bottom: 1px solid gray;
     margin-bottom: 5%;
 }
-
+.product-input{
+    width: 100%;
+    height: 40px;
+    color: #0d0d0d;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border: 1px solid #BABABA;
+    border-radius: 5px;
+    padding-left: 5px;
+  }
 .input-txt {
     margin-left: 10%;
     margin-top: -4%;
@@ -142,6 +151,13 @@ input[type=email] {
     line-height: 22px;
     color: #000000;
 }
+.remove-button{
+    color: #FFFFFF;
+    background-color: #23334C;
+    border-style: none;
+    padding: 5px;
+    border-radius: 5px;
+}
 .footer-input{
     border:none;
 }
@@ -163,4 +179,12 @@ input[type=email] {
   .save-footer-btn:hover{
     background:#23334C;
     color: white;
+  }
+  @media(max-width:560px){
+    .add-cate-popup{
+        width: 250px !important;
+    }
+    .choose-file{
+        width: 250px !important;
+    }
   }

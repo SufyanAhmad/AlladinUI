@@ -459,6 +459,7 @@ const onEditFormSubmit =(e)=>{
                      <input
                             type="file"
                             name="myImage" 
+                            className='choose-file'
                             style={{float:"right"}}
                             onChange={(event) => {
                             setSelectedImage(event.target.files[0]);
@@ -468,7 +469,7 @@ const onEditFormSubmit =(e)=>{
                             <div>
                             <img alt="not fount" width={"70px"} src={URL.createObjectURL(ImgUrl)} />
                             <br />
-                            <button onClick={()=>setSelectedImage(null)}>Remove</button>
+                            <button className='remove-button' onClick={()=>setSelectedImage(null)}>Remove</button>
                             </div>
                         )}
                        
@@ -479,6 +480,7 @@ const onEditFormSubmit =(e)=>{
                      <input
                             type="file"
                             name="myImage" 
+                            className='choose-file'
                             style={{float:"right"}}
                             onChange={(event) => {
                             setIcon(event.target.files[0]);
@@ -488,7 +490,7 @@ const onEditFormSubmit =(e)=>{
                             <div>
                             <img alt="not fount" width={"70px"} src={URL.createObjectURL(Icon)} />
                             <br />
-                            <button onClick={()=>setIcon(null)}>Remove</button>
+                            <button className='remove-button' onClick={()=>setIcon(null)}>Remove</button>
                             </div>
                         )}
                        
@@ -551,6 +553,7 @@ const onEditFormSubmit =(e)=>{
                      <input
                             type="file"
                             name="myImage" 
+                            className='choose-file'
                             style={{float:"right"}}
                             onChange={(event) => {
                             setSelectedImage(event.target.files[0]);
@@ -561,7 +564,7 @@ const onEditFormSubmit =(e)=>{
                             <div>
                             <img alt="not fount" width={"70px"} src={URL.createObjectURL(ImgUrl)} />
                             <br />
-                            <button onClick={()=>setSelectedImage(null)}>Remove</button>
+                            <button className='remove-button' onClick={()=>setSelectedImage(null)}>Remove</button>
                             </div>
                         )}
                      
@@ -576,6 +579,7 @@ const onEditFormSubmit =(e)=>{
                      <input
                             type="file"
                             name="myImage" 
+                            className='choose-file'
                             style={{float:"right"}}
                             onChange={(event) => {
                             setIcon(event.target.files[0]);
@@ -585,7 +589,7 @@ const onEditFormSubmit =(e)=>{
                             <div>
                             <img alt="not fount" width={"70px"} src={URL.createObjectURL(Icon)} />
                             <br />
-                            <button onClick={()=>setIcon(null)}>Remove</button>
+                            <button className='remove-button' onClick={()=>setIcon(null)}>Remove</button>
                             </div>
                         )}
                        

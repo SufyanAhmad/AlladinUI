@@ -132,6 +132,7 @@ export default function AddReview() {
                         <input
                           type="file"
                           name="myImage"
+                          className='choose-file'
                           style={{ float: 'left' }}
                           onChange={(event) => {
                             setSelectedImage(event.target.files[0]);

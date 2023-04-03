@@ -910,6 +910,10 @@ function Navbar({ cartLength, orderLength, reviewLength }) {
     const role = useSelector((state) => state.user.currentUser && state.user.currentUser.role);
     // html.addEventListener("click", () => setNavbarState(false));
 
+    window.addEventListener("click", () => {
+      setNavbarState(false)
+    });
+
     useEffect(() => {
       const sr = scrollreveal({
         origin: 'left',
@@ -943,7 +947,7 @@ function Navbar({ cartLength, orderLength, reviewLength }) {
           <div className="top">
             <div className="brand">
               <Link to="/">
-                <img className="logo-img" src="./assets/AdminPannel/logo.png" />
+                <img className="logo-img responsive-logo" src="./assets/AdminPannel/logo.png" />
               </Link>
             </div>
             <div className="toggle">
@@ -1038,6 +1042,7 @@ function Navbar({ cartLength, orderLength, reviewLength }) {
 
               <NavLink to="/admin/mainCategory">
                 <li className={currentLink === 2 ? 'active' : 'none'} onClick={() => setCurrentLink(2)}>
+                  <MdSpaceDashboard />
                   <span> Category</span>
                 </li>
               </NavLink>
@@ -1045,17 +1050,49 @@ function Navbar({ cartLength, orderLength, reviewLength }) {
               <NavLink to="/admin/orders">
                 <li className={currentLink === 3 ? 'active' : 'none'} onClick={() => setCurrentLink(3)}>
                   <FaAddressCard />
-                  <span> Orders</span>
+                  <span> Orders <span style={{ float: 'right' }}>({orderLength})</span></span>
                 </li>
               </NavLink>
-              <li className={currentLink === 4 ? 'active' : 'none'} onClick={() => setCurrentLink(4)}>
-                <GiTwirlCenter />
-                <span> Users</span>
-              </li>
+
               <NavLink to="/admin/review">
-                <li className={currentLink === 5 ? 'active' : 'none'} onClick={() => setCurrentLink(5)}>
+                <li className={currentLink === 4 ? 'active' : 'none'} onClick={() => setCurrentLink(4)}>
                   <BsFillChatTextFill />
-                  <span> Review</span>
+                  <span> Reviews <span style={{ float: 'right' }}>({reviewLength})</span></span>
+                </li>
+              </NavLink>
+
+              <NavLink to="/admin/slider">
+                <li className={currentLink === 5 ? 'active' : 'none'} onClick={() => setCurrentLink(5)}>
+                  <FiMove />
+                  <span> Slider</span>
+                </li>
+              </NavLink>
+
+              <NavLink to="/admin/Youtube">
+                <li className={currentLink === 6 ? 'active' : 'none'} onClick={() => setCurrentLink(6)}>
+                  <FaRegCaretSquareRight />
+                  <span> Youtube</span>
+                </li>
+              </NavLink>
+
+              <NavLink to="/admin/FooterDetail">
+                <li className={currentLink === 7 ? 'active' : 'none'} onClick={() => setCurrentLink(7)}>
+                  <FaHandPointDown />
+                  <span> Footer</span>
+                </li>
+              </NavLink>
+
+              <NavLink to="/admin/brandsAndWarrantes">
+                <li className={currentLink === 8 ? 'active' : 'none'} onClick={() => setCurrentLink(8)}>
+                  <FaBeer />
+                  <span> Brands</span>
+                </li>
+              </NavLink>
+
+              <NavLink to="/login">
+                <li className='admin-resp-logout' onClick={() => setCurrentLink(8)}>
+                  <FiLogOut />
+                  <span onClick={() => dispatch(logout())}> Logout</span>
                 </li>
               </NavLink>
             </ul>
@@ -1209,7 +1246,7 @@ const Section = styled.section`
   @media screen and (min-width: 280px) and (max-width: 1080px) {
     position: initial;
     width: 100%;
-    min-width: 1055px;
+    // min-width: 1055px;
 
     height: max-content;
     padding: 1rem;
@@ -1219,7 +1256,7 @@ const Section = styled.section`
       justify-content: space-between;
       padding: 0 1rem;
       height: max-content;
-
+      width: 100vw;
       .toggle {
         display: block;
         color: white;
@@ -1246,12 +1283,13 @@ const ResponsiveNav = styled.div`
   z-index: 10;
   background-color: black;
   height: 100vh;
+  overflow: scroll;
   width: ${({ state }) => (state ? '60%' : '0%')};
+  max-width: ${({ state }) => (state ? '220px' : '0px')};
   transition: 0.4s ease-in-out;
   display: flex;
   opacity: 0;
   visibility: hidden;
-  padding: 1rem;
   .responsive__links {
     ul {
       list-style-type: none;
@@ -1260,7 +1298,7 @@ const ResponsiveNav = styled.div`
       gap: 1rem;
       margin-top: 3rem;
       li {
-        padding: 0.6rem 1rem;
+        padding: 0.6rem 0.5rem;
         border-radius: 0.6rem;
         &:hover {
           background-color: #ffc107;

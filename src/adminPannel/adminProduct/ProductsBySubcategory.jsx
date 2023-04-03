@@ -698,6 +698,7 @@ useEffect(() => {
                         multiple
                         type="file"
                         name="myImage" 
+                        className='choose-file'
                         style={{float:"right"}}
                         onChange={(event) => {
                         setSelectedImage(event.target.files[0]);
@@ -707,7 +708,7 @@ useEffect(() => {
                         <div>
                         <img alt="not fount" width={"100px"} src={URL.createObjectURL(formFile)} />
                         <br />
-                        <button onClick={()=>setSelectedImage(null)}>Remove</button>
+                        <button className='remove-button' onClick={()=>setSelectedImage(null)}>Remove</button>
                         </div>
                     )}
                     
@@ -724,6 +725,7 @@ useEffect(() => {
                         multiple
                         type="file"
                         name="myImage" 
+                        className='choose-file'
                         style={{float:"right"}}
                         onChange={(event) => {
                           setSelectedImageDesc(event.target.files[0]);
@@ -733,7 +735,7 @@ useEffect(() => {
                         <div>
                         <img alt="not fount" width={"100px"} src={URL.createObjectURL(formFileDesc)} />
                         <br />
-                        <button onClick={()=>setSelectedImageDesc(null)}>Remove</button>
+                        <button className='remove-button' onClick={()=>setSelectedImageDesc(null)}>Remove</button>
                         </div>
                     )}
                     
@@ -769,6 +771,7 @@ useEffect(() => {
                         multiple
                         type="file"
                         name="myImage" 
+                        className='choose-file'
                         style={{float:"right"}}
                         onChange={(event) => {
                         setSelectedImage(event.target.files[0]);
@@ -778,7 +781,7 @@ useEffect(() => {
                         <div>
                         <img alt="not fount" width={"100px"} src={URL.createObjectURL(formFile)} />
                         <br />
-                        <button onClick={()=>setSelectedImage(null)}>Remove</button>
+                        <button className='remove-button' onClick={()=>setSelectedImage(null)}>Remove</button>
                         </div>
                     )}
                     
@@ -806,6 +809,7 @@ useEffect(() => {
                         multiple
                         type="file"
                         name="myImage" 
+                        className='choose-file'
                         style={{float:"right"}}
                         onChange={(event) => {
                           setSelectedImageDesc(event.target.files[0]);
@@ -815,7 +819,7 @@ useEffect(() => {
                         <div>
                         <img alt="not fount" width={"100px"} src={URL.createObjectURL(formFileDesc)} />
                         <br />
-                        <button onClick={()=>setSelectedImageDesc(null)}>Remove</button>
+                        <button className='remove-button' onClick={()=>setSelectedImageDesc(null)}>Remove</button>
                         </div>
                     )}
                     

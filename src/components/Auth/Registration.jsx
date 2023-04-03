@@ -109,7 +109,6 @@ const Registration = () => {
   };
 
   async function VerifyOTP(credentials) {
-    debugger
     let phoneNumber = credentials.phoneNumber;
     let oTPCode = credentials.oTP;
     return fetch(FetchUrl + 'Authenticate/is-otp-valid?phoneNumber='+phoneNumber+'&oTPCode='+oTPCode, {

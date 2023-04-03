@@ -126,6 +126,7 @@ const Youtube = () => {
               <input
                 multiple
                 type="file"
+                className='choose-file'
                 name="myImage"
                 style={{ float: "right" }}
                 onChange={(event) => {
@@ -140,7 +141,7 @@ const Youtube = () => {
                     src={URL.createObjectURL(image)}
                   />
                   <br />
-                  <button onClick={() => setSelectedImage(null)}>Remove</button>
+                  <button className='remove-button' onClick={() => setSelectedImage(null)}>Remove</button>
                 </div>
               )}
             </div>

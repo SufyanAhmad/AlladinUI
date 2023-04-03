@@ -49,7 +49,6 @@ function MyProfile() {
     setLastName(userId.lastName);
   }
   const onEditFormSubmit = (e) => {
-    debugger
     e.preventDefault();
     if (FirstName && LastName) {
       const formData = new FormData();
@@ -247,6 +246,7 @@ function MyProfile() {
                 <input
                   type="file"
                   name="myImage"
+                  className='choose-file'
                   style={{ float: 'right' }}
                   onChange={(event) => {
                     setSelectedImage(event.target.files[0]);
@@ -256,7 +256,7 @@ function MyProfile() {
                   <div>
                     <img alt="not fount" width={'70px'} src={URL.createObjectURL(ProfileImage)} />
                     <br />
-                    <button onClick={() => setSelectedImage(null)}>Remove</button>
+                    <button className='remove-button' onClick={() => setSelectedImage(null)}>Remove</button>
                   </div>
                 )}
               </div>

@@ -343,6 +343,7 @@ const AdminFooter = () => {
               <input
                 multiple
                 type="file"
+                className='choose-file'
                 name="myImage"
                 style={{ float: 'right' }}
                 onChange={(event) => {
@@ -353,7 +354,7 @@ const AdminFooter = () => {
                 <div>
                   <img alt="not fount" width={'250px'} src={URL.createObjectURL(IconImage)} />
                   <br />
-                  <button onClick={() => setSelectedImage(null)}>Remove</button>
+                  <button className='remove-button' onClick={() => setSelectedImage(null)}>Remove</button>
                 </div>
               )}
             </div>
@@ -448,6 +449,7 @@ const AdminFooter = () => {
                 multiple
                 type="file"
                 name="myImage"
+                className='choose-file'
                 style={{ float: 'right' }}
                 onChange={(event) => {
                   setSelectedImage(event.target.files[0]);
@@ -457,7 +459,7 @@ const AdminFooter = () => {
                 <div>
                   <img alt="not fount" width={'250px'} src={URL.createObjectURL(IconImage)} />
                   <br />
-                  <button onClick={() => setSelectedImage(null)}>Remove</button>
+                  <button className='remove-button' onClick={() => setSelectedImage(null)}>Remove</button>
                 </div>
               )}
             </div>

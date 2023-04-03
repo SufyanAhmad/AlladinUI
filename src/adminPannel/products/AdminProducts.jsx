@@ -121,6 +121,8 @@ const AdminProducts = () => {
     setEditCat(null);
     setEditMainCat(null);
     setEditSubCat(null);
+    setHighLight('');
+    setDescription('');
     setHashTag([]);
   };
   const [openAddImageModel, setAddImageModel] = useState(false);
@@ -1721,6 +1723,7 @@ const AdminProducts = () => {
                         multiple
                         type="file"
                         name="myImage"
+                        className='choose-file'
                         style={{ float: 'right', width:"100px", display:"inline" }}
                         onChange={(event) => {
                           setSelectedImage(event.target.files[0]);
@@ -1756,6 +1759,7 @@ const AdminProducts = () => {
                     multiple
                     type="file"
                     name="myImage"
+                    className='choose-file'
                     style={{ width:"310px" }}
                     onChange={(event) => {
                       setSelectedImageDesc(event.target.files[0]);
@@ -1827,6 +1831,7 @@ const AdminProducts = () => {
                         multiple
                         type="file"
                         name="myImage"
+                        className='choose-file'
                         style={{ float: 'right', width:"100px", display:"inline" }}
                         onChange={(event) => {
                           setSelectedImage(event.target.files[0]);
@@ -1877,6 +1882,7 @@ const AdminProducts = () => {
                     multiple
                     type="file"
                     name="myImage"
+                    className='choose-file'
                     style={{ width:"310px" }}
                     onChange={(event) => {
                       setSelectedImageDesc(event.target.files[0]);

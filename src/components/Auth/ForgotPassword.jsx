@@ -56,7 +56,6 @@ function ForgotPassword() {
     }
   };
   async function ChangePassword(credentials) {
-    debugger
     return fetch(FetchUrl + 'Authenticate/ResetPassword', {
       method: 'put',
       headers: {
