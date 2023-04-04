@@ -942,7 +942,7 @@ function Navbar({ cartLength, orderLength, reviewLength }) {
     }, []);
 
     return (
-      <>
+      <div className='admin-navbar'>
         <Section>
           <div className="top">
             <div className="brand">
@@ -1098,7 +1098,7 @@ function Navbar({ cartLength, orderLength, reviewLength }) {
             </ul>
           </div>
         </ResponsiveNav>
-      </>
+      </div>
     );
   };
   return (
@@ -1160,9 +1160,10 @@ const Section = styled.section`
   position: fixed;
   left: 0;
   background-color: #23334c;
-  height: 100vh;
   width: 18vw;
   display: flex;
+  height: 100vh;
+  overflow: hidden;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;

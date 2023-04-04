@@ -74,6 +74,7 @@ display: none !important;
 @media (max-width:1024px) {
     .Section{
         margin-left: 0px;
+        padding-top: 30px;
     }
 }
 @media (max-width:560px) {

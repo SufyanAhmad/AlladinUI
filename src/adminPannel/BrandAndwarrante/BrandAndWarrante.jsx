@@ -130,7 +130,7 @@ const BrandAndWarrante = () => {
     <div className='Section'>
         <div className='p-5'>
             <div className='row'>
-                <div className='col-lg-6 col-md-6 col-sm-12'>
+                <div className='col-lg-6 col-md-6 col-sm-12 brand-warante'>
                     <div className='d-flex justify-content-between'>
                       <div className='dashboard'>Brands</div>
                       <button className="add-category-btn" onClick={onOpenModalBrand}>Add Brands</button>
@@ -146,7 +146,7 @@ const BrandAndWarrante = () => {
                         ))
                     }
                 </div>
-                <div className='col-lg-6 col-md-6 col-sm-12'>
+                <div className='col-lg-6 col-md-6 col-sm-12 brand-warante'>
                     <div className='d-flex justify-content-between'>
                       <div className='dashboard'>Warranties</div>
                       <button className="add-category-btn" onClick={onOpenModalWarranty}>Warranties</button>

@@ -7,6 +7,12 @@
   max-width: 100vh;
   overflow: visible;
 }
+.admin-navbar{
+  position:fixed;
+  height: 100px;
+  overflow: hidden;
+  z-index: 1;
+}
 .logo{
   margin-left: -45px;
 }

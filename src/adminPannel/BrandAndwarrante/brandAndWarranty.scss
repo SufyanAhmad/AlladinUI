@@ -21,3 +21,11 @@
     color: red;
     font-size: 20px;
 }
+.brand-warante{
+    height: fit-content;
+}
+@media(max-width:768px){
+    .brand-warante{
+        margin-bottom: 40px;
+    }
+}
