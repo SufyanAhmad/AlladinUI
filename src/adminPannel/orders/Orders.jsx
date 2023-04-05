@@ -331,7 +331,7 @@ const Orders = () => {
             </div>
           </div>
         </div>
-        <div className="p-3 bgColor">
+        <div className="p-3 admin-content bgColor">
           <div className="d-flex justify-content-between ">
             <span className="category-list">Category List</span>
             <input

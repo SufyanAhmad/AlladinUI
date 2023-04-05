@@ -254,9 +254,10 @@ color: #23334C;
     //     border-radius: 10px;
     //     justify-content: center
     // }
-    @media(max-width:370px){
-        .popup-img-product{
-            width: 250px;
-        }
+}
+
+@media(max-width:370px){
+    .popup-img-product{
+        width: 250px;
     }
 }

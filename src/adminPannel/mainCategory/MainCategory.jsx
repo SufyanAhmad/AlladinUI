@@ -243,170 +243,170 @@ const onEditFormSubmit =(e)=>{
         </div>
           </div>
           <br></br>
-          <div className="p-3 bgColor">
+          <div className="p-3 admin-content bgColor">
               <div className="d-flex justify-content-between ">
                   <span className="category-list">Main Category List</span>
                   <button className="add-category-btn" onClick={onOpenModal}>Add Main Category</button>
               </div>
-        <br></br>
-        <div className="tab-content" id="pills-tabContent">
-          <div className="tab-pane fade show active" id="pills-Active" role="tabpanel" aria-labelledby="pills-Active-tab">
-          <Root sx={{ minWidth: '800px', width: 320,overFlowX:'scroll' }}>
-            <table aria-label="custom pagination table mt-2">
-                <thead>
-                <tr>
-                    <th>Images</th>
-                    <th>Icon</th>
-                    <th>Name</th>
-                    <th>Description</th>
-                    <th>Actions</th>
-                </tr>
-                </thead>
-                <tbody>
-                {(rowsPerPage > 0
-                    ? active.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                    : active
-                ).map((row,index) => (
-                  <Fragment key={index}>
-                  { row.isActive == true ?
-                    <tr key={row.mainCategoryId}>
-                      <td style={{ width: 160,borderRight:"none" }} align="right">
-                          <img src={row.image}style={{width:'60px',height:"50px"}}/>
-                      </td>
-                      <td style={{ width: 160,borderRight:"none", borderLeft:"none" }} align="right">
-                          <img src={row.iconUrl} style={{width:'60px',height:"50px"}}/>
-                      </td>
-                      <td className="tb-dt-name" style={{ width: 160,borderLeft:"none",borderRight:"none"}} align="right">
-                          <Link to={`/admin/category/${row.mainCategoryId}`}>{row.name}</Link>
-                      </td>
-                      <td style={{ width: 160,borderLeft:"none",borderRight:"none" }} align="right">
-                          {row.hashTag}
-                      </td>
-                      <td style={{ width: 160,borderLeft:"none" }} align="right">
-                      <span onClick={() => selectMainCategories(row.mainCategoryId,row)}>
-                          <span onClick={() => selectMainCategory(row.mainCategoryId)}>
-                            <span className="c-pointer active-link" onClick={()=>EditOpenModal(row.mainCategoryId)}>Edit</span>
-                          </span>
-                          </span>
+              <br></br>
+              <div className="tab-content" id="pills-tabContent">
+                <div className="tab-pane fade show active" id="pills-Active" role="tabpanel" aria-labelledby="pills-Active-tab">
+                <Root sx={{ minWidth: '800px', width: 320,overFlowX:'scroll' }}>
+                  <table aria-label="custom pagination table mt-2">
+                      <thead>
+                      <tr>
+                          <th>Images</th>
+                          <th>Icon</th>
+                          <th>Name</th>
+                          <th>Description</th>
+                          <th>Actions</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      {(rowsPerPage > 0
+                          ? active.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                          : active
+                      ).map((row,index) => (
+                        <Fragment key={index}>
+                        { row.isActive == true ?
+                          <tr key={row.mainCategoryId}>
+                            <td style={{ width: 160,borderRight:"none" }} align="right">
+                                <img src={row.image}style={{width:'60px',height:"50px"}}/>
+                            </td>
+                            <td style={{ width: 160,borderRight:"none", borderLeft:"none" }} align="right">
+                                <img src={row.iconUrl} style={{width:'60px',height:"50px"}}/>
+                            </td>
+                            <td className="tb-dt-name" style={{ width: 160,borderLeft:"none",borderRight:"none"}} align="right">
+                                <Link to={`/admin/category/${row.mainCategoryId}`}>{row.name}</Link>
+                            </td>
+                            <td style={{ width: 160,borderLeft:"none",borderRight:"none" }} align="right">
+                                {row.hashTag}
+                            </td>
+                            <td style={{ width: 160,borderLeft:"none" }} align="right">
+                            <span onClick={() => selectMainCategories(row.mainCategoryId,row)}>
+                                <span onClick={() => selectMainCategory(row.mainCategoryId)}>
+                                  <span className="c-pointer active-link" onClick={()=>EditOpenModal(row.mainCategoryId)}>Edit</span>
+                                </span>
+                                </span>
 
-                          <br/>
-                          <span className="c-pointer active-link" onClick={()=>DeleteMainCategory(row)}>Deactivate</span>
-                      </td>
-                    </tr>
-                    : 
-                  <span></span>
-                   }
-                   </Fragment>
-                ))}
+                                <br/>
+                                <span className="c-pointer active-link" onClick={()=>DeleteMainCategory(row)}>Deactivate</span>
+                            </td>
+                          </tr>
+                          : 
+                        <span></span>
+                        }
+                        </Fragment>
+                      ))}
 
-                {emptyRows > 0 && (
-                    <tr style={{ height: 41 * emptyRows }}>
-                    <td colSpan={6} />
-                    </tr>
-                )}
-                </tbody>
-                <tfoot>
-                <tr>
-                    <CustomTablePagination
-                    rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
-                    colSpan={6}
-                    count={active.length}
-                    rowsPerPage={rowsPerPage}
-                    page={page}
-                    componentsProps={{
-                        select: {
-                        'aria-label': 'rows per page',
-                        },
-                        actions: {
-                        showFirstButton: true,
-                        showLastButton: true,
-                        },
-                    }}
-                    onPageChange={handleChangePage}
-                    onRowsPerPageChange={handleChangeRowsPerPage}
-                    />
-                </tr>
-                </tfoot>
-            </table>
-        </Root>
-          </div>
-          <div className="tab-pane fade " id="pills-deActive" role="tabpanel" aria-labelledby="pills-deActive-tab">
-          <Root sx={{ minWidth: '800px', width: 320,overFlowX:'scroll' }}>
-            <table aria-label="custom pagination table mt-2">
-                <thead>
-                <tr>
-                    <th>Images</th>
-                    <th>Icon</th>
-                    <th>Name</th>
-                    <th>Description</th>
-                    <th>Actions</th>
-                </tr>
-                </thead>
-                <tbody>
-                {(rowsPerPage > 0
-                    ? deActive.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                    : deActive
-                ).map((row,index) => (
-                  <Fragment key={index}>
-                  { row.isActive == false ?
-                    <tr key={row.mainCategoryId}>
-                      <td style={{ width: 160,borderRight:"none" }} align="right">
-                          <img src={row.image}style={{width:'60px',height:"50px"}}/>
-                      </td>
-                      <td style={{ width: 160,borderRight:"none",borderLeft:"none" }} align="right">
-                          <img src={row.iconUrl} style={{width:'60px',height:"50px"}}/>
-                      </td>
-                      <td className="tb-dt-name" style={{ width: 160,borderLeft:"none",borderRight:"none"}} align="right">
-                          <Link to={`/admin/category/${row.mainCategoryId}`}>{row.name}</Link>
-                      </td>
-                      <td style={{ width: 160,borderLeft:"none",borderRight:"none" }} align="right">
-                          {row.hashTag}
-                      </td>
-                      <td style={{ width: 160,borderLeft:"none" }} align="right">
-                          
-                          <span className="c-pointer active-link" onClick={()=>DeleteMainCategory(row)}>Active</span>
-                      </td>
-                    </tr>
-                    : 
-                  <span></span>
-                   }
-                   </Fragment>
-                ))}
+                      {emptyRows > 0 && (
+                          <tr style={{ height: 41 * emptyRows }}>
+                          <td colSpan={6} />
+                          </tr>
+                      )}
+                      </tbody>
+                      <tfoot>
+                      <tr>
+                          <CustomTablePagination
+                          rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
+                          colSpan={6}
+                          count={active.length}
+                          rowsPerPage={rowsPerPage}
+                          page={page}
+                          componentsProps={{
+                              select: {
+                              'aria-label': 'rows per page',
+                              },
+                              actions: {
+                              showFirstButton: true,
+                              showLastButton: true,
+                              },
+                          }}
+                          onPageChange={handleChangePage}
+                          onRowsPerPageChange={handleChangeRowsPerPage}
+                          />
+                      </tr>
+                      </tfoot>
+                  </table>
+              </Root>
+                </div>
+                <div className="tab-pane fade " id="pills-deActive" role="tabpanel" aria-labelledby="pills-deActive-tab">
+                <Root sx={{ minWidth: '800px', width: 320,overFlowX:'scroll' }}>
+                  <table aria-label="custom pagination table mt-2">
+                      <thead>
+                      <tr>
+                          <th>Images</th>
+                          <th>Icon</th>
+                          <th>Name</th>
+                          <th>Description</th>
+                          <th>Actions</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      {(rowsPerPage > 0
+                          ? deActive.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                          : deActive
+                      ).map((row,index) => (
+                        <Fragment key={index}>
+                        { row.isActive == false ?
+                          <tr key={row.mainCategoryId}>
+                            <td style={{ width: 160,borderRight:"none" }} align="right">
+                                <img src={row.image}style={{width:'60px',height:"50px"}}/>
+                            </td>
+                            <td style={{ width: 160,borderRight:"none",borderLeft:"none" }} align="right">
+                                <img src={row.iconUrl} style={{width:'60px',height:"50px"}}/>
+                            </td>
+                            <td className="tb-dt-name" style={{ width: 160,borderLeft:"none",borderRight:"none"}} align="right">
+                                <Link to={`/admin/category/${row.mainCategoryId}`}>{row.name}</Link>
+                            </td>
+                            <td style={{ width: 160,borderLeft:"none",borderRight:"none" }} align="right">
+                                {row.hashTag}
+                            </td>
+                            <td style={{ width: 160,borderLeft:"none" }} align="right">
+                                
+                                <span className="c-pointer active-link" onClick={()=>DeleteMainCategory(row)}>Active</span>
+                            </td>
+                          </tr>
+                          : 
+                        <span></span>
+                        }
+                        </Fragment>
+                      ))}
 
-                {emptyRows > 0 && (
-                    <tr style={{ height: 41 * emptyRows }}>
-                    <td colSpan={6} />
-                    </tr>
-                )}
-                </tbody>
-                <tfoot>
-                <tr>
-                    <CustomTablePagination
-                    rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
-                    colSpan={6}
-                    count={deActive.length}
-                    rowsPerPage={rowsPerPage}
-                    page={page}
-                    componentsProps={{
-                        select: {
-                        'aria-label': 'rows per page',
-                        },
-                        actions: {
-                        showFirstButton: true,
-                        showLastButton: true,
-                        },
-                    }}
-                    onPageChange={handleChangePage}
-                    onRowsPerPageChange={handleChangeRowsPerPage}
-                    />
-                </tr>
-                </tfoot>
-            </table>
-        </Root>
-          </div>
-        </div>
+                      {emptyRows > 0 && (
+                          <tr style={{ height: 41 * emptyRows }}>
+                          <td colSpan={6} />
+                          </tr>
+                      )}
+                      </tbody>
+                      <tfoot>
+                      <tr>
+                          <CustomTablePagination
+                          rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
+                          colSpan={6}
+                          count={deActive.length}
+                          rowsPerPage={rowsPerPage}
+                          page={page}
+                          componentsProps={{
+                              select: {
+                              'aria-label': 'rows per page',
+                              },
+                              actions: {
+                              showFirstButton: true,
+                              showLastButton: true,
+                              },
+                          }}
+                          onPageChange={handleChangePage}
+                          onRowsPerPageChange={handleChangeRowsPerPage}
+                          />
+                      </tr>
+                      </tfoot>
+                  </table>
+              </Root>
+                </div>
+              </div>
         
-    </div>
+          </div>
         </div>
       {/* popup section */}
       {/* add category popup */}

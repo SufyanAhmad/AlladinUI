@@ -142,7 +142,7 @@ useEffect(()=>{
           <br></br>
           <div className="row padding">
       </div>
-          <div className="p-3 bgColor">
+          <div className="p-3 admin-content bgColor">
               <div className="d-flex justify-content-between ">
                   <input type="text" className="product-search" style={{marginLeft:"800px"}} placeholder="Search.." onChange={(e)=>{setSearchTerm(e.target.value);
                   }}

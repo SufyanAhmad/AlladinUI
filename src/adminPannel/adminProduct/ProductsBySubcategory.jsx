@@ -344,98 +344,98 @@ useEffect(() => {
         <div className='p-4'>
           <div className='dashboard'>Products</div>
           <br></br>
-          <div className="p-3 bgColor">
+          <div className="p-3 admin-content bgColor">
               <div className="d-flex justify-content-between ">
                   <span className="category-list">Product List</span>
                   <button className="add-category-btn" onClick={onOpenModal}>Add Product</button>
               </div>
-        <br></br>
-        <Root sx={{ minWidth: '800px', width: 320,overFlowX:'scroll' }}>
-            <table aria-label="custom pagination table mt-2">
-                <thead>
-                <tr>
-                    <th>Images</th>
-                    <th>Name</th>
-                    <th>Brand</th>
-                    <th>Price</th>
-                    <th>Stock</th>
-                    <th>Created</th>
-                    <th>Actions</th>
-                </tr>
-                </thead>
-                <tbody>
-                {(rowsPerPage > 0
-                    ? products.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                    : products
-                ).map((row) => (
-                    <tr key={row.productId}>
-                      <td style={{ width: 160,borderRight:"none" }} align="right">
-                      { row.productMedias.length !== 0 ?
-                          <>
-                            {row.productMedias.slice(0,1).map((image,i) => (
-                              <span key={i} onClick={() => selectProducts(row)}>
-                                  <img className='c-pointer' src={image.imgUrl} style={{width:'60px',height:"50px"}} onClick={onOpenEditImageModel} />
-                              </span>
-                              ))}
-                          </>
-                              :
-                              <span onClick={() => selectProducts(row)}>
-                                <button className='add-img-btn' onClick={onOpenAddImageModel}>Add Image</button>
-                              </span>
-                            }
-                      </td>
-                      <td className="tb-dt-name" style={{ width: 160,borderLeft:"none",borderRight:"none"}} align="right">
-                        {row.productName}
-                      </td>
-                      <td style={{ width: 160,borderLeft:"none",borderRight:"none" }} align="right">
-                          {row.brand}
-                      </td>
-                      <td style={{ width: 160,borderLeft:"none",borderRight:"none" }} align="right">
-                      {Math.trunc(row.discountPrice)}
-                      </td>
-                      <td style={{ width: 160,borderLeft:"none",borderRight:"none" }} align="right">
-                        Instock ({row.quantity})
-                      </td>
-                      <td style={{ width: 160,borderLeft:"none",borderRight:"none" }} align="right">
-                          {moment(row.createAt).format("YYYY-MM-DD")}<br/>Updated:<br/>
-                          {moment(row.updateAt).format("YYYY-MM-DD")}
-                      </td>
-                      <td style={{ width: 160,borderLeft:"none" }} align="right">
-                      </td>
+              <br></br>
+            <Root sx={{ minWidth: '800px', width: 320,overFlowX:'scroll' }}>
+                <table aria-label="custom pagination table mt-2">
+                    <thead>
+                    <tr>
+                        <th>Images</th>
+                        <th>Name</th>
+                        <th>Brand</th>
+                        <th>Price</th>
+                        <th>Stock</th>
+                        <th>Created</th>
+                        <th>Actions</th>
                     </tr>
-                ))}
+                    </thead>
+                    <tbody>
+                    {(rowsPerPage > 0
+                        ? products.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                        : products
+                    ).map((row) => (
+                        <tr key={row.productId}>
+                          <td style={{ width: 160,borderRight:"none" }} align="right">
+                          { row.productMedias.length !== 0 ?
+                              <>
+                                {row.productMedias.slice(0,1).map((image,i) => (
+                                  <span key={i} onClick={() => selectProducts(row)}>
+                                      <img className='c-pointer' src={image.imgUrl} style={{width:'60px',height:"50px"}} onClick={onOpenEditImageModel} />
+                                  </span>
+                                  ))}
+                              </>
+                                  :
+                                  <span onClick={() => selectProducts(row)}>
+                                    <button className='add-img-btn' onClick={onOpenAddImageModel}>Add Image</button>
+                                  </span>
+                                }
+                          </td>
+                          <td className="tb-dt-name" style={{ width: 160,borderLeft:"none",borderRight:"none"}} align="right">
+                            {row.productName}
+                          </td>
+                          <td style={{ width: 160,borderLeft:"none",borderRight:"none" }} align="right">
+                              {row.brand}
+                          </td>
+                          <td style={{ width: 160,borderLeft:"none",borderRight:"none" }} align="right">
+                          {Math.trunc(row.discountPrice)}
+                          </td>
+                          <td style={{ width: 160,borderLeft:"none",borderRight:"none" }} align="right">
+                            Instock ({row.quantity})
+                          </td>
+                          <td style={{ width: 160,borderLeft:"none",borderRight:"none" }} align="right">
+                              {moment(row.createAt).format("YYYY-MM-DD")}<br/>Updated:<br/>
+                              {moment(row.updateAt).format("YYYY-MM-DD")}
+                          </td>
+                          <td style={{ width: 160,borderLeft:"none" }} align="right">
+                          </td>
+                        </tr>
+                    ))}
 
-                {emptyRows > 0 && (
-                    <tr style={{ height: 41 * emptyRows }}>
-                    <td colSpan={7} />
+                    {emptyRows > 0 && (
+                        <tr style={{ height: 41 * emptyRows }}>
+                        <td colSpan={7} />
+                        </tr>
+                    )}
+                    </tbody>
+                    <tfoot>
+                    <tr>
+                        <CustomTablePagination
+                        rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
+                        colSpan={7}
+                        count={products.length}
+                        rowsPerPage={rowsPerPage}
+                        page={page}
+                        componentsProps={{
+                            select: {
+                            'aria-label': 'rows per page',
+                            },
+                            actions: {
+                            showFirstButton: true,
+                            showLastButton: true,
+                            },
+                        }}
+                        onPageChange={handleChangePage}
+                        onRowsPerPageChange={handleChangeRowsPerPage}
+                        />
                     </tr>
-                )}
-                </tbody>
-                <tfoot>
-                <tr>
-                    <CustomTablePagination
-                    rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
-                    colSpan={7}
-                    count={products.length}
-                    rowsPerPage={rowsPerPage}
-                    page={page}
-                    componentsProps={{
-                        select: {
-                        'aria-label': 'rows per page',
-                        },
-                        actions: {
-                        showFirstButton: true,
-                        showLastButton: true,
-                        },
-                    }}
-                    onPageChange={handleChangePage}
-                    onRowsPerPageChange={handleChangeRowsPerPage}
-                    />
-                </tr>
-                </tfoot>
-            </table>
-        </Root>
-    </div>
+                    </tfoot>
+                </table>
+            </Root>
+        </div>
         </div>
       {/* popup section */}
       {/* add category popup */}

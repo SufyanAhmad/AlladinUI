@@ -238,7 +238,7 @@ export default function Category() {
           </div>
         </div>
         <br></br>
-        <div className="p-3 bgColor">
+        <div className="p-3 admin-content bgColor">
           <div className="d-flex justify-content-between ">
             <span className="category-list">Category List</span>
             <button className="add-category-btn" onClick={onOpenModal}>
